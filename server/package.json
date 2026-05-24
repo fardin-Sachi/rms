@@ -13,7 +13,10 @@
     "dev": "concurrently \"tsc -w\" \"nodemon dist/server.js\"",
     "lint": "eslint src",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "db:push": "drizzle-kit push --config src/configs/drizzle.config.ts",
+    "db:generate": "drizzle-kit generate --config src/configs/drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config src/configs/drizzle.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -25,18 +28,22 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.9.1",
     "@types/winston": "^2.4.4",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.3",
+    "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.4"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "bcryptjs": "^3.0.3",
     "concurrently": "^9.2.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",

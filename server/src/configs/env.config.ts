@@ -15,7 +15,7 @@ const serverParsed = serverEnvSchema.safeParse(process.env);
 
 if (!serverParsed.success) {
   logger.info(
-    'Invalid server environment variables: ',
+    'Invalid Server environment variables: ',
     serverParsed.error.flatten().fieldErrors,
   );
   process.exit(1);
