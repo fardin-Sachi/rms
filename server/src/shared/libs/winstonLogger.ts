@@ -1,6 +1,6 @@
 import winston from 'winston';
 import type { ILogger } from '../interfaces/logger.interface.js';
-import ENV from '../configs/index.config.js';
+import ENV from '../../configs/index.config.js';
 import fs from 'fs';
 
 if (!fs.existsSync('logs')) {

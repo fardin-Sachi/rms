@@ -4,7 +4,7 @@ import { ZodError } from 'zod';
 
 import { ApiResponse } from '../libs/apiResponse.js';
 import { AppError } from '../errors/AppError.js';
-import ENV from '../configs/index.config.js';
+import ENV from '../../configs/index.config.js';
 import { logger } from '../libs/logger.js';
 import { RouteNotFoundError } from '../errors/RouteNotFoundError.js';
 

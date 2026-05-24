@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import dotenv from 'dotenv';
-import { logger } from '../libs/logger.js';
+import { logger } from '../shared/libs/logger.js';
 
 dotenv.config();
 
