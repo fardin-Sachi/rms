@@ -1,7 +1,7 @@
 import type { Router } from 'express';
 import express from 'express';
 import serverStatusRoutes from '../modules/serverState/serverStatus.routes.js';
-import employeeRoutes from "../modules/employee/employee.routes.js";
+import employeeRoutes from '../modules/employee/employee.routes.js';
 
 export const router: Router = express.Router();
 

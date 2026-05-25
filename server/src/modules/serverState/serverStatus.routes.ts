@@ -8,10 +8,6 @@ export const router: Router = express.Router();
 // Object declarations
 const serverStatusController = new ServerStatusController(logger);
 
-router
-    .get(
-        '/health',
-        serverStatusController.health
-    );
+router.get('/health', serverStatusController.health);
 
 export default router;

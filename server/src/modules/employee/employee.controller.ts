@@ -1,167 +1,232 @@
 import type { ILogger } from '../../shared/interfaces/logger.interface.js';
-import type {EmployeeService} from "./employee.service.js";
-import type {Request, Response} from "express";
-import type CreateEmployeeDto from "./dtos/createEmployee.dto.js";
-import type UpdateEmployeeDto from "./dtos/updateEmployee.dto.js";
-import type {EmployeeDto} from "./dtos/employee.dtos.js";
-import {ApiResponse} from "../../shared/libs/apiResponse.js";
+import EmployeeService from './employee.service.js';
+import type { Request, Response } from 'express';
+import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
+import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
+import type { EmployeeDto } from './dtos/employee.dtos.js';
+import { ApiResponse } from '../../shared/libs/apiResponse.js';
+import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
+import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
 
 class EmployeeController {
-    constructor(
-        private readonly logger: ILogger,
-        private readonly employeeService: EmployeeService,
-    ) {
-        this.get = this.get.bind(this);
-        this.getAll = this.getAll.bind(this);
-        this.create = this.create.bind(this);
-        this.createMany = this.createMany.bind(this);
-        this.update = this.update.bind(this);
-        this.updateMany = this.updateMany.bind(this);
-        this.delete = this.delete.bind(this);
-        this.deleteMany = this.deleteMany.bind(this);
+  private readonly employeeService: EmployeeService;
+  constructor(private readonly logger: ILogger) {
+    this.employeeService = new EmployeeService(logger);
+
+    this.get = this.get.bind(this);
+    this.getAll = this.getAll.bind(this);
+    this.create = this.create.bind(this);
+    this.createMany = this.createMany.bind(this);
+    this.update = this.update.bind(this);
+    this.updateMany = this.updateMany.bind(this);
+    this.delete = this.delete.bind(this);
+    this.deleteMany = this.deleteMany.bind(this);
+    this.getEmployeeRole = this.getEmployeeRole.bind(this);
+    this.createEmployeeRole = this.createEmployeeRole.bind(this);
+    this.updateEmployeeRole = this.updateEmployeeRole.bind(this);
+    this.getEmployeeAddress = this.getEmployeeAddress.bind(this);
+    this.createEmployeeAddress = this.createEmployeeAddress.bind(this);
+    this.updateEmployeeAddress = this.updateEmployeeAddress.bind(this);
+  }
+
+  async get(req: Request, res: Response): Promise<Response> {
+    const id: number = Number(req.params.id);
+
+    const employeeDto: EmployeeDto | null = await this.employeeService.get(id);
+
+    if (!employeeDto) {
+      return ApiResponse.error(
+        res,
+        404,
+        `No employee found with this ID: ${id}`,
+      );
     }
 
-    async get(req: Request, res: Response): Promise<Response> {
-        const id: number = Number(req.params.id);
+    return ApiResponse.success<EmployeeDto>(
+      res,
+      200,
+      `Employee found with this ID: ${id}`,
+      employeeDto,
+    );
+  }
 
-        const employee: EmployeeDto | null = await this.employeeService.get(id);
+  async getAll(_req: Request, res: Response): Promise<Response> {
+    const employees = await this.employeeService.getAll();
 
-        if (!employee) {
-            return ApiResponse
-                .error(
-                    res,
-                    404,
-                    `No employee found with this ID: ${id}`
-                );
-        }
+    return ApiResponse.success<EmployeeDto[]>(
+      res,
+      200,
+      `Employees found`,
+      employees,
+    );
+  }
 
-        return ApiResponse
-            .success<EmployeeDto>(
-                res,
-                200,
-                `Employee found with this ID: ${id}`,
-                employee
-            );
-    }
+  async create(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as CreateEmployeeDto;
 
-    async getAll(
-        _req: Request,
-        res: Response
-    ): Promise<Response> {
-        const employees = await this.employeeService.getAll();
+    const employee = await this.employeeService.create(payload);
 
-        return ApiResponse
-            .success<EmployeeDto[]>(
-                res,
-                200,
-                `Employees found`,
-                employees
-            );
-    }
+    return ApiResponse.success<EmployeeDto>(
+      res,
+      201,
+      `Employee created with ID: ${employee.id}`,
+      employee,
+    );
+  }
 
-    async create(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
-        const payload = req.body as CreateEmployeeDto;
+  async createMany(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as CreateEmployeeDto[];
 
-        const employee = await this.employeeService.create(payload);
+    const employees: EmployeeDto[] =
+      await this.employeeService.createMany(payload);
 
-        return ApiResponse
-            .success<EmployeeDto>(
-                res,
-                201,
-                `Employee created with ID: ${employee.id}`,
-                employee
-            );
-    }
+    return ApiResponse.success<EmployeeDto[]>(
+      res,
+      201,
+      `Employees are created`,
+      employees,
+    );
+  }
 
-    async createMany(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
-        const payload = req.body as CreateEmployeeDto[];
+  async update(req: Request, res: Response): Promise<Response> {
+    const id: number = Number(req.params.id);
+    const payload: UpdateEmployeeDto = req.body;
+    payload.id = id;
 
-        const employees: EmployeeDto[] = await this.employeeService.createMany(payload);
+    const employee = await this.employeeService.update(payload);
 
-        return ApiResponse
-            .success<EmployeeDto[]>(
-                res,
-                201,
-                `Employees are created`,
-                employees
-            );
-    }
+    return ApiResponse.success<EmployeeDto>(
+      res,
+      200,
+      `Employee updated with ID: ${employee.id}`,
+      employee,
+    );
+  }
 
-    async update(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
+  async updateMany(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as UpdateEmployeeDto[];
 
-        const id: number = Number(req.params.id);
-        const payload: UpdateEmployeeDto = req.body;
-        payload.id = id;
+    const employees = await this.employeeService.updateMany(payload);
 
-        const employee = await this.employeeService.update(payload);
+    return ApiResponse.success<EmployeeDto[]>(
+      res,
+      200,
+      `Employees are updated`,
+      employees,
+    );
+  }
 
-        return ApiResponse
-            .success<EmployeeDto>(
-                res,
-                200,
-                `Employee updated with ID: ${employee.id}`,
-                employee
-            );
-    }
+  async delete(req: Request, res: Response): Promise<Response> {
+    const id: number = Number(req.params.id);
 
-    async updateMany(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
-        const payload = req.body as UpdateEmployeeDto[];
+    const deletedId: number = await this.employeeService.delete(id);
 
-        const employees = await this.employeeService.updateMany(payload);
+    return ApiResponse.success<void>(
+      res,
+      200,
+      `Employee is deleted with ID: ${deletedId}`,
+    );
+  }
 
-        return ApiResponse
-            .success<EmployeeDto[]>(
-                res,
-                200,
-                `Employees are updated`,
-                employees
-            );
-    }
+  async deleteMany(req: Request, res: Response): Promise<Response> {
+    const ids = req.body as number[];
 
-    async delete(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
-        const id: number = Number(req.params.id);
+    const deletedIds = await this.employeeService.deleteMany(ids);
 
-        const deletedId: number = await this.employeeService.delete(id);
+    return ApiResponse.success<void>(
+      res,
+      200,
+      `Employees are deleted with IDs: ${deletedIds}`,
+    );
+  }
 
-        return ApiResponse
-            .success<void>(
-                res,
-                200,
-                `Employee is deleted with ID: ${deletedId}`,
-            );
-    }
+  async getEmployeeRole(req: Request, res: Response): Promise<Response> {
+    const pEmployeeId = Number(req.params.id);
 
-    async deleteMany(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
-        const ids = req.body as number[];
+    const employeeRoleDto: EmployeeRoleDto =
+      await this.employeeService.getEmployeeRole(pEmployeeId);
 
-        const deletedIds = await this.employeeService.deleteMany(ids);
+    return ApiResponse.success<EmployeeRoleDto>(
+      res,
+      200,
+      `Employee Role found for Employee ID: ${pEmployeeId}`,
+      employeeRoleDto,
+    );
+  }
 
-        return ApiResponse
-            .success<void>(
-                res,
-                200,
-                `Employees are deleted with IDs: ${deletedIds}`,
-            );
-    }
+  async createEmployeeRole(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as EmployeeRoleDto;
 
+    const employeeRoleDto: EmployeeRoleDto =
+      await this.employeeService.createEmployeeRole(payload);
+
+    return ApiResponse.success<EmployeeRoleDto>(
+      res,
+      201,
+      `Employee Role created for Employee ID: ${employeeRoleDto.employeeId}`,
+      employeeRoleDto,
+    );
+  }
+
+  async updateEmployeeRole(req: Request, res: Response): Promise<Response> {
+    const employeeId: number = Number(req.params.id);
+    const payload: EmployeeRoleDto = req.body;
+    payload.employeeId = employeeId;
+
+    const employeeRoleDto: EmployeeRoleDto =
+      await this.employeeService.updateEmployeeRole(payload);
+
+    return ApiResponse.success<EmployeeRoleDto>(
+      res,
+      200,
+      `Employee Role updated with ID: ${employeeRoleDto.employeeId}`,
+      employeeRoleDto,
+    );
+  }
+
+  async getEmployeeAddress(req: Request, res: Response): Promise<Response> {
+    const pEmployeeId = Number(req.params.id);
+
+    const employeeAddressDto: EmployeeAddressDto =
+      await this.employeeService.getEmployeeAddress(pEmployeeId);
+
+    return ApiResponse.success<EmployeeAddressDto>(
+      res,
+      200,
+      `Employee Address found for Employee ID: ${pEmployeeId}`,
+      employeeAddressDto,
+    );
+  }
+
+  async createEmployeeAddress(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as EmployeeAddressDto;
+
+    const employeeAddressDto: EmployeeAddressDto =
+      await this.employeeService.createEmployeeAddress(payload);
+
+    return ApiResponse.success<EmployeeAddressDto>(
+      res,
+      201,
+      `Employee Address created for Employee ID: ${employeeAddressDto.employeeId}`,
+      employeeAddressDto,
+    );
+  }
+
+  async updateEmployeeAddress(req: Request, res: Response): Promise<Response> {
+    const employeeId: number = Number(req.params.id);
+    const payload: EmployeeAddressDto = req.body;
+    payload.employeeId = employeeId;
+
+    const employeeAddressDto: EmployeeAddressDto =
+      await this.employeeService.updateEmployeeAddress(payload);
+
+    return ApiResponse.success<EmployeeAddressDto>(
+      res,
+      200,
+      `Employee Address updated with ID: ${employeeAddressDto.employeeId}`,
+      employeeAddressDto,
+    );
+  }
 }
 
 export default EmployeeController;

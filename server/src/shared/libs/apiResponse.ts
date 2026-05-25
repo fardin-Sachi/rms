@@ -12,7 +12,6 @@ export class ApiResponse {
     data?: T,
     meta?: Record<string, unknown>,
   ): Response {
-
     const response: SuccessResponse<T> = {
       success: true,
       message,
@@ -30,7 +29,6 @@ export class ApiResponse {
     errors?: unknown,
     stack?: string,
   ): Response {
-
     const response: ErrorResponse = {
       success: false,
       message,

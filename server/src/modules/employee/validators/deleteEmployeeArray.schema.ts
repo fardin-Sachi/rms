@@ -1,5 +1,5 @@
-import {z} from "zod";
+import { z } from 'zod';
 
 export const deleteEmployeeArraySchema = z.array(
-    z.coerce.number().int().positive(),
+  z.coerce.number().int().positive(),
 );
