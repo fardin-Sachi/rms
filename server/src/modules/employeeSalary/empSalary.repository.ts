@@ -58,6 +58,7 @@ class EmployeeSalaryRepository implements IRepository<
   async deleteMany(ids: number[]): Promise<number[]> {
     return ids;
   }
+
 }
 
 export default EmployeeSalaryRepository;

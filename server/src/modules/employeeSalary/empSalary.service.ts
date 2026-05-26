@@ -5,6 +5,7 @@ import type UpdateEmpSalaryDto from './dtos/updateEmpSalary.dto.js';
 import type CreateEmpSalaryDto from './dtos/createEmpSalary.dto.js';
 
 class EmployeeSalaryService {
+
   private readonly employeeSalaryRepository: EmployeeSalaryRepository;
 
   constructor(private readonly logger: ILogger) {
@@ -46,6 +47,7 @@ class EmployeeSalaryService {
   async deleteMany(ids: number[]): Promise<number[]> {
     return this.employeeSalaryRepository.deleteMany(ids);
   }
+
 }
 
 export default EmployeeSalaryService;

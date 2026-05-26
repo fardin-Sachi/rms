@@ -99,4 +99,11 @@ router
     employeeController.delete,
   );
 
+// To get the whole history of a Single Employee
+router
+  .get(
+    '/record/:employeeId',
+    employeeController.getSingleEmployeeData
+  )
+
 export default router;

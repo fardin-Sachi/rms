@@ -5,8 +5,10 @@ import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
 import type { EmployeeDto } from './dtos/employee.dtos.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
+import type {EmployeeRecordDto} from "./dtos/empRecord.dto.js";
 
 class EmployeeService {
+
   private readonly employeeRepository: EmployeeRepository;
 
   constructor(private readonly logger: ILogger) {
@@ -76,6 +78,11 @@ class EmployeeService {
   ): Promise<EmployeeAddressDto> {
     return this.employeeRepository.updateEmployeeAddress(pMutable);
   }
+
+  async getSingleEmployeeData(employeeId: number): Promise<EmployeeRecordDto | null> {
+    return this.employeeRepository.getSingleEmployeeData(employeeId);
+  }
+
 }
 
 export default EmployeeService;

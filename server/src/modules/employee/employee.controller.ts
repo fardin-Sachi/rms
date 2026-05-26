@@ -7,8 +7,10 @@ import type { EmployeeDto } from './dtos/employee.dtos.js';
 import { ApiResponse } from '../../shared/libs/apiResponse.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
+import type {EmployeeRecordDto} from "./dtos/empRecord.dto.js";
 
 class EmployeeController {
+
   private readonly employeeService: EmployeeService;
   constructor(private readonly logger: ILogger) {
     this.employeeService = new EmployeeService(logger);
@@ -27,6 +29,7 @@ class EmployeeController {
     this.getEmployeeAddress = this.getEmployeeAddress.bind(this);
     this.createEmployeeAddress = this.createEmployeeAddress.bind(this);
     this.updateEmployeeAddress = this.updateEmployeeAddress.bind(this);
+    this.getSingleEmployeeData = this.getSingleEmployeeData.bind(this);
   }
 
   async get(req: Request, res: Response): Promise<Response> {
@@ -228,6 +231,28 @@ class EmployeeController {
       employeeAddressDto,
     );
   }
+
+  async getSingleEmployeeData(req: Request, res: Response): Promise<Response> {
+    const employeeId: number = Number(req.params.employeeId);
+
+    const employeeRecordDto: EmployeeRecordDto | null = await this.employeeService.getSingleEmployeeData(employeeId);
+
+    if (!employeeRecordDto) {
+      return ApiResponse.error(
+        res,
+        404,
+        `No employee found with this ID: ${employeeId}`,
+      );
+    }
+
+    return ApiResponse.success<EmployeeRecordDto>(
+      res,
+      200,
+      `Employee found with this ID: ${employeeId}`,
+      employeeRecordDto,
+    );
+  }
+
 }
 
 export default EmployeeController;
