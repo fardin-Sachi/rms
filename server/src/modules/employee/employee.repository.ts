@@ -1,5 +1,5 @@
 import type IRepository from '../../shared/interfaces/repository.interface.js';
-import type { EmployeeDto } from './dtos/employee.dtos.js';
+import type { EmployeeDto } from './dtos/employee.dto.js';
 import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
 import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
@@ -13,6 +13,7 @@ class EmployeeRepository implements IRepository<
   UpdateEmployeeDto,
   number
 > {
+
   async get(_id: number): Promise<EmployeeDto | null> {
     return null;
   }
@@ -102,6 +103,7 @@ class EmployeeRepository implements IRepository<
       salaryAmount: Big(10_000),
     }
   }
+
 }
 
 export default EmployeeRepository;

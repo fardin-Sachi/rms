@@ -2,7 +2,7 @@ import type { ILogger } from '../../shared/interfaces/logger.interface.js';
 import EmployeeRepository from './employee.repository.js';
 import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
 import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
-import type { EmployeeDto } from './dtos/employee.dtos.js';
+import type { EmployeeDto } from './dtos/employee.dto.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
 import type {EmployeeRecordDto} from "./dtos/empRecord.dto.js";

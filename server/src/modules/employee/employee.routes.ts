@@ -4,7 +4,7 @@ import type { Router } from 'express';
 import EmployeeController from './employee.controller.js';
 import { validate } from '../../shared/middlewares/validate.middleware.js';
 import { createEmployeeSchema } from './validators/createEmployee.schema.js';
-import { employeeIdParamSchema } from '../../shared/validators/employeeIdParam.schema.js';
+import {employeeIdParamSchema} from '../../shared/validators/employeeIdParam.schema.js';
 import { updateEmployeeSchema } from './validators/updateEmployee.schema.js';
 import { createEmployeeArraySchema } from './validators/createEmployeeArray.schema.js';
 import { updateEmployeeArraySchema } from './validators/updateEmployeeArray.schema.js';

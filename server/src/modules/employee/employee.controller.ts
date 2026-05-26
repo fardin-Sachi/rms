@@ -3,7 +3,7 @@ import EmployeeService from './employee.service.js';
 import type { Request, Response } from 'express';
 import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
 import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
-import type { EmployeeDto } from './dtos/employee.dtos.js';
+import type { EmployeeDto } from './dtos/employee.dto.js';
 import { ApiResponse } from '../../shared/libs/apiResponse.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
@@ -33,89 +33,88 @@ class EmployeeController {
   }
 
   async get(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.employeeId);
+    const employeeId: number = Number(req.params.employeeId);
 
-    const employeeDto: EmployeeDto | null = await this.employeeService.get(id);
+    const employeeDto: EmployeeDto | null = await this.employeeService.get(employeeId);
 
     if (!employeeDto) {
       return ApiResponse.error(
         res,
         404,
-        `No employee found with this ID: ${id}`,
+        `No employee found with this ID: ${employeeId}`,
       );
     }
 
     return ApiResponse.success<EmployeeDto>(
       res,
       200,
-      `Employee found with this ID: ${id}`,
+      `Employee found with this ID: ${employeeDto.id}`,
       employeeDto,
     );
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const employees = await this.employeeService.getAll();
+    const employeeDtos: EmployeeDto[] = await this.employeeService.getAll();
 
     return ApiResponse.success<EmployeeDto[]>(
       res,
       200,
       `Employees found`,
-      employees,
+      employeeDtos,
     );
   }
 
   async create(req: Request, res: Response): Promise<Response> {
     const payload = req.body as CreateEmployeeDto;
 
-    const employee = await this.employeeService.create(payload);
+    const createdEmployeeDto: EmployeeDto = await this.employeeService.create(payload);
 
     return ApiResponse.success<EmployeeDto>(
       res,
       201,
-      `Employee created with ID: ${employee.id}`,
-      employee,
+      `Employee created with ID: ${createdEmployeeDto.id}`,
+      createdEmployeeDto,
     );
   }
 
   async createMany(req: Request, res: Response): Promise<Response> {
     const payload = req.body as CreateEmployeeDto[];
 
-    const employees: EmployeeDto[] =
-      await this.employeeService.createMany(payload);
+    const createdEmployeeDtos: EmployeeDto[] = await this.employeeService.createMany(payload);
 
     return ApiResponse.success<EmployeeDto[]>(
       res,
       201,
       `Employees are created`,
-      employees,
+      createdEmployeeDtos,
     );
   }
 
   async update(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.employeeId);
+    const employeeId: number = Number(req.params.employeeId);
     const payload: UpdateEmployeeDto = req.body;
-    payload.id = id;
+    payload.id = employeeId;
 
-    const employee = await this.employeeService.update(payload);
+    const updatedEmployeeDto = await this.employeeService.update(payload);
 
     return ApiResponse.success<EmployeeDto>(
       res,
       200,
-      `Employee updated with ID: ${employee.id}`,
-      employee,
+      `Employee updated with ID: ${updatedEmployeeDto.id}`,
+      updatedEmployeeDto,
     );
   }
 
   async updateMany(req: Request, res: Response): Promise<Response> {
     const payload = req.body as UpdateEmployeeDto[];
 
-    const employees = await this.employeeService.updateMany(payload);
+    const updatedEmployeeDtos: EmployeeDto[] = await this.employeeService.updateMany(payload);
 
     return ApiResponse.success<EmployeeDto[]>(
       res,
       200,
       `Employees are updated`,
-      employees,
+      updatedEmployeeDtos,
     );
   }
 
@@ -134,7 +133,7 @@ class EmployeeController {
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds = await this.employeeService.deleteMany(ids);
+    const deletedIds: number[] = await this.employeeService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
@@ -144,15 +143,14 @@ class EmployeeController {
   }
 
   async getEmployeeRole(req: Request, res: Response): Promise<Response> {
-    const pEmployeeId = Number(req.params.employeeId);
+    const employeeId: number = Number(req.params.employeeId);
 
-    const employeeRoleDto: EmployeeRoleDto =
-      await this.employeeService.getEmployeeRole(pEmployeeId);
+    const employeeRoleDto: EmployeeRoleDto = await this.employeeService.getEmployeeRole(employeeId);
 
     return ApiResponse.success<EmployeeRoleDto>(
       res,
       200,
-      `Employee role found for Employee ID: ${pEmployeeId}`,
+      `Employee role found for Employee ID: ${employeeRoleDto.employeeId}`,
       employeeRoleDto,
     );
   }
@@ -160,8 +158,7 @@ class EmployeeController {
   async createEmployeeRole(req: Request, res: Response): Promise<Response> {
     const payload = req.body as EmployeeRoleDto;
 
-    const employeeRoleDto: EmployeeRoleDto =
-      await this.employeeService.createEmployeeRole(payload);
+    const employeeRoleDto: EmployeeRoleDto = await this.employeeService.createEmployeeRole(payload);
     return ApiResponse.success<EmployeeRoleDto>(
       res,
       201,
@@ -175,8 +172,7 @@ class EmployeeController {
     const payload: EmployeeRoleDto = req.body;
     payload.employeeId = employeeId;
 
-    const employeeRoleDto: EmployeeRoleDto =
-      await this.employeeService.updateEmployeeRole(payload);
+    const employeeRoleDto: EmployeeRoleDto = await this.employeeService.updateEmployeeRole(payload);
 
     return ApiResponse.success<EmployeeRoleDto>(
       res,
@@ -189,13 +185,12 @@ class EmployeeController {
   async getEmployeeAddress(req: Request, res: Response): Promise<Response> {
     const pEmployeeId = Number(req.params.employeeId);
 
-    const employeeAddressDto: EmployeeAddressDto =
-      await this.employeeService.getEmployeeAddress(pEmployeeId);
+    const employeeAddressDto: EmployeeAddressDto = await this.employeeService.getEmployeeAddress(pEmployeeId);
 
     return ApiResponse.success<EmployeeAddressDto>(
       res,
       200,
-      `Employee address found for Employee ID: ${pEmployeeId}`,
+      `Employee address found for Employee ID: ${employeeAddressDto.employeeId}`,
       employeeAddressDto,
     );
   }
@@ -205,8 +200,7 @@ class EmployeeController {
     const payload = req.body as EmployeeAddressDto;
     payload.employeeId = employeeId;
 
-    const employeeAddressDto: EmployeeAddressDto =
-      await this.employeeService.createEmployeeAddress(payload);
+    const employeeAddressDto: EmployeeAddressDto = await this.employeeService.createEmployeeAddress(payload);
 
     return ApiResponse.success<EmployeeAddressDto>(
       res,
@@ -221,8 +215,7 @@ class EmployeeController {
     const payload: EmployeeAddressDto = req.body;
     payload.employeeId = employeeId;
 
-    const employeeAddressDto: EmployeeAddressDto =
-      await this.employeeService.updateEmployeeAddress(payload);
+    const employeeAddressDto: EmployeeAddressDto = await this.employeeService.updateEmployeeAddress(payload);
 
     return ApiResponse.success<EmployeeAddressDto>(
       res,
@@ -248,7 +241,7 @@ class EmployeeController {
     return ApiResponse.success<EmployeeRecordDto>(
       res,
       200,
-      `Employee found with this ID: ${employeeId}`,
+      `Employee found with this ID: ${employeeRecordDto.employeeId}`,
       employeeRecordDto,
     );
   }
