@@ -30,7 +30,7 @@ class EmployeeController {
   }
 
   async get(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.id);
+    const id: number = Number(req.params.employeeId);
 
     const employeeDto: EmployeeDto | null = await this.employeeService.get(id);
 
@@ -89,7 +89,7 @@ class EmployeeController {
   }
 
   async update(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.id);
+    const id: number = Number(req.params.employeeId);
     const payload: UpdateEmployeeDto = req.body;
     payload.id = id;
 
@@ -117,7 +117,7 @@ class EmployeeController {
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.id);
+    const id: number = Number(req.params.employeeId);
 
     const deletedId: number = await this.employeeService.delete(id);
 
@@ -141,7 +141,7 @@ class EmployeeController {
   }
 
   async getEmployeeRole(req: Request, res: Response): Promise<Response> {
-    const pEmployeeId = Number(req.params.id);
+    const pEmployeeId = Number(req.params.employeeId);
 
     const employeeRoleDto: EmployeeRoleDto =
       await this.employeeService.getEmployeeRole(pEmployeeId);
@@ -149,7 +149,7 @@ class EmployeeController {
     return ApiResponse.success<EmployeeRoleDto>(
       res,
       200,
-      `Employee Role found for Employee ID: ${pEmployeeId}`,
+      `Employee role found for Employee ID: ${pEmployeeId}`,
       employeeRoleDto,
     );
   }
@@ -159,17 +159,16 @@ class EmployeeController {
 
     const employeeRoleDto: EmployeeRoleDto =
       await this.employeeService.createEmployeeRole(payload);
-
     return ApiResponse.success<EmployeeRoleDto>(
       res,
       201,
-      `Employee Role created for Employee ID: ${employeeRoleDto.employeeId}`,
+      `Employee role created for Employee ID: ${employeeRoleDto.employeeId}`,
       employeeRoleDto,
     );
   }
 
   async updateEmployeeRole(req: Request, res: Response): Promise<Response> {
-    const employeeId: number = Number(req.params.id);
+    const employeeId: number = Number(req.params.employeeId);
     const payload: EmployeeRoleDto = req.body;
     payload.employeeId = employeeId;
 
@@ -179,13 +178,13 @@ class EmployeeController {
     return ApiResponse.success<EmployeeRoleDto>(
       res,
       200,
-      `Employee Role updated with ID: ${employeeRoleDto.employeeId}`,
+      `Employee role updated with ID: ${employeeRoleDto.employeeId}`,
       employeeRoleDto,
     );
   }
 
   async getEmployeeAddress(req: Request, res: Response): Promise<Response> {
-    const pEmployeeId = Number(req.params.id);
+    const pEmployeeId = Number(req.params.employeeId);
 
     const employeeAddressDto: EmployeeAddressDto =
       await this.employeeService.getEmployeeAddress(pEmployeeId);
@@ -193,13 +192,15 @@ class EmployeeController {
     return ApiResponse.success<EmployeeAddressDto>(
       res,
       200,
-      `Employee Address found for Employee ID: ${pEmployeeId}`,
+      `Employee address found for Employee ID: ${pEmployeeId}`,
       employeeAddressDto,
     );
   }
 
   async createEmployeeAddress(req: Request, res: Response): Promise<Response> {
+    const employeeId: number = Number(req.params.employeeId);
     const payload = req.body as EmployeeAddressDto;
+    payload.employeeId = employeeId;
 
     const employeeAddressDto: EmployeeAddressDto =
       await this.employeeService.createEmployeeAddress(payload);
@@ -207,13 +208,13 @@ class EmployeeController {
     return ApiResponse.success<EmployeeAddressDto>(
       res,
       201,
-      `Employee Address created for Employee ID: ${employeeAddressDto.employeeId}`,
+      `Employee address created for Employee ID: ${employeeAddressDto.employeeId}`,
       employeeAddressDto,
     );
   }
 
   async updateEmployeeAddress(req: Request, res: Response): Promise<Response> {
-    const employeeId: number = Number(req.params.id);
+    const employeeId: number = Number(req.params.employeeId);
     const payload: EmployeeAddressDto = req.body;
     payload.employeeId = employeeId;
 
@@ -223,7 +224,7 @@ class EmployeeController {
     return ApiResponse.success<EmployeeAddressDto>(
       res,
       200,
-      `Employee Address updated with ID: ${employeeAddressDto.employeeId}`,
+      `Employee address updated with ID: ${employeeAddressDto.employeeId}`,
       employeeAddressDto,
     );
   }

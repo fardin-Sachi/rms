@@ -17,7 +17,9 @@ export const validate =
       return ApiResponse.error(
         res,
         400,
-        `Bad request`,
+        errors[0]?.code === 'unrecognized_keys'
+          ? 'Unknown fields are not allowed'
+          : `Bad request`,
         mode === 'first'
           ? {
               field: errors[0]?.path?.join('.'),
@@ -27,8 +29,5 @@ export const validate =
           : errors,
       );
     }
-
-    (req as Request & Record<typeof property, unknown>)[property] = result.data;
-
     next();
   };

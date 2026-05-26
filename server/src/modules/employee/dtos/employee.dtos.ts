@@ -1,6 +1,6 @@
 import type IDto from '../../../shared/interfaces/dto.interface.js';
 
-export interface EmployeeDto extends IDto {
+export interface EmployeeDto extends IDto<number> {
   name: string;
   dob?: Date;
   contact: string;

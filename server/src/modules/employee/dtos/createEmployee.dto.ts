@@ -11,4 +11,6 @@ export default interface CreateEmployeeDto {
   //Usually an employee who just joined won't be on vacation.
   onVacation?: boolean;
   activeStatus: boolean;
+  createdBy: number;
+  createdOn: Date;
 }

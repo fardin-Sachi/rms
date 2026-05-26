@@ -7,6 +7,16 @@ class EmployeeRole {
   static readonly WAITER = 5;
   static readonly CLEANER = 6;
 
+  static readonly names = [
+    'OWNER',
+    'MANAGER',
+    'CASHIER',
+    'HR',
+    'COOK',
+    'WAITER',
+    'CLEANER',
+  ] as const;
+
   private static readonly roleMap: Record<string, number> = {
     OWNER: EmployeeRole.OWNER,
     MANAGER: EmployeeRole.MANAGER,

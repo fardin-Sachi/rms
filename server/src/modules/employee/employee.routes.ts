@@ -4,13 +4,19 @@ import type { Router } from 'express';
 import EmployeeController from './employee.controller.js';
 import { validate } from '../../shared/middlewares/validate.middleware.js';
 import { createEmployeeSchema } from './validators/createEmployee.schema.js';
-import { employeeIdParamSchema } from './validators/employeeIdParam.schema.js';
+import { employeeIdParamSchema } from '../../shared/validators/employeeIdParam.schema.js';
 import { updateEmployeeSchema } from './validators/updateEmployee.schema.js';
 import { createEmployeeArraySchema } from './validators/createEmployeeArray.schema.js';
 import { updateEmployeeArraySchema } from './validators/updateEmployeeArray.schema.js';
 import { deleteEmployeeArraySchema } from './validators/deleteEmployeeArray.schema.js';
+import { empAddressSchema } from './validators/empAddress.schema.js';
+import { empRoleSchema } from './validators/empRole.schema.js';
 
 const router: Router = express.Router();
+
+/*
+ * IMPORTANT: employeeIdParamSchema should be used for 'params' only
+ */
 
 /// Object declarations
 const employeeController = new EmployeeController(logger);
@@ -19,17 +25,18 @@ const employeeController = new EmployeeController(logger);
 router
   .get(
     '/address/:employeeId',
-    // TODO: Add validation
+    validate(employeeIdParamSchema, 'params'),
     employeeController.getEmployeeAddress,
   )
   .post(
-    '/address',
-    // TODO: Add validation
+    '/address/:employeeId',
+    validate(employeeIdParamSchema, 'params'),
+    validate(empAddressSchema, 'body'),
     employeeController.createEmployeeAddress,
   )
   .patch(
-    '/address',
-    // TODO: Add validation
+    '/address/:employeeId',
+    validate(empAddressSchema, 'body'),
     employeeController.updateEmployeeAddress,
   );
 
@@ -37,17 +44,19 @@ router
 router
   .get(
     '/role/:employeeId',
-    // TODO: Add validation
+    validate(employeeIdParamSchema, 'params'),
     employeeController.getEmployeeRole,
   )
   .post(
-    '/role',
-    // TODO: Add validation
+    '/role/:employeeId',
+    validate(employeeIdParamSchema, 'params'),
+    validate(empRoleSchema, 'body'),
     employeeController.createEmployeeRole,
   )
   .patch(
-    '/role',
-    // TODO: Add validation
+    '/role/:employeeId',
+    validate(employeeIdParamSchema, 'params'),
+    validate(empRoleSchema, 'body'),
     employeeController.updateEmployeeRole,
   );
 
@@ -73,19 +82,19 @@ router
 /// Employee Single Routes
 router
   .get(
-    '/:id',
+    '/:employeeId',
     validate(employeeIdParamSchema, 'params'),
     employeeController.get,
   )
   .post('', validate(createEmployeeSchema), employeeController.create)
   .patch(
-    '/:id',
+    '/:employeeId',
     validate(employeeIdParamSchema, 'params'),
     validate(updateEmployeeSchema, 'body'),
     employeeController.update,
   )
   .delete(
-    '/:id',
+    '/:employeeId',
     validate(employeeIdParamSchema, 'params'),
     employeeController.delete,
   );

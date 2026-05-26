@@ -11,4 +11,6 @@ export default interface UpdateEmployeeDto extends IDto {
   lastLogin?: Date;
   onVacation?: boolean;
   activeStatus?: boolean;
+  updatedBy: number;
+  updatedOn: Date;
 }
