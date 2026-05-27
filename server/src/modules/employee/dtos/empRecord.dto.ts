@@ -1,7 +1,6 @@
-import Big from "big.js";
+import Big from 'big.js';
 
 export interface EmployeeRecordDto {
-
   //Employee Data
   employeeId: number;
   employeeName?: string;
@@ -33,5 +32,4 @@ export interface EmployeeRecordDto {
   salaryAmount?: Big;
   salaryStartDate?: Date;
   salaryEndDate?: Date;
-
 }

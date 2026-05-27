@@ -4,8 +4,8 @@ import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
 import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
-import type {EmployeeRecordDto} from "./dtos/empRecord.dto.js";
-import Big from "big.js";
+import type { EmployeeRecordDto } from './dtos/empRecord.dto.js';
+import Big from 'big.js';
 
 class EmployeeRepository implements IRepository<
   EmployeeDto,
@@ -13,7 +13,6 @@ class EmployeeRepository implements IRepository<
   UpdateEmployeeDto,
   number
 > {
-
   async get(_id: number): Promise<EmployeeDto | null> {
     return null;
   }
@@ -97,13 +96,14 @@ class EmployeeRepository implements IRepository<
     return pMutable;
   }
 
-  async getSingleEmployeeData(employeeId: number): Promise<EmployeeRecordDto | null> {
+  async getSingleEmployeeData(
+    employeeId: number,
+  ): Promise<EmployeeRecordDto | null> {
     return {
       employeeId: employeeId,
       salaryAmount: Big(10_000),
-    }
+    };
   }
-
 }
 
 export default EmployeeRepository;

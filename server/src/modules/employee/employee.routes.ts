@@ -3,14 +3,14 @@ import express from 'express';
 import type { Router } from 'express';
 import EmployeeController from './employee.controller.js';
 import { validate } from '../../shared/middlewares/validate.middleware.js';
-import { createEmployeeSchema } from './validators/createEmployee.schema.js';
-import {employeeIdParamSchema} from '../../shared/validators/employeeIdParam.schema.js';
-import { updateEmployeeSchema } from './validators/updateEmployee.schema.js';
-import { createEmployeeArraySchema } from './validators/createEmployeeArray.schema.js';
-import { updateEmployeeArraySchema } from './validators/updateEmployeeArray.schema.js';
-import { deleteEmployeeArraySchema } from './validators/deleteEmployeeArray.schema.js';
-import { empAddressSchema } from './validators/empAddress.schema.js';
-import { empRoleSchema } from './validators/empRole.schema.js';
+import { createEmployeeSchema } from './validators/createEmployee.validator.js';
+import { employeeIdParamSchema } from '../../shared/validators/employeeIdParam.validator.js';
+import { updateEmployeeSchema } from './validators/updateEmployee.validator.js';
+import { createEmployeeArraySchema } from './validators/createEmployeeArray.validator.js';
+import { updateEmployeeArraySchema } from './validators/updateEmployeeArray.validator.js';
+import { deleteEmployeeArraySchema } from './validators/deleteEmployeeArray.validator.js';
+import { empAddressSchema } from './validators/empAddress.validator.js';
+import { empRoleSchema } from './validators/empRole.validator.js';
 
 const router: Router = express.Router();
 
@@ -100,10 +100,6 @@ router
   );
 
 // To get the whole history of a Single Employee
-router
-  .get(
-    '/record/:employeeId',
-    employeeController.getSingleEmployeeData
-  )
+router.get('/record/:employeeId', employeeController.getSingleEmployeeData);
 
 export default router;

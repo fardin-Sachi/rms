@@ -4,16 +4,11 @@ import {
   MAXIMUM_CUSTOEMR_NAME_LENGTH,
   MAXIMUM_CUSTOMER_CONTACT_LENGTH,
   MINIMUM_CUSTOEMR_NAME_LENGTH,
-  MINIMUM_CUSTOMER_CONTACT_LENGTH
-} from "../customer.constants.js";
+  MINIMUM_CUSTOMER_CONTACT_LENGTH,
+} from '../customer.constants.js';
 
-export const updateCustomerArraySchema = z.array(
-  z.object({
-    id: z.coerce
-      .number({ error: 'Customer ID must be a number' })
-      .int({ error: 'Customer ID must be an integer' })
-      .positive({ error: 'Customer ID must be a positive number' }),
-
+export const updateCustomerSchema = z
+  .object({
     name: z
       .string({ error: 'Name must be a string' })
       .min(MINIMUM_CUSTOEMR_NAME_LENGTH, {
@@ -43,6 +38,5 @@ export const updateCustomerArraySchema = z.array(
     email: z
       .email({ error: 'Please provide a valid email address' })
       .optional(),
-
-  }),
-);
+  })
+  .strict();

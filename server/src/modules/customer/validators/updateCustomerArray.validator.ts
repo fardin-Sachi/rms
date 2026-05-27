@@ -1,13 +1,18 @@
 import { z } from 'zod';
 import ENV from '../../../configs/index.config.js';
 import {
-  MAXIMUM_CUSTOEMR_NAME_LENGTH, MAXIMUM_CUSTOMER_CONTACT_LENGTH,
+  MAXIMUM_CUSTOEMR_NAME_LENGTH,
+  MAXIMUM_CUSTOMER_CONTACT_LENGTH,
   MINIMUM_CUSTOEMR_NAME_LENGTH,
-  MINIMUM_CUSTOMER_CONTACT_LENGTH
-} from "../customer.constants.js";
+  MINIMUM_CUSTOMER_CONTACT_LENGTH,
+} from '../customer.constants.js';
 
-export const updateCustomerSchema = z
-  .object({
+export const updateCustomerArraySchema = z.array(
+  z.object({
+    id: z.coerce
+      .number({ error: 'Customer ID must be a number' })
+      .int({ error: 'Customer ID must be an integer' })
+      .positive({ error: 'Customer ID must be a positive number' }),
 
     name: z
       .string({ error: 'Name must be a string' })
@@ -38,6 +43,5 @@ export const updateCustomerSchema = z
     email: z
       .email({ error: 'Please provide a valid email address' })
       .optional(),
-
-  })
-  .strict();
+  }),
+);

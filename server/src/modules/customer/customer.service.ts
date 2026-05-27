@@ -1,11 +1,10 @@
 import type { ILogger } from '../../shared/interfaces/logger.interface.js';
-import CustomerRepository from "./customer.repository.js";
-import type {CustomerDto} from "./dtos/customer.dto.js";
-import type CreateCustomerDto from "./dtos/createCustomer.dto.js";
-import type UpdateCustomerDto from "./dtos/updateCustomer.dto.js";
+import CustomerRepository from './customer.repository.js';
+import type { CustomerDto } from './dtos/customer.dto.js';
+import type CreateCustomerDto from './dtos/createCustomer.dto.js';
+import type UpdateCustomerDto from './dtos/updateCustomer.dto.js';
 
 class CustomerService {
-
   private readonly customerRepository: CustomerRepository;
 
   constructor(private readonly logger: ILogger) {
@@ -43,7 +42,6 @@ class CustomerService {
   async deleteMany(ids: number[]): Promise<number[]> {
     return this.customerRepository.deleteMany(ids);
   }
-
 }
 
 export default CustomerService;

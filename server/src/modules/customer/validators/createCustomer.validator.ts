@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import ENV from '../../../configs/index.config.js';
 import {
-  MAXIMUM_CUSTOEMR_NAME_LENGTH, MAXIMUM_CUSTOMER_CONTACT_LENGTH,
+  MAXIMUM_CUSTOEMR_NAME_LENGTH,
+  MAXIMUM_CUSTOMER_CONTACT_LENGTH,
   MINIMUM_CUSTOEMR_NAME_LENGTH,
-  MINIMUM_CUSTOMER_CONTACT_LENGTH
-} from "../customer.constants.js";
+  MINIMUM_CUSTOMER_CONTACT_LENGTH,
+} from '../customer.constants.js';
 
 export const createCustomerSchema = z
   .object({

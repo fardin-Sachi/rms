@@ -1,7 +1,7 @@
 import type IRepository from '../../shared/interfaces/repository.interface.js';
-import type {CustomerDto} from "./dtos/customer.dto.js";
-import type CreateCustomerDto from "./dtos/createCustomer.dto.js";
-import type UpdateCustomerDto from "./dtos/updateCustomer.dto.js";
+import type { CustomerDto } from './dtos/customer.dto.js';
+import type CreateCustomerDto from './dtos/createCustomer.dto.js';
+import type UpdateCustomerDto from './dtos/updateCustomer.dto.js';
 
 class CustomerRepository implements IRepository<
   CustomerDto,
@@ -9,7 +9,6 @@ class CustomerRepository implements IRepository<
   UpdateCustomerDto,
   number
 > {
-  
   async get(_id: number): Promise<CustomerDto | null> {
     return null;
   }
@@ -49,7 +48,6 @@ class CustomerRepository implements IRepository<
   async deleteMany(ids: number[]): Promise<number[]> {
     return ids;
   }
-  
 }
 
 export default CustomerRepository;

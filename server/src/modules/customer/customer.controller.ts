@@ -2,12 +2,11 @@ import type { ILogger } from '../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import type { CustomerDto } from './dtos/customer.dto.js';
 import { ApiResponse } from '../../shared/libs/apiResponse.js';
-import CustomerService from "./customer.service.js";
-import type CreateCustomerDto from "./dtos/createCustomer.dto.js";
-import type UpdateCustomerDto from "./dtos/updateCustomer.dto.js";
+import CustomerService from './customer.service.js';
+import type CreateCustomerDto from './dtos/createCustomer.dto.js';
+import type UpdateCustomerDto from './dtos/updateCustomer.dto.js';
 
 class CustomerController {
-
   private readonly customerService: CustomerService;
   constructor(private readonly logger: ILogger) {
     this.customerService = new CustomerService(logger);
@@ -25,7 +24,8 @@ class CustomerController {
   async get(req: Request, res: Response): Promise<Response> {
     const customerId: number = Number(req.params.customerId);
 
-    const customerDto: CustomerDto | null = await this.customerService.get(customerId);
+    const customerDto: CustomerDto | null =
+      await this.customerService.get(customerId);
 
     if (!customerDto) {
       return ApiResponse.error(
@@ -57,7 +57,8 @@ class CustomerController {
   async create(req: Request, res: Response): Promise<Response> {
     const payload = req.body as CreateCustomerDto;
 
-    const createdCustomer: CustomerDto = await this.customerService.create(payload);
+    const createdCustomer: CustomerDto =
+      await this.customerService.create(payload);
 
     return ApiResponse.success<CustomerDto>(
       res,
@@ -70,7 +71,8 @@ class CustomerController {
   async createMany(req: Request, res: Response): Promise<Response> {
     const payload = req.body as CreateCustomerDto[];
 
-    const createdCustomerDtos: CustomerDto[] = await this.customerService.createMany(payload);
+    const createdCustomerDtos: CustomerDto[] =
+      await this.customerService.createMany(payload);
 
     return ApiResponse.success<CustomerDto[]>(
       res,
@@ -85,7 +87,8 @@ class CustomerController {
     const payload: UpdateCustomerDto = req.body;
     payload.id = customerId;
 
-    const updatedCustomerDto: CustomerDto = await this.customerService.update(payload);
+    const updatedCustomerDto: CustomerDto =
+      await this.customerService.update(payload);
 
     return ApiResponse.success<CustomerDto>(
       res,
@@ -98,7 +101,8 @@ class CustomerController {
   async updateMany(req: Request, res: Response): Promise<Response> {
     const payload = req.body as UpdateCustomerDto[];
 
-    const updatedCustomerDtos: CustomerDto[] = await this.customerService.updateMany(payload);
+    const updatedCustomerDtos: CustomerDto[] =
+      await this.customerService.updateMany(payload);
 
     return ApiResponse.success<CustomerDto[]>(
       res,
@@ -131,7 +135,6 @@ class CustomerController {
       `Customers are deleted with IDs: ${deletedIds}`,
     );
   }
-
 }
 
 export default CustomerController;

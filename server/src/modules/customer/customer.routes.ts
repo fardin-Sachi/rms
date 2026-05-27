@@ -1,10 +1,10 @@
-import express, {type Router} from "express";
+import express, { type Router } from 'express';
 import { logger } from '../../shared/libs/logger.js';
-import CustomerController from "./customer.controller.js";
-import {validate} from "../../shared/middlewares/validate.middleware.js";
-import {customerIdParamSchema} from "../../shared/validators/customerIdParamSchema.js";
-import {createCustomerSchema} from "./validators/createCustomer.schema.js";
-import {updateCustomerSchema} from "./validators/updateCustomer.schema.js";
+import CustomerController from './customer.controller.js';
+import { validate } from '../../shared/middlewares/validate.middleware.js';
+import { customerIdParamSchema } from '../../shared/validators/customerIdParam.validator.js';
+import { createCustomerSchema } from './validators/createCustomer.validator.js';
+import { updateCustomerSchema } from './validators/updateCustomer.validator.js';
 
 const router: Router = express.Router();
 
@@ -13,15 +13,8 @@ const customerController = new CustomerController(logger);
 
 // Batch Customer routes
 router
-  .get(
-    '',
-    customerController.getAll,
-  )
-  .post(
-    '/batch',
-    validate(createCustomerSchema),
-    customerController.createMany
-  )
+  .get('', customerController.getAll)
+  .post('/batch', validate(createCustomerSchema), customerController.createMany)
   .patch(
     '/batch/:customerId',
     validate(customerIdParamSchema, 'params'),
