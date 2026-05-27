@@ -1,6 +1,6 @@
 import express, { type Router } from 'express';
 import { validate } from '../../shared/middlewares/validate.middleware.js';
-import { employeeIdParamSchema } from '../../shared/validators/employeeIdParam.validator.js';
+import { employeeIdParamSchema } from '../employee/validators/employeeIdParam.validator.js';
 import { logger } from '../../shared/libs/logger.js';
 import EmployeeSalaryController from './empSalary.controller.js';
 import { createEmpSalarySchema } from './validators/createEmpSalary.validator.js';

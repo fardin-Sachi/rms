@@ -17,6 +17,16 @@ class EmployeeRole {
     'CLEANER',
   ] as const;
 
+  static readonly values = [
+    EmployeeRole.OWNER,
+    EmployeeRole.MANAGER,
+    EmployeeRole.CASHIER,
+    EmployeeRole.HR,
+    EmployeeRole.COOK,
+    EmployeeRole.WAITER,
+    EmployeeRole.CLEANER,
+  ] as const;
+
   private static readonly roleMap: Record<string, number> = {
     OWNER: EmployeeRole.OWNER,
     MANAGER: EmployeeRole.MANAGER,
@@ -32,7 +42,9 @@ class EmployeeRole {
   }
 
   static getLabel(value: number): string | undefined {
-    return Object.keys(this.roleMap).find((key) => this.roleMap[key] === value);
+    return Object
+      .keys(this.roleMap)
+      .find((key) => this.roleMap[key] === value);
   }
 }
 

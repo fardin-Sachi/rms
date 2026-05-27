@@ -2,7 +2,7 @@ import express, { type Router } from 'express';
 import { logger } from '../../shared/libs/logger.js';
 import CustomerController from './customer.controller.js';
 import { validate } from '../../shared/middlewares/validate.middleware.js';
-import { customerIdParamSchema } from '../../shared/validators/customerIdParam.validator.js';
+import { customerIdParamSchema } from './validators/customerIdParam.validator.js';
 import { createCustomerSchema } from './validators/createCustomer.validator.js';
 import { updateCustomerSchema } from './validators/updateCustomer.validator.js';
 
