@@ -2,6 +2,7 @@ import type IRepository from '../../shared/interfaces/repository.interface.js';
 import type MemberDto from "./dtos/member.dto.js";
 import type CreateMemberDto from "./dtos/createMember.dto.js";
 import type UpdateMemberDto from "./dtos/updateMember.dto.js";
+import type {MemberAddressDto} from "./dtos/memberAddress.dto.js";
 
 class MemberRepository implements IRepository<
   MemberDto,
@@ -53,6 +54,26 @@ class MemberRepository implements IRepository<
 
   async deleteMany(ids: number[]): Promise<number[]> {
     return ids;
+  }
+
+  async getMemberAddress(pMemberId: number): Promise<MemberAddressDto> {
+    return {
+      id: 1,
+      memberId: pMemberId,
+      country: 'Bangladesh',
+    };
+  }
+
+  async createMemberAddress(
+    pMutable: MemberAddressDto,
+  ): Promise<MemberAddressDto> {
+    return pMutable;
+  }
+
+  async updateMemberAddress(
+    pMutable: MemberAddressDto,
+  ): Promise<MemberAddressDto> {
+    return pMutable;
   }
 }
 

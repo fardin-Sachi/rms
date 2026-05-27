@@ -5,11 +5,32 @@ import MemberController from "./member.controller.js";
 import {createMemberSchema} from "./validators/createMember.validator.js";
 import {customerIdParamSchema} from "../customer/validators/customerIdParam.validator.js";
 import {updateMemberSchema} from "./validators/updateMember.validator.js";
+import {memberIdParamSchema} from "./validators/memberIdParam.validator.js";
+import {memberAddressSchema} from "./validators/memberAddress.validator.js";
 
 const router: Router = express.Router();
 
 /// Object declarations
 const memberController = new MemberController(logger);
+
+/// Member Address Routes
+router
+  .get(
+    '/address/:memberId',
+    validate(memberIdParamSchema, 'params'),
+    memberController.getMemberAddress,
+  )
+  .post(
+    '/address/:memberId',
+    validate(memberIdParamSchema, 'params'),
+    validate(memberAddressSchema, 'body'),
+    memberController.createMemberAddress,
+  )
+  .patch(
+    '/address/:memberId',
+    validate(memberAddressSchema, 'body'),
+    memberController.updateMemberAddress,
+  );
 
 // Single Member routes
 router

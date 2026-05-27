@@ -3,8 +3,10 @@ import MemberRepository from "./member.repository.js";
 import type MemberDto from "./dtos/member.dto.js";
 import type CreateMemberDto from "./dtos/createMember.dto.js";
 import type UpdateMemberDto from "./dtos/updateMember.dto.js";
+import type {MemberAddressDto} from "./dtos/memberAddress.dto.js";
 
 class MemberService {
+  
   private readonly memberRepository: MemberRepository;
 
   constructor(private readonly logger: ILogger) {
@@ -41,6 +43,22 @@ class MemberService {
 
   async deleteMany(ids: number[]): Promise<number[]> {
     return this.memberRepository.deleteMany(ids);
+  }
+
+  async getMemberAddress(pMemberId: number): Promise<MemberAddressDto> {
+    return this.memberRepository.getMemberAddress(pMemberId);
+  }
+
+  async createMemberAddress(
+    pMutable: MemberAddressDto,
+  ): Promise<MemberAddressDto> {
+    return this.memberRepository.createMemberAddress(pMutable);
+  }
+
+  async updateMemberAddress(
+    pMutable: MemberAddressDto,
+  ): Promise<MemberAddressDto> {
+    return this.memberRepository.updateMemberAddress(pMutable);
   }
 }
 

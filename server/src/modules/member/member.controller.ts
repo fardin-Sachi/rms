@@ -5,6 +5,7 @@ import type UpdateMemberDto from "./dtos/updateMember.dto.js";
 import type MemberDto from "./dtos/member.dto.js";
 import type CreateMemberDto from "./dtos/createMember.dto.js";
 import MemberService from "./member.service.js";
+import type {MemberAddressDto} from "./dtos/memberAddress.dto.js";
 
 class MemberController {
   private readonly memberService: MemberService;
@@ -133,6 +134,52 @@ class MemberController {
       res,
       200,
       `Members are deleted with IDs: ${deletedIds}`,
+    );
+  }
+
+  async getMemberAddress(req: Request, res: Response): Promise<Response> {
+    const pMemberId = Number(req.params.memberId);
+
+    const memberAddressDto: MemberAddressDto =
+      await this.memberService.getMemberAddress(pMemberId);
+
+    return ApiResponse.success<MemberAddressDto>(
+      res,
+      200,
+      `Member address found for Member ID: ${memberAddressDto.memberId}`,
+      memberAddressDto,
+    );
+  }
+
+  async createMemberAddress(req: Request, res: Response): Promise<Response> {
+    const memberId: number = Number(req.params.memberId);
+    const payload = req.body as MemberAddressDto;
+    payload.memberId = memberId;
+
+    const memberAddressDto: MemberAddressDto =
+      await this.memberService.createMemberAddress(payload);
+
+    return ApiResponse.success<MemberAddressDto>(
+      res,
+      201,
+      `Member address created for Member ID: ${memberAddressDto.memberId}`,
+      memberAddressDto,
+    );
+  }
+
+  async updateMemberAddress(req: Request, res: Response): Promise<Response> {
+    const memberId: number = Number(req.params.memberId);
+    const payload: MemberAddressDto = req.body;
+    payload.memberId = memberId;
+
+    const memberAddressDto: MemberAddressDto =
+      await this.memberService.updateMemberAddress(payload);
+
+    return ApiResponse.success<MemberAddressDto>(
+      res,
+      200,
+      `Member address updated with ID: ${memberAddressDto.memberId}`,
+      memberAddressDto,
     );
   }
 }
