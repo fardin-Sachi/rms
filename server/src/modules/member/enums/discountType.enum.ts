@@ -2,10 +2,7 @@ class DiscountType {
   static readonly NUMBER = 0;
   static readonly PERCENTAGE = 1;
 
-  static readonly names = [
-    'NUMBER',
-    'PERCENTAGE',
-  ] as const;
+  static readonly names = ['NUMBER', 'PERCENTAGE'] as const;
 
   static readonly values = [
     DiscountType.NUMBER,
@@ -22,9 +19,7 @@ class DiscountType {
   }
 
   static getLabel(value: number): string | undefined {
-    return Object
-      .keys(this.roleMap)
-      .find((key) => this.roleMap[key] === value);
+    return Object.keys(this.roleMap).find((key) => this.roleMap[key] === value);
   }
 }
 

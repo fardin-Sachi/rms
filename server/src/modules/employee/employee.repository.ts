@@ -100,7 +100,7 @@ class EmployeeRepository implements IRepository<
     employeeId: number,
   ): Promise<EmployeeRecordDto | null> {
     return {
-      employeeId: employeeId,
+      id: employeeId,
       salaryAmount: Big(10_000),
     };
   }

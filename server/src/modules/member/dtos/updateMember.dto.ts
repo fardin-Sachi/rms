@@ -1,5 +1,5 @@
 import type IDto from '../../../shared/interfaces/dto.interface.js';
-import Big from "big.js";
+import Big from 'big.js';
 
 export default interface UpdateMemberDto extends IDto {
   customerId: number;

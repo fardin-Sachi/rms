@@ -1,8 +1,8 @@
 import Big from 'big.js';
+import type IDto from '../../../shared/interfaces/dto.interface.js';
 
-export interface EmployeeRecordDto {
-  //Employee Data
-  employeeId: number;
+export interface EmployeeRecordDto extends IDto {
+  //Employee Personal Data
   employeeName?: string;
   dob?: Date;
   contact?: string;

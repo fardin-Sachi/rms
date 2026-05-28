@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import DiscountType from "../enums/discountType.enum.js";
+import DiscountType from '../enums/discountType.enum.js';
 
 export const updateMemberSchema = z
   .object({
@@ -18,18 +18,15 @@ export const updateMemberSchema = z
       .optional(),
 
     discountTypeId: z.coerce
-      .number({error: 'Discount type ID must be a number'})
-      .int({error: 'Discount type ID must be a integer'})
-      .refine(
-        (val) => DiscountType.values.includes(val as never),
-        {
-          message: `Discount type ID must be one of: ${DiscountType.values.join(', ')}`,
-        },
-      )
+      .number({ error: 'Discount type ID must be a number' })
+      .int({ error: 'Discount type ID must be a integer' })
+      .refine((val) => DiscountType.values.includes(val as never), {
+        message: `Discount type ID must be one of: ${DiscountType.values.join(', ')}`,
+      })
       .optional(),
 
     discountTypeName: z
-      .string({error: 'Discount type name must be a string'})
+      .string({ error: 'Discount type name must be a string' })
       .transform((val) => val.toUpperCase())
       .pipe(
         z.enum(DiscountType.names, {

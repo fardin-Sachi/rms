@@ -1,8 +1,8 @@
 import type IRepository from '../../shared/interfaces/repository.interface.js';
-import type MemberDto from "./dtos/member.dto.js";
-import type CreateMemberDto from "./dtos/createMember.dto.js";
-import type UpdateMemberDto from "./dtos/updateMember.dto.js";
-import type {MemberAddressDto} from "./dtos/memberAddress.dto.js";
+import type MemberDto from './dtos/member.dto.js';
+import type CreateMemberDto from './dtos/createMember.dto.js';
+import type UpdateMemberDto from './dtos/updateMember.dto.js';
+import type { MemberAddressDto } from './dtos/memberAddress.dto.js';
 
 class MemberRepository implements IRepository<
   MemberDto,
@@ -23,7 +23,7 @@ class MemberRepository implements IRepository<
       id: 1,
       ...pMutable,
       discount: 0,
-      discountTypeId: 0
+      discountTypeId: 0,
     };
   }
 

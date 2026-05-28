@@ -24,18 +24,18 @@ const employeeController = new EmployeeController(logger);
 /// Employee Address Routes
 router
   .get(
-    '/address/:employeeId',
+    '/address/:id',
     validate(employeeIdParamSchema, 'params'),
     employeeController.getEmployeeAddress,
   )
   .post(
-    '/address/:employeeId',
+    '/address/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(empAddressSchema, 'body'),
     employeeController.createEmployeeAddress,
   )
   .patch(
-    '/address/:employeeId',
+    '/address/:id',
     validate(empAddressSchema, 'body'),
     employeeController.updateEmployeeAddress,
   );
@@ -43,18 +43,18 @@ router
 /// Employee Role Routes
 router
   .get(
-    '/role/:employeeId',
+    '/role/:id',
     validate(employeeIdParamSchema, 'params'),
     employeeController.getEmployeeRole,
   )
   .post(
-    '/role/:employeeId',
+    '/role/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(empRoleSchema, 'body'),
     employeeController.createEmployeeRole,
   )
   .patch(
-    '/role/:employeeId',
+    '/role/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(empRoleSchema, 'body'),
     employeeController.updateEmployeeRole,
@@ -82,24 +82,24 @@ router
 /// Employee Single Routes
 router
   .get(
-    '/:employeeId',
+    '/:id',
     validate(employeeIdParamSchema, 'params'),
     employeeController.get,
   )
   .post('', validate(createEmployeeSchema), employeeController.create)
   .patch(
-    '/:employeeId',
+    '/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(updateEmployeeSchema, 'body'),
     employeeController.update,
   )
   .delete(
-    '/:employeeId',
+    '/:id',
     validate(employeeIdParamSchema, 'params'),
     employeeController.delete,
   );
 
 // To get the whole history of a Single Employee
-router.get('/record/:employeeId', employeeController.getSingleEmployeeData);
+router.get('/record/:id', employeeController.getSingleEmployeeData);
 
 export default router;

@@ -17,18 +17,18 @@ const employeeSalaryController = new EmployeeSalaryController(logger);
 
 router
   .get(
-    '/salary/:employeeId',
+    '/salary/:id',
     validate(employeeIdParamSchema, 'params'),
     employeeSalaryController.get,
   )
   .post(
-    '/salary/:employeeId',
+    '/salary/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(createEmpSalarySchema, 'body'),
     employeeSalaryController.create,
   )
   .patch(
-    '/salary/:employeeId',
+    '/salary/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(updateEmpSalarySchema, 'body'),
     employeeSalaryController.update,

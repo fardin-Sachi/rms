@@ -3,11 +3,7 @@ class AddressType {
   static readonly WORK = 1;
   static readonly BILLING = 2;
 
-  static readonly names = [
-    'HOME',
-    'WORK',
-    'BILLING',
-  ] as const;
+  static readonly names = ['HOME', 'WORK', 'BILLING'] as const;
 
   static readonly values = [
     AddressType.HOME,
@@ -26,9 +22,7 @@ class AddressType {
   }
 
   static getLabel(value: number): string | undefined {
-    return Object
-      .keys(this.roleMap)
-      .find((key) => this.roleMap[key] === value);
+    return Object.keys(this.roleMap).find((key) => this.roleMap[key] === value);
   }
 }
 

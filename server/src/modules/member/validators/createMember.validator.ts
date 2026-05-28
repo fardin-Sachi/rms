@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import ENV from "../../../configs/index.config.js";
-import DiscountType from "../enums/discountType.enum.js";
+import ENV from '../../../configs/index.config.js';
+import DiscountType from '../enums/discountType.enum.js';
 
 export const createMemberSchema = z
   .object({
@@ -19,18 +19,15 @@ export const createMemberSchema = z
       .optional(),
 
     discountTypeId: z.coerce
-      .number({error: 'Discount type ID must be a number'})
-      .int({error: 'Discount type ID must be a integer'})
-      .refine(
-        (val) => DiscountType.values.includes(val as never),
-        {
-          message: `Discount type ID must be one of: ${DiscountType.values.join(', ')}`,
-        },
-      )
+      .number({ error: 'Discount type ID must be a number' })
+      .int({ error: 'Discount type ID must be a integer' })
+      .refine((val) => DiscountType.values.includes(val as never), {
+        message: `Discount type ID must be one of: ${DiscountType.values.join(', ')}`,
+      })
       .optional(),
 
     discountTypeName: z
-      .string({error: 'Discount type name must be a string'})
+      .string({ error: 'Discount type name must be a string' })
       .transform((val) => val.toUpperCase())
       .pipe(
         z.enum(DiscountType.names, {
@@ -43,11 +40,13 @@ export const createMemberSchema = z
       .date({ error: 'Date of birth must be a valid date' })
       .optional(),
 
-    cardIssueDate: z.coerce
-      .date({ error: 'Card issue date must be a valid date' }),
+    cardIssueDate: z.coerce.date({
+      error: 'Card issue date must be a valid date',
+    }),
 
-    membershipExpiryDate: z.coerce
-      .date({ error: 'Card expiry date must be a valid date' }),
+    membershipExpiryDate: z.coerce.date({
+      error: 'Card expiry date must be a valid date',
+    }),
 
     activeStatus: z.boolean({ error: 'Active status must be true or false' }),
   })
@@ -56,11 +55,11 @@ export const createMemberSchema = z
       data.discountTypeId !== undefined || data.discountTypeName !== undefined,
     ENV.serverEnv.NODE_ENV === 'production'
       ? {
-        message: 'Please provide a discount type',
-      }
+          message: 'Please provide a discount type',
+        }
       : {
-        message: 'Either discountTypeId or discountTypeName is required',
-        path: ['discountTypeId'],
-      },
+          message: 'Either discountTypeId or discountTypeName is required',
+          path: ['discountTypeId'],
+        },
   )
   .strict();

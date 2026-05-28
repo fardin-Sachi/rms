@@ -1,12 +1,11 @@
 import type { ILogger } from '../../shared/interfaces/logger.interface.js';
-import MemberRepository from "./member.repository.js";
-import type MemberDto from "./dtos/member.dto.js";
-import type CreateMemberDto from "./dtos/createMember.dto.js";
-import type UpdateMemberDto from "./dtos/updateMember.dto.js";
-import type {MemberAddressDto} from "./dtos/memberAddress.dto.js";
+import MemberRepository from './member.repository.js';
+import type MemberDto from './dtos/member.dto.js';
+import type CreateMemberDto from './dtos/createMember.dto.js';
+import type UpdateMemberDto from './dtos/updateMember.dto.js';
+import type { MemberAddressDto } from './dtos/memberAddress.dto.js';
 
 class MemberService {
-  
   private readonly memberRepository: MemberRepository;
 
   constructor(private readonly logger: ILogger) {

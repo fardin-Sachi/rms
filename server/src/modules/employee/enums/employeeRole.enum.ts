@@ -42,9 +42,7 @@ class EmployeeRole {
   }
 
   static getLabel(value: number): string | undefined {
-    return Object
-      .keys(this.roleMap)
-      .find((key) => this.roleMap[key] === value);
+    return Object.keys(this.roleMap).find((key) => this.roleMap[key] === value);
   }
 }
 

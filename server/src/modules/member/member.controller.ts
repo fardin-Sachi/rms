@@ -1,11 +1,11 @@
 import type { ILogger } from '../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../../shared/libs/apiResponse.js';
-import type UpdateMemberDto from "./dtos/updateMember.dto.js";
-import type MemberDto from "./dtos/member.dto.js";
-import type CreateMemberDto from "./dtos/createMember.dto.js";
-import MemberService from "./member.service.js";
-import type {MemberAddressDto} from "./dtos/memberAddress.dto.js";
+import type UpdateMemberDto from './dtos/updateMember.dto.js';
+import type MemberDto from './dtos/member.dto.js';
+import type CreateMemberDto from './dtos/createMember.dto.js';
+import MemberService from './member.service.js';
+import type { MemberAddressDto } from './dtos/memberAddress.dto.js';
 
 class MemberController {
   private readonly memberService: MemberService;

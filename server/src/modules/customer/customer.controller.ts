@@ -22,23 +22,22 @@ class CustomerController {
   }
 
   async get(req: Request, res: Response): Promise<Response> {
-    const customerId: number = Number(req.params.customerId);
+    const id: number = Number(req.params.id);
 
-    const customerDto: CustomerDto | null =
-      await this.customerService.get(customerId);
+    const customerDto: CustomerDto | null = await this.customerService.get(id);
 
     if (!customerDto) {
       return ApiResponse.error(
         res,
         404,
-        `No customer found with this ID: ${customerId}`,
+        `No customer found with this ID: ${id}`,
       );
     }
 
     return ApiResponse.success<CustomerDto>(
       res,
       200,
-      `Customer found with this ID: ${customerId}`,
+      `Customer found with this ID: ${customerDto.id}`,
       customerDto,
     );
   }
@@ -83,9 +82,9 @@ class CustomerController {
   }
 
   async update(req: Request, res: Response): Promise<Response> {
-    const customerId: number = Number(req.params.customerId);
+    const id: number = Number(req.params.id);
     const payload: UpdateCustomerDto = req.body;
-    payload.id = customerId;
+    payload.id = id;
 
     const updatedCustomerDto: CustomerDto =
       await this.customerService.update(payload);
@@ -113,7 +112,7 @@ class CustomerController {
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.customerId);
+    const id: number = Number(req.params.id);
 
     const deletedId: number = await this.customerService.delete(id);
 

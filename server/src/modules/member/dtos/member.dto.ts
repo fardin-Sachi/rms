@@ -1,4 +1,4 @@
-import Big from "big.js";
+import Big from 'big.js';
 import type IDto from '../../../shared/interfaces/dto.interface.js';
 
 export default interface MemberDto extends IDto<number> {
