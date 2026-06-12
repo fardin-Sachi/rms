@@ -1,4 +1,4 @@
-import type IDto from '../../../shared/interfaces/dto.interface.js';
+import type IDto from '../../../../shared/interfaces/dto.interface.js';
 
 export interface EmployeeDto extends IDto<number> {
   name: string;

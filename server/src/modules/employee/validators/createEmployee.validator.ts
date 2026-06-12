@@ -7,7 +7,7 @@ import {
   MINIMUM_EMPLOYEE_NAME_LENGTH,
   MINIMUM_EMPLOYEE_NID_LENGTH,
 } from '../employee.constants.js';
-import ENV from '../../../configs/index.config.js';
+import ENV from '../../../../configs/index.config.js';
 
 export const createEmployeeSchema = z
   .object({

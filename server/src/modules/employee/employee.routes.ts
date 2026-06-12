@@ -1,8 +1,8 @@
-import { logger } from '../../shared/libs/logger.js';
+import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import EmployeeController from './employee.controller.js';
-import { validate } from '../../shared/middlewares/validate.middleware.js';
+import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import { createEmployeeSchema } from './validators/createEmployee.validator.js';
 import { employeeIdParamSchema } from './validators/employeeIdParam.validator.js';
 import { updateEmployeeSchema } from './validators/updateEmployee.validator.js';

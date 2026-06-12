@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import EmployeeRole from '../enums/employeeRole.enum.js';
-import ENV from '../../../configs/index.config.js';
+import ENV from '../../../../configs/index.config.js';
 
 export const empRoleSchema = z
   .object({

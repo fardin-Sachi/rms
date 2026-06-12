@@ -1,4 +1,4 @@
-import type { ILogger } from '../../shared/interfaces/logger.interface.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import EmployeeRepository from './employee.repository.js';
 import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
 import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';

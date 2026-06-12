@@ -1,4 +1,4 @@
-import type IRepository from '../../shared/interfaces/repository.interface.js';
+import type IRepository from '../../../shared/interfaces/repository.interface.js';
 import type { EmployeeDto } from './dtos/employee.dto.js';
 import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
 import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';

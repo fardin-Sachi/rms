@@ -1,4 +1,4 @@
-import type IDto from '../../../shared/interfaces/dto.interface.js';
+import type IDto from '../../../../shared/interfaces/dto.interface.js';
 
 /*
  * Can be used to fetch, create and update DB records

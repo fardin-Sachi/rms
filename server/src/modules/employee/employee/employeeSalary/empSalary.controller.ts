@@ -1,6 +1,6 @@
-import type { ILogger } from '../../shared/interfaces/logger.interface.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../shared/libs/apiResponse.js';
+import { ApiResponse } from '../../../shared/libs/apiResponse.js';
 import EmployeeSalaryService from './empSalary.service.js';
 import type UpdateEmpSalaryDto from './dtos/updateEmpSalary.dto.js';
 import type CreateEmpSalaryDto from './dtos/createEmpSalary.dto.js';
