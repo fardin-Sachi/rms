@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createEmpSalarySchema = z
+export const createEmpSalaryValidator = z
   .object({
     salaryAmount: z.coerce
       .number({ error: 'Salary amount must be a number' })

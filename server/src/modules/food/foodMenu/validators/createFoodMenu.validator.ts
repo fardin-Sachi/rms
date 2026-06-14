@@ -7,7 +7,7 @@ import {
   MINIMUM_FOOD_MENU_NAME_LENGTH,
 } from '../foodMenu.constants.js';
 
-export const createFoodMenuSchema = z
+export const createFoodMenuValidator = z
   .object({
     name: z
       .string({ error: 'Name must be a string' })

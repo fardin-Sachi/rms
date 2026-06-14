@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const empAddressSchema = z
+export const empAddressValidator = z
   .object({
     addressLine1: z
       .string({ error: 'Please enter a valid address line 1' })

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import ENV from '../../../../../configs/index.config.js';
 
-export const updateBuyXGetYRuleArraySchema = z.array(
+export const updateBuyXGetYRuleArrayValidator = z.array(
   z.object({
     id: z.coerce
       .number({ error: 'Buy X Get Y Rule ID must be a number' })

@@ -2,10 +2,10 @@ import express, { type Router } from 'express';
 import { logger } from '../../../shared/libs/logger.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import MemberController from './member.controller.js';
-import { createMemberSchema } from './validators/createMember.validator.js';
-import { updateMemberSchema } from './validators/updateMember.validator.js';
-import { memberIdParamSchema } from './validators/memberIdParam.validator.js';
-import { memberAddressSchema } from './validators/memberAddress.validator.js';
+import { createMemberValidator } from './validators/createMember.validator.js';
+import { updateMemberValidator } from './validators/updateMember.validator.js';
+import { memberIdParamValidator } from './validators/memberIdParam.validator.js';
+import { memberAddressValidator } from './validators/memberAddress.validator.js';
 
 const router: Router = express.Router();
 
@@ -16,18 +16,18 @@ const memberController = new MemberController(logger);
 router
   .get(
     '/address/:customerId',
-    validate(memberIdParamSchema, 'params'),
+    validate(memberIdParamValidator, 'params'),
     memberController.getMemberAddress,
   )
   .post(
     '/address/:customerId',
-    validate(memberIdParamSchema, 'params'),
-    validate(memberAddressSchema, 'body'),
+    validate(memberIdParamValidator, 'params'),
+    validate(memberAddressValidator, 'body'),
     memberController.createMemberAddress,
   )
   .patch(
     '/address/:customerId',
-    validate(memberAddressSchema, 'body'),
+    validate(memberAddressValidator, 'body'),
     memberController.updateMemberAddress,
   );
 
@@ -35,19 +35,19 @@ router
 router
   .get(
     '/:customerId',
-    validate(memberIdParamSchema, 'params'),
+    validate(memberIdParamValidator, 'params'),
     memberController.get,
   )
-  .post('', validate(createMemberSchema), memberController.create)
+  .post('', validate(createMemberValidator), memberController.create)
   .patch(
     '/:customerId',
-    validate(memberIdParamSchema, 'params'),
-    validate(updateMemberSchema, 'body'),
+    validate(memberIdParamValidator, 'params'),
+    validate(updateMemberValidator, 'body'),
     memberController.update,
   )
   .delete(
     '/:customerId',
-    validate(memberIdParamSchema, 'params'),
+    validate(memberIdParamValidator, 'params'),
     memberController.delete,
   );
 

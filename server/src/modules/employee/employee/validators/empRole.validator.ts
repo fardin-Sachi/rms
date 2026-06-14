@@ -2,7 +2,7 @@ import { z } from 'zod';
 import EmployeeRole from '../enums/employeeRole.enum.js';
 import ENV from '../../../../configs/index.config.js';
 
-export const empRoleSchema = z
+export const empRoleValidator = z
   .object({
     employeeRoleId: z.coerce
       .number({ error: 'Employee role ID must be a number' })

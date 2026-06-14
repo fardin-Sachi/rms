@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const deleteEmployeeArraySchema = z.array(
+export const deleteEmployeeArrayValidator = z.array(
   z.coerce
     .number({ error: 'Employee ID must be a number' })
     .int({ error: 'Employee ID must be an integer' })

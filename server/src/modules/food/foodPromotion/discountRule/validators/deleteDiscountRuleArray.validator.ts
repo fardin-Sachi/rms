@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const deleteDiscountRuleArraySchema = z.array(
+export const deleteDiscountRuleArrayValidator = z.array(
   z.coerce
     .number({ error: 'Discount Rule ID must be a number' })
     .int({ error: 'Discount Rule ID must be an integer' })

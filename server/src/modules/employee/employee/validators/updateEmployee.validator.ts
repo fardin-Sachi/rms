@@ -7,7 +7,7 @@ import {
 } from '../employee.constants.js';
 import ENV from '../../../../configs/index.config.js';
 
-export const updateEmployeeSchema = z
+export const updateEmployeeValidator = z
   .object({
     name: z
       .string({ error: 'Name must be a string' })

@@ -3,19 +3,19 @@ import express from 'express';
 import type { Router } from 'express';
 import EmployeeController from './employee.controller.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import { createEmployeeSchema } from './validators/createEmployee.validator.js';
-import { employeeIdParamSchema } from './validators/employeeIdParam.validator.js';
-import { updateEmployeeSchema } from './validators/updateEmployee.validator.js';
-import { createEmployeeArraySchema } from './validators/createEmployeeArray.validator.js';
-import { updateEmployeeArraySchema } from './validators/updateEmployeeArray.validator.js';
-import { deleteEmployeeArraySchema } from './validators/deleteEmployeeArray.validator.js';
-import { empAddressSchema } from './validators/empAddress.validator.js';
-import { empRoleSchema } from './validators/empRole.validator.js';
+import { createEmployeeValidator } from './validators/createEmployee.validator.js';
+import { employeeIdParamValidator } from './validators/employeeIdParam.validator.js';
+import { updateEmployeeValidator } from './validators/updateEmployee.validator.js';
+import { createEmployeeArrayValidator } from './validators/createEmployeeArray.validator.js';
+import { updateEmployeeArrayValidator } from './validators/updateEmployeeArray.validator.js';
+import { deleteEmployeeArrayValidator } from './validators/deleteEmployeeArray.validator.js';
+import { empAddressValidator } from './validators/empAddress.validator.js';
+import { empRoleValidator } from './validators/empRole.validator.js';
 
 const router: Router = express.Router();
 
 /*
- * IMPORTANT: employeeIdParamSchema should be used for 'params' only
+ * IMPORTANT: employeeIdParamValidator should be used for 'params' only
  */
 
 /// Object declarations
@@ -25,18 +25,18 @@ const employeeController = new EmployeeController(logger);
 router
   .get(
     '/address/:id',
-    validate(employeeIdParamSchema, 'params'),
+    validate(employeeIdParamValidator, 'params'),
     employeeController.getEmployeeAddress,
   )
   .post(
     '/address/:id',
-    validate(employeeIdParamSchema, 'params'),
-    validate(empAddressSchema, 'body'),
+    validate(employeeIdParamValidator, 'params'),
+    validate(empAddressValidator, 'body'),
     employeeController.createEmployeeAddress,
   )
   .patch(
     '/address/:id',
-    validate(empAddressSchema, 'body'),
+    validate(empAddressValidator, 'body'),
     employeeController.updateEmployeeAddress,
   );
 
@@ -44,19 +44,19 @@ router
 router
   .get(
     '/role/:id',
-    validate(employeeIdParamSchema, 'params'),
+    validate(employeeIdParamValidator, 'params'),
     employeeController.getEmployeeRole,
   )
   .post(
     '/role/:id',
-    validate(employeeIdParamSchema, 'params'),
-    validate(empRoleSchema, 'body'),
+    validate(employeeIdParamValidator, 'params'),
+    validate(empRoleValidator, 'body'),
     employeeController.createEmployeeRole,
   )
   .patch(
     '/role/:id',
-    validate(employeeIdParamSchema, 'params'),
-    validate(empRoleSchema, 'body'),
+    validate(employeeIdParamValidator, 'params'),
+    validate(empRoleValidator, 'body'),
     employeeController.updateEmployeeRole,
   );
 
@@ -65,17 +65,17 @@ router
   .get('', employeeController.getAll)
   .post(
     '/batch',
-    validate(createEmployeeArraySchema, 'body'),
+    validate(createEmployeeArrayValidator, 'body'),
     employeeController.createMany,
   )
   .patch(
     '/batch',
-    validate(updateEmployeeArraySchema, 'body'),
+    validate(updateEmployeeArrayValidator, 'body'),
     employeeController.updateMany,
   )
   .delete(
     '/batch',
-    validate(deleteEmployeeArraySchema, 'body'),
+    validate(deleteEmployeeArrayValidator, 'body'),
     employeeController.deleteMany,
   );
 
@@ -83,19 +83,19 @@ router
 router
   .get(
     '/:id',
-    validate(employeeIdParamSchema, 'params'),
+    validate(employeeIdParamValidator, 'params'),
     employeeController.get,
   )
-  .post('', validate(createEmployeeSchema), employeeController.create)
+  .post('', validate(createEmployeeValidator), employeeController.create)
   .patch(
     '/:id',
-    validate(employeeIdParamSchema, 'params'),
-    validate(updateEmployeeSchema, 'body'),
+    validate(employeeIdParamValidator, 'params'),
+    validate(updateEmployeeValidator, 'body'),
     employeeController.update,
   )
   .delete(
     '/:id',
-    validate(employeeIdParamSchema, 'params'),
+    validate(employeeIdParamValidator, 'params'),
     employeeController.delete,
   );
 

@@ -7,8 +7,8 @@ import { dicountRuleIdParamValidator } from './validators/discountRuleIdParam.va
 import { createDiscountRuleValidator } from './validators/createDiscountRule.validator.js';
 import { updateDiscountRuleValidator } from './validators/updateDiscountRule.validator.js';
 import { createDiscountRuleArrayValidator } from './validators/createDiscountRuleArray.validator.js';
-import { updateDiscountRuleArraySchema } from './validators/updatePromotionArray.validator.js';
-import { deleteDiscountRuleArraySchema } from './validators/deleteDiscountRuleArray.validator.js';
+import { updateDiscountRuleArrayValidator } from './validators/updatePromotionArray.validator.js';
+import { deleteDiscountRuleArrayValidator } from './validators/deleteDiscountRuleArray.validator.js';
 
 const router: Router = express.Router();
 
@@ -29,12 +29,12 @@ router
   )
   .patch(
     '/batch',
-    validate(updateDiscountRuleArraySchema, 'body'),
+    validate(updateDiscountRuleArrayValidator, 'body'),
     discountRuleController.updateMany,
   )
   .delete(
     '/batch',
-    validate(deleteDiscountRuleArraySchema, 'body'),
+    validate(deleteDiscountRuleArrayValidator, 'body'),
     discountRuleController.deleteMany,
   );
 

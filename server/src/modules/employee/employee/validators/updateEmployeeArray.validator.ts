@@ -7,7 +7,7 @@ import {
 } from '../employee.constants.js';
 import ENV from '../../../../configs/index.config.js';
 
-export const updateEmployeeArraySchema = z.array(
+export const updateEmployeeArrayValidator = z.array(
   z.object({
     id: z.coerce
       .number({ error: 'Employee ID must be a number' })

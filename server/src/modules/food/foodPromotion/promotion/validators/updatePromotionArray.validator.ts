@@ -5,7 +5,7 @@ import {
   MAXIMUM_PROMOTION_NAME_LENGTH,
 } from '../promotion.constants.js';
 
-export const updatePromotionArraySchema = z.array(
+export const updatePromotionArrayValidator = z.array(
   z.object({
     id: z.coerce
       .number({ error: 'Promotion ID must be a number' })

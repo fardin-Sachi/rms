@@ -7,7 +7,7 @@ import {
   MINIMUM_CUSTOMER_CONTACT_LENGTH,
 } from '../customer.constants.js';
 
-export const updateCustomerArraySchema = z.array(
+export const updateCustomerArrayValidator = z.array(
   z.object({
     id: z.coerce
       .number({ error: 'Customer ID must be a number' })

@@ -1,4 +1,4 @@
 import { z } from 'zod';
-import { createFoodMenuSchema } from './createFoodMenu.validator.js';
+import { createFoodMenuValidator } from './createFoodMenu.validator.js';
 
-export const createFoodMenuArraySchema = z.array(createFoodMenuSchema);
+export const createFoodMenuArrayValidator = z.array(createFoodMenuValidator);

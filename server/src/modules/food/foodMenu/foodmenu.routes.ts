@@ -1,19 +1,19 @@
 import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
-import { updateFoodMenuSchema } from './validators/updateFoodMenu.validator.js';
+import { updateFoodMenuValidator } from './validators/updateFoodMenu.validator.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import { createFoodMenuSchema } from './validators/createFoodMenu.validator.js';
-import { createFoodMenuArraySchema } from './validators/createFoodMenuArray.validator.js';
-import { deleteFoodMenuArraySchema } from './validators/deleleFoodMenuArray.validator.js';
-import { updateFoodMenuArraySchema } from './validators/updateFoodMenuArray.validator.js';
-import { foodMenuIdParamSchema } from './validators/foodMenuIdParam.validator.js';
+import { createFoodMenuValidator } from './validators/createFoodMenu.validator.js';
+import { createFoodMenuArrayValidator } from './validators/createFoodMenuArray.validator.js';
+import { deleteFoodMenuArrayValidator } from './validators/deleleFoodMenuArray.validator.js';
+import { updateFoodMenuArrayValidator } from './validators/updateFoodMenuArray.validator.js';
+import { foodMenuIdParamValidator } from './validators/foodMenuIdParam.validator.js';
 import FoodMenuController from './foodmenu.controller.js';
 
 const router: Router = express.Router();
 
 /*
- * IMPORTANT: foodMenuIdParamSchema should be used for 'params' only
+ * IMPORTANT: foodMenuIdParamValidator should be used for 'params' only
  */
 
 /// Object declarations
@@ -24,17 +24,17 @@ router
   .get('', foodMenuController.getAll)
   .post(
     '/batch',
-    validate(createFoodMenuArraySchema, 'body'),
+    validate(createFoodMenuArrayValidator, 'body'),
     foodMenuController.createMany,
   )
   .patch(
     '/batch',
-    validate(updateFoodMenuArraySchema, 'body'),
+    validate(updateFoodMenuArrayValidator, 'body'),
     foodMenuController.updateMany,
   )
   .delete(
     '/batch',
-    validate(deleteFoodMenuArraySchema, 'body'),
+    validate(deleteFoodMenuArrayValidator, 'body'),
     foodMenuController.deleteMany,
   );
 
@@ -42,19 +42,19 @@ router
 router
   .get(
     '/:id',
-    validate(foodMenuIdParamSchema, 'params'),
+    validate(foodMenuIdParamValidator, 'params'),
     foodMenuController.get,
   )
-  .post('', validate(createFoodMenuSchema), foodMenuController.create)
+  .post('', validate(createFoodMenuValidator), foodMenuController.create)
   .patch(
     '/:id',
-    validate(foodMenuIdParamSchema, 'params'),
-    validate(updateFoodMenuSchema, 'body'),
+    validate(foodMenuIdParamValidator, 'params'),
+    validate(updateFoodMenuValidator, 'body'),
     foodMenuController.update,
   )
   .delete(
     '/:id',
-    validate(foodMenuIdParamSchema, 'params'),
+    validate(foodMenuIdParamValidator, 'params'),
     foodMenuController.delete,
   );
 

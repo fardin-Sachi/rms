@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import AddressType from '../enums/addressType.enum.js';
 
-export const memberAddressSchema = z
+export const memberAddressValidator = z
   .object({
     addressTypeId: z.coerce
       .number({ error: 'Address type ID must be a number' })

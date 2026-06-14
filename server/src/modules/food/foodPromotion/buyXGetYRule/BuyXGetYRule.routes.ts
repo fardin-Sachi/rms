@@ -7,8 +7,8 @@ import { buyXGetYRuleIdParamValidator } from './validators/buyXGetYRuleIdParam.v
 import { createBuyXGetYRuleValidator } from './validators/createBuyXGetYRule.validator.js';
 import { updateBuyXGetYRuleValidator } from './validators/updateBuyXGetYRule.validator.js';
 import {createBuyXGetYRuleArrayValidator} from "./validators/createBuyXGetYRuleArray.validator.js";
-import {updateBuyXGetYRuleArraySchema} from "./validators/updateBuyXGetYRuleArray.validator.js";
-import {deleteBuyXGetYRuleArraySchema} from "./validators/deleteBuyXGetYRuleArray.validator.js";
+import {updateBuyXGetYRuleArrayValidator} from "./validators/updateBuyXGetYRuleArray.validator.js";
+import {deleteBuyXGetYRuleArrayValidator} from "./validators/deleteBuyXGetYRuleArray.validator.js";
 
 const router: Router = express.Router();
 
@@ -29,12 +29,12 @@ router
   )
   .patch(
     '/batch',
-    validate(updateBuyXGetYRuleArraySchema, 'body'),
+    validate(updateBuyXGetYRuleArrayValidator, 'body'),
     buyXGetYRuleController.updateMany,
   )
   .delete(
     '/batch',
-    validate(deleteBuyXGetYRuleArraySchema, 'body'),
+    validate(deleteBuyXGetYRuleArrayValidator, 'body'),
     buyXGetYRuleController.deleteMany,
   );
 

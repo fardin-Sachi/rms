@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const employeeIdParamSchema = z
+export const employeeIdParamValidator = z
   .object({
     id: z.coerce
       .number({ error: 'Employee ID must be a number' })

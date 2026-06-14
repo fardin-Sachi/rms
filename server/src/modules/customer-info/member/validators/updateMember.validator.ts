@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import DiscountType from '../enums/discountType.enum.js';
 
-export const updateMemberSchema = z
+export const updateMemberValidator = z
   .object({
     points: z.coerce
       .number({ error: 'Points must be a number' })

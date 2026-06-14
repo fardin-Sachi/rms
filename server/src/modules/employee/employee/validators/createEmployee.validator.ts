@@ -9,7 +9,7 @@ import {
 } from '../employee.constants.js';
 import ENV from '../../../../configs/index.config.js';
 
-export const createEmployeeSchema = z
+export const createEmployeeValidator = z
   .object({
     name: z
       .string({ error: 'Name must be a string' })

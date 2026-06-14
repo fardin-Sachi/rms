@@ -7,7 +7,7 @@ import {
   MINIMUM_FOOD_MENU_NAME_LENGTH,
 } from '../foodMenu.constants.js';
 
-export const updateFoodMenuArraySchema = z.array(
+export const updateFoodMenuArrayValidator = z.array(
   z.object({
     id: z.coerce
       .number({ error: 'Food menu ID must be a number' })

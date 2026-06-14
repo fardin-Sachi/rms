@@ -7,7 +7,7 @@ import { promotionIdParamValidator } from './validators/promotionIdParam.validat
 import { createPromotionValidator } from './validators/createPromotion.validator.js';
 import { updatePromotionValidator } from './validators/updatePromotion.validator.js';
 import { createPromotionArrayValidator } from './validators/createPromotionArray.validator.js';
-import { updatePromotionArraySchema } from './validators/updatePromotionArray.validator.js';
+import { updatePromotionArrayValidator } from './validators/updatePromotionArray.validator.js';
 import { deletePromotionArraySchema } from './validators/deletePromotionArray.validator.js';
 
 const router: Router = express.Router();
@@ -29,7 +29,7 @@ router
   )
   .patch(
     '/batch',
-    validate(updatePromotionArraySchema, 'body'),
+    validate(updatePromotionArrayValidator, 'body'),
     promotionController.updateMany,
   )
   .delete(
