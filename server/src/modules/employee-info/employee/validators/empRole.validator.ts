@@ -16,7 +16,7 @@ export const empRoleValidator = z
       .optional(),
 
     employeeRoleName: z
-      .string({ error: 'Please provide a valid employee role' })
+      .string({ error: 'Please provide a valid employee-info role' })
       .transform((val: string): string => val.toUpperCase())
       .pipe(
         z.enum(EmployeeRole.names, {
@@ -33,7 +33,7 @@ export const empRoleValidator = z
           message: 'Employee role is required',
         }
       : {
-          message: 'Either employee role ID or employee role name is required',
+          message: 'Either employee-info role ID or employee-info role name is required',
           path: ['employeeRoleId'],
         },
   )
