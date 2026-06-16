@@ -9,6 +9,7 @@ import foodMenuRoutes from '../modules/food/foodMenu/foodmenu.routes.js';
 import foodPromotionRoutes from '../modules/food/foodPromotion/sharedIndex.route.js';
 import orderRoutes from '../modules/order/sharedIndex.route.js';
 import paymentRoutes from '../modules/payment-info/sharedIndex.route.js';
+import restaurantTableInfoRoutes from '../modules/restaurantTable-info/sharedIndex.route.js';
 
 const router: Router = express.Router();
 
@@ -29,5 +30,7 @@ router.use('/v1/food-promotion', foodPromotionRoutes);
 router.use('/v1/order', orderRoutes);
 
 router.use('/v1/payment', paymentRoutes);
+
+router.use('/v1/restaurantTable-info', restaurantTableInfoRoutes);
 
 export default router;
