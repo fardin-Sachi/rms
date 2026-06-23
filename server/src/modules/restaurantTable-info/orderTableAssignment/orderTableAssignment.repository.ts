@@ -1,8 +1,8 @@
 import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type {CreateOrderTableAssignmentDto} from "./dtos/createOrderTableAssignment.dto.js";
-import type {UpdateOrderTableAssignmentDto} from "./dtos/updateOrderTableAssignment.dto.js";
-import type {OrderTableAssignmentDto} from "./dtos/orderTableAssignment.dto.js";
-import {BadRequestError} from "../../../shared/errors/BadRequestError.js";
+import type { CreateOrderTableAssignmentDto } from './dtos/createOrderTableAssignment.dto.js';
+import type { UpdateOrderTableAssignmentDto } from './dtos/updateOrderTableAssignment.dto.js';
+import type { OrderTableAssignmentDto } from './dtos/orderTableAssignment.dto.js';
+import { BadRequestError } from '../../../shared/errors/BadRequestError.js';
 
 class EmployeeRepository implements IRepository<
   OrderTableAssignmentDto,
@@ -11,14 +11,16 @@ class EmployeeRepository implements IRepository<
   number
 > {
   async get(_id: number): Promise<OrderTableAssignmentDto | null> {
-    throw new BadRequestError("Method not needed");
+    throw new BadRequestError('Method not needed');
   }
 
   async getByCustomerId(_id: number): Promise<OrderTableAssignmentDto | null> {
     return null;
   }
 
-  async getByRestaurantTable(_id: number): Promise<OrderTableAssignmentDto | null> {
+  async getByRestaurantTable(
+    _id: number,
+  ): Promise<OrderTableAssignmentDto | null> {
     return null;
   }
 
@@ -26,17 +28,23 @@ class EmployeeRepository implements IRepository<
     return [];
   }
 
-  async create(pMutable: CreateOrderTableAssignmentDto): Promise<OrderTableAssignmentDto> {
+  async create(
+    pMutable: CreateOrderTableAssignmentDto,
+  ): Promise<OrderTableAssignmentDto> {
     return {
       ...pMutable,
     };
   }
 
-  async createMany(_pMutableList: CreateOrderTableAssignmentDto[]): Promise<OrderTableAssignmentDto[]> {
+  async createMany(
+    _pMutableList: CreateOrderTableAssignmentDto[],
+  ): Promise<OrderTableAssignmentDto[]> {
     return [];
   }
 
-  async update(pMutable: UpdateOrderTableAssignmentDto): Promise<OrderTableAssignmentDto> {
+  async update(
+    pMutable: UpdateOrderTableAssignmentDto,
+  ): Promise<OrderTableAssignmentDto> {
     return {
       ...pMutable,
       customerOrderId: pMutable.customerOrderId ?? 1,
@@ -44,7 +52,9 @@ class EmployeeRepository implements IRepository<
     };
   }
 
-  async updateMany(_pMutableList: UpdateOrderTableAssignmentDto[]): Promise<OrderTableAssignmentDto[]> {
+  async updateMany(
+    _pMutableList: UpdateOrderTableAssignmentDto[],
+  ): Promise<OrderTableAssignmentDto[]> {
     return [];
   }
 

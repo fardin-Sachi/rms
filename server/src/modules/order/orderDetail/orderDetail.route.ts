@@ -2,10 +2,10 @@ import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import OrderDetailController from "./orderDetail.controller.js";
-import {createOrderDetailValidator} from "./validators/createOrderDetail.validator.js";
-import {updateOrderDetailValidator} from "./validators/updateOrderDetail.validator.js";
-import {orderDetailIdParamValidator} from "./validators/orderDetailIdParam.validator.js";
+import OrderDetailController from './orderDetail.controller.js';
+import { createOrderDetailValidator } from './validators/createOrderDetail.validator.js';
+import { updateOrderDetailValidator } from './validators/updateOrderDetail.validator.js';
+import { orderDetailIdParamValidator } from './validators/orderDetailIdParam.validator.js';
 
 const router: Router = express.Router();
 
@@ -29,11 +29,11 @@ const orderDetailController = new OrderDetailController(logger);
 //     validate(updateOrderDetailValidator, 'body'),
 //     orderDetailController.updateMany,
 //   )
-  // .delete(
-  //   '/batch',
-  //   validate(deleteOr, 'body'),
-  //   orderDetailController.deleteMany,
-  // )
+// .delete(
+//   '/batch',
+//   validate(deleteOr, 'body'),
+//   orderDetailController.deleteMany,
+// )
 // ;
 
 /// Order Detail Single Routes

@@ -1,10 +1,10 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../../../shared/libs/apiResponse.js';
-import type {CreatePaymentStatusLogDto} from "./dtos/createPaymentStatusLog.dto.js";
-import type {UpdatePaymentStatusLogDto} from "./dtos/updatePaymentStatusLog.dto.js";
-import type {PaymentStatusLogDto} from "./dtos/paymentStatusLog.dto.js";
-import PaymentStatusLogService from "./paymentStatusLog.service.js";
+import type { CreatePaymentStatusLogDto } from './dtos/createPaymentStatusLog.dto.js';
+import type { UpdatePaymentStatusLogDto } from './dtos/updatePaymentStatusLog.dto.js';
+import type { PaymentStatusLogDto } from './dtos/paymentStatusLog.dto.js';
+import PaymentStatusLogService from './paymentStatusLog.service.js';
 
 class PaymentStatusLogController {
   private readonly pymentStatusLogService: PaymentStatusLogService;
@@ -24,7 +24,8 @@ class PaymentStatusLogController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const pymentStatusLogDto: PaymentStatusLogDto | null = await this.pymentStatusLogService.get(id);
+    const pymentStatusLogDto: PaymentStatusLogDto | null =
+      await this.pymentStatusLogService.get(id);
 
     if (!pymentStatusLogDto) {
       return ApiResponse.error(
@@ -43,7 +44,8 @@ class PaymentStatusLogController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const pymentStatusLogDtos: PaymentStatusLogDto[] = await this.pymentStatusLogService.getAll();
+    const pymentStatusLogDtos: PaymentStatusLogDto[] =
+      await this.pymentStatusLogService.getAll();
 
     return ApiResponse.success<PaymentStatusLogDto[]>(
       res,
@@ -86,7 +88,8 @@ class PaymentStatusLogController {
     const payload: UpdatePaymentStatusLogDto = req.body;
     payload.id = id;
 
-    const updatedpaymentStatusLogDto = await this.pymentStatusLogService.update(payload);
+    const updatedpaymentStatusLogDto =
+      await this.pymentStatusLogService.update(payload);
 
     return ApiResponse.success<PaymentStatusLogDto>(
       res,
@@ -125,7 +128,8 @@ class PaymentStatusLogController {
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.pymentStatusLogService.deleteMany(ids);
+    const deletedIds: number[] =
+      await this.pymentStatusLogService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,

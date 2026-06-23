@@ -1,10 +1,10 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../../../shared/libs/apiResponse.js';
-import type {OrderStatusLogDto} from "./dtos/orderStatusLog.dto.js";
-import type {CreateOrderStatusLogDto} from "./dtos/createOrderStatusLog.dto.js";
-import type {UpdateOrderStatusLogDto} from "./dtos/updateOrderStatusLog.dto.js";
-import OrderStatusLogService from "./orderStatusLog.service.js";
+import type { OrderStatusLogDto } from './dtos/orderStatusLog.dto.js';
+import type { CreateOrderStatusLogDto } from './dtos/createOrderStatusLog.dto.js';
+import type { UpdateOrderStatusLogDto } from './dtos/updateOrderStatusLog.dto.js';
+import OrderStatusLogService from './orderStatusLog.service.js';
 
 class OrderStatusLogController {
   private readonly orderStatusLogService: OrderStatusLogService;
@@ -24,7 +24,8 @@ class OrderStatusLogController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const orderStatusLogDto: OrderStatusLogDto | null = await this.orderStatusLogService.get(id);
+    const orderStatusLogDto: OrderStatusLogDto | null =
+      await this.orderStatusLogService.get(id);
 
     if (!orderStatusLogDto) {
       return ApiResponse.error(
@@ -43,7 +44,8 @@ class OrderStatusLogController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const orderStatusLogDtos: OrderStatusLogDto[] = await this.orderStatusLogService.getAll();
+    const orderStatusLogDtos: OrderStatusLogDto[] =
+      await this.orderStatusLogService.getAll();
 
     return ApiResponse.success<OrderStatusLogDto[]>(
       res,
@@ -86,7 +88,8 @@ class OrderStatusLogController {
     const payload: UpdateOrderStatusLogDto = req.body;
     payload.id = id;
 
-    const updatedOrderStatusLogDto = await this.orderStatusLogService.update(payload);
+    const updatedOrderStatusLogDto =
+      await this.orderStatusLogService.update(payload);
 
     return ApiResponse.success<OrderStatusLogDto>(
       res,
@@ -125,7 +128,8 @@ class OrderStatusLogController {
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.orderStatusLogService.deleteMany(ids);
+    const deletedIds: number[] =
+      await this.orderStatusLogService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,

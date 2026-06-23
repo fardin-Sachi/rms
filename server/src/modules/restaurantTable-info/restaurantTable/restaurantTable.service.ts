@@ -1,8 +1,8 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
-import RestaurantTableRepository from "./restaurantTable.repository.js";
-import type {RestaurantTableDto} from "./dtos/restaurantTable.dto.js";
-import type {CreateRestaurantTableDto} from "./dtos/createRestaurantTable.dto.js";
-import type {UpdateRestaurantTableDto} from "./dtos/updateRestaurantTable.dto.js";
+import RestaurantTableRepository from './restaurantTable.repository.js';
+import type { RestaurantTableDto } from './dtos/restaurantTable.dto.js';
+import type { CreateRestaurantTableDto } from './dtos/createRestaurantTable.dto.js';
+import type { UpdateRestaurantTableDto } from './dtos/updateRestaurantTable.dto.js';
 
 class RestaurantTableService {
   private readonly restaurantTableRepository: RestaurantTableRepository;
@@ -19,19 +19,27 @@ class RestaurantTableService {
     return this.restaurantTableRepository.getAll();
   }
 
-  async create(pMutable: CreateRestaurantTableDto): Promise<RestaurantTableDto> {
+  async create(
+    pMutable: CreateRestaurantTableDto,
+  ): Promise<RestaurantTableDto> {
     return this.restaurantTableRepository.create(pMutable);
   }
 
-  async createMany(pMutableList: CreateRestaurantTableDto[]): Promise<RestaurantTableDto[]> {
+  async createMany(
+    pMutableList: CreateRestaurantTableDto[],
+  ): Promise<RestaurantTableDto[]> {
     return this.restaurantTableRepository.createMany(pMutableList);
   }
 
-  async update(pMutable: UpdateRestaurantTableDto): Promise<RestaurantTableDto> {
+  async update(
+    pMutable: UpdateRestaurantTableDto,
+  ): Promise<RestaurantTableDto> {
     return this.restaurantTableRepository.update(pMutable);
   }
 
-  async updateMany(pMutableList: UpdateRestaurantTableDto[]): Promise<RestaurantTableDto[]> {
+  async updateMany(
+    pMutableList: UpdateRestaurantTableDto[],
+  ): Promise<RestaurantTableDto[]> {
     return this.restaurantTableRepository.updateMany(pMutableList);
   }
 

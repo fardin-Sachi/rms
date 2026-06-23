@@ -1,16 +1,13 @@
-import Big from "big.js";
-import type PaymentType from "../../../payment-info/shared/enums/paymentType.enum.js";
-import type PaymentStatus from "../../../payment-info/shared/enums/paymentStatus.enum.js";
-import type IDto from "../../../../shared/interfaces/dto.interface.js";
+import type IDto from '../../../../shared/interfaces/dto.interface.js';
+import OrderStatus from '../../shared/enums/orderStatus.enum.js';
 
-export interface UpdatePaymentDto extends IDto<number> {
-  paymentTypeId?: PaymentType;
-  transactionId?: string | null;
-  amount?: Big;
-  currentPaymentStatusId?: PaymentStatus;
-  paymentStatusName?: string;
-  paymentTime?: Date;
+export interface UpdateOrderStatusLogDto extends IDto<number> {
+  customerOrderId: number;
+  orderStatusId?: OrderStatus;
+  note?: string;
 
+  createdBy?: number;
+  createdOn?: Date;
   updatedBy?: number;
-  updatedOn?: Date;
+  updatedAt?: Date;
 }

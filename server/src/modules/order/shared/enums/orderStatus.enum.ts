@@ -8,7 +8,16 @@ class OrderStatus {
   static readonly CANCELLED = 6;
   static readonly REFUNDED = 7;
 
-  static readonly names = ['PENDING', 'CONFIRMED','PREPARING', 'READY','SERVED', 'COMPLETED','CANCELLED', 'REFUNDED'] as const;
+  static readonly names = [
+    'PENDING',
+    'CONFIRMED',
+    'PREPARING',
+    'READY',
+    'SERVED',
+    'COMPLETED',
+    'CANCELLED',
+    'REFUNDED',
+  ] as const;
 
   static readonly values = [
     OrderStatus.PENDING,

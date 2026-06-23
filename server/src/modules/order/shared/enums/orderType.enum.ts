@@ -3,7 +3,7 @@ class OrderType {
   static readonly TAKE_AWAY = 1;
   static readonly DELIVERY = 2;
 
-  static readonly names = ['DINE_IN', 'TAKE_AWAY','DELIVERY'] as const;
+  static readonly names = ['DINE_IN', 'TAKE_AWAY', 'DELIVERY'] as const;
 
   static readonly values = [
     OrderType.DINE_IN,

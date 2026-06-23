@@ -1,8 +1,8 @@
 import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type {PaymentStatusLogDto} from "./dtos/paymentStatusLog.dto.js";
-import type {CreatePaymentStatusLogDto} from "./dtos/createPaymentStatusLog.dto.js";
-import type {UpdatePaymentStatusLogDto} from "./dtos/updatePaymentStatusLog.dto.js";
-import PaymentStatus from "../shared/enums/paymentStatus.enum.js";
+import type { PaymentStatusLogDto } from './dtos/paymentStatusLog.dto.js';
+import type { CreatePaymentStatusLogDto } from './dtos/createPaymentStatusLog.dto.js';
+import type { UpdatePaymentStatusLogDto } from './dtos/updatePaymentStatusLog.dto.js';
+import PaymentStatus from '../shared/enums/paymentStatus.enum.js';
 
 class PaymentStatusLogRepository implements IRepository<
   PaymentStatusLogDto,
@@ -18,18 +18,24 @@ class PaymentStatusLogRepository implements IRepository<
     return [];
   }
 
-  async create(pMutable: CreatePaymentStatusLogDto): Promise<PaymentStatusLogDto> {
+  async create(
+    pMutable: CreatePaymentStatusLogDto,
+  ): Promise<PaymentStatusLogDto> {
     return {
       ...pMutable,
       changedAt: pMutable.changedAt ?? new Date(),
     };
   }
 
-  async createMany(_pMutableList: CreatePaymentStatusLogDto[]): Promise<PaymentStatusLogDto[]> {
+  async createMany(
+    _pMutableList: CreatePaymentStatusLogDto[],
+  ): Promise<PaymentStatusLogDto[]> {
     return [];
   }
 
-  async update(pMutable: UpdatePaymentStatusLogDto): Promise<PaymentStatusLogDto> {
+  async update(
+    pMutable: UpdatePaymentStatusLogDto,
+  ): Promise<PaymentStatusLogDto> {
     return {
       ...pMutable,
       paymentId: 1,
@@ -38,7 +44,9 @@ class PaymentStatusLogRepository implements IRepository<
     };
   }
 
-  async updateMany(_pMutableList: UpdatePaymentStatusLogDto[]): Promise<PaymentStatusLogDto[]> {
+  async updateMany(
+    _pMutableList: UpdatePaymentStatusLogDto[],
+  ): Promise<PaymentStatusLogDto[]> {
     return [];
   }
 

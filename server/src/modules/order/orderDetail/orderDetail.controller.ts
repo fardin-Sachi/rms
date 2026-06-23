@@ -1,10 +1,10 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../../../shared/libs/apiResponse.js';
-import OrderDetailService from "./orderDetail.service.js";
-import type {OrderDetailDto} from "./dtos/orderDetail.dto.js";
-import type {CreateOrderDetailDto} from "./dtos/createOrderDetail.dto.js";
-import type {UpdateOrderDetailDto} from "./dtos/updateOrderDetail.dto.js";
+import OrderDetailService from './orderDetail.service.js';
+import type { OrderDetailDto } from './dtos/orderDetail.dto.js';
+import type { CreateOrderDetailDto } from './dtos/createOrderDetail.dto.js';
+import type { UpdateOrderDetailDto } from './dtos/updateOrderDetail.dto.js';
 
 class OrderDetailController {
   private readonly orderDetailService: OrderDetailService;
@@ -24,7 +24,8 @@ class OrderDetailController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const orderDetailDto: OrderDetailDto | null = await this.orderDetailService.get(id);
+    const orderDetailDto: OrderDetailDto | null =
+      await this.orderDetailService.get(id);
 
     if (!orderDetailDto) {
       return ApiResponse.error(
@@ -43,7 +44,8 @@ class OrderDetailController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const employeeDtos: OrderDetailDto[] = await this.orderDetailService.getAll();
+    const employeeDtos: OrderDetailDto[] =
+      await this.orderDetailService.getAll();
 
     return ApiResponse.success<OrderDetailDto[]>(
       res,

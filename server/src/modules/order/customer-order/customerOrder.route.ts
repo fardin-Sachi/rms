@@ -2,10 +2,10 @@ import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import CustomerOrderController from "./customerOrder.controller.js";
-import {customerOrderIdParamValidator} from "./validators/customerOrderIdParam.validator.js";
-import {updateCustomerOrderValidator} from "./validators/updateCustomerOrder.validator.js";
-import {createCustomerOrderValidator} from "./validators/createCustomerOrder.validator.js";
+import CustomerOrderController from './customerOrder.controller.js';
+import { customerOrderIdParamValidator } from './validators/customerOrderIdParam.validator.js';
+import { updateCustomerOrderValidator } from './validators/updateCustomerOrder.validator.js';
+import { createCustomerOrderValidator } from './validators/createCustomerOrder.validator.js';
 
 const router: Router = express.Router();
 
@@ -42,7 +42,11 @@ router
     validate(customerOrderIdParamValidator, 'params'),
     customerOrderController.get,
   )
-  .post('', validate(createCustomerOrderValidator), customerOrderController.create)
+  .post(
+    '',
+    validate(createCustomerOrderValidator),
+    customerOrderController.create,
+  )
   .patch(
     '/:id',
     validate(customerOrderIdParamValidator, 'params'),

@@ -1,0 +1,1 @@
+export const MAXIMUM_PAYMENT_TYPE_NAME_LENGTH = 20;

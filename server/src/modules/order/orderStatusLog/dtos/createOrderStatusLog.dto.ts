@@ -1,4 +1,4 @@
-import type OrderStatus from "../../shared/enums/orderStatus.enum.js";
+import type OrderStatus from '../../shared/enums/orderStatus.enum.js';
 
 export interface CreateOrderStatusLogDto {
   customerOrderId: number;

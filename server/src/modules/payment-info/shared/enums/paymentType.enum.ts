@@ -4,7 +4,12 @@ class PaymentType {
   static readonly FAILED = 2;
   static readonly ONLINE = 3;
 
-  static readonly names = ['CASH', 'MOBILE_BANKING','FAILED', 'ONLINE'] as const;
+  static readonly names = [
+    'CASH',
+    'MOBILE_BANKING',
+    'FAILED',
+    'ONLINE',
+  ] as const;
 
   static readonly values = [
     PaymentType.CASH,

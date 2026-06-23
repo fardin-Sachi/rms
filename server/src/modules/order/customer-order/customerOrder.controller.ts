@@ -1,10 +1,10 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../../../shared/libs/apiResponse.js';
-import type {CustomerOrderDto} from "./dtos/customerOrder.dto.js";
-import type {CreateCustomerOrderDto} from "./dtos/createCustomerOrder.dto.js";
-import type {UpdateCustomerOrderDto} from "./dtos/updateCustomerOrder.dto.js";
-import CustomerOrderService from "./customerOrder.service.js";
+import type { CustomerOrderDto } from './dtos/customerOrder.dto.js';
+import type { CreateCustomerOrderDto } from './dtos/createCustomerOrder.dto.js';
+import type { UpdateCustomerOrderDto } from './dtos/updateCustomerOrder.dto.js';
+import CustomerOrderService from './customerOrder.service.js';
 
 class CustomerOrderController {
   private readonly customerOrderService: CustomerOrderService;
@@ -24,7 +24,8 @@ class CustomerOrderController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const customerOrderDto: CustomerOrderDto | null = await this.customerOrderService.get(id);
+    const customerOrderDto: CustomerOrderDto | null =
+      await this.customerOrderService.get(id);
 
     if (!customerOrderDto) {
       return ApiResponse.error(
@@ -43,7 +44,8 @@ class CustomerOrderController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const customerOrderDtos: CustomerOrderDto[] = await this.customerOrderService.getAll();
+    const customerOrderDtos: CustomerOrderDto[] =
+      await this.customerOrderService.getAll();
 
     return ApiResponse.success<CustomerOrderDto[]>(
       res,
@@ -86,7 +88,8 @@ class CustomerOrderController {
     const payload: UpdateCustomerOrderDto = req.body;
     payload.id = id;
 
-    const updatedCustomerOrderDto: CustomerOrderDto = await this.customerOrderService.update(payload);
+    const updatedCustomerOrderDto: CustomerOrderDto =
+      await this.customerOrderService.update(payload);
 
     return ApiResponse.success<CustomerOrderDto>(
       res,
@@ -125,7 +128,8 @@ class CustomerOrderController {
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.customerOrderService.deleteMany(ids);
+    const deletedIds: number[] =
+      await this.customerOrderService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,

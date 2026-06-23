@@ -2,13 +2,13 @@ import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import {createRestaurantTableArrayValidator} from "./validators/createRestaurantTableArray.validator.js";
-import {updateRestaurantTableArrayValidator} from "./validators/updateRestaurantTableArray.validator.js";
-import {deleteRestaurantTableArrayValidator} from "./validators/deleteRestaurantTableArray.validator.js";
-import {restaurantTableIdParamValidator} from "./validators/restaurantTableIdParam.validator.js";
-import {createRestaurantTableValidator} from "./validators/createRestaurantTable.validator.js";
-import {updateRestaurantTableValidator} from "./validators/updateRestaurantTable.validator.js";
-import RestaurantTableController from "./restaurantTable.controller.js";
+import { createRestaurantTableArrayValidator } from './validators/createRestaurantTableArray.validator.js';
+import { updateRestaurantTableArrayValidator } from './validators/updateRestaurantTableArray.validator.js';
+import { deleteRestaurantTableArrayValidator } from './validators/deleteRestaurantTableArray.validator.js';
+import { restaurantTableIdParamValidator } from './validators/restaurantTableIdParam.validator.js';
+import { createRestaurantTableValidator } from './validators/createRestaurantTable.validator.js';
+import { updateRestaurantTableValidator } from './validators/updateRestaurantTable.validator.js';
+import RestaurantTableController from './restaurantTable.controller.js';
 
 const router: Router = express.Router();
 
@@ -41,7 +41,11 @@ router
     validate(restaurantTableIdParamValidator, 'params'),
     restaurantTableController.get,
   )
-  .post('', validate(createRestaurantTableValidator), restaurantTableController.create)
+  .post(
+    '',
+    validate(createRestaurantTableValidator),
+    restaurantTableController.create,
+  )
   .patch(
     '/:id',
     validate(restaurantTableIdParamValidator, 'params'),

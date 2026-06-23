@@ -33,7 +33,8 @@ export const empRoleValidator = z
           message: 'Employee role is required',
         }
       : {
-          message: 'Either employee-info role ID or employee-info role name is required',
+          message:
+            'Either employee-info role ID or employee-info role name is required',
           path: ['employeeRoleId'],
         },
   )

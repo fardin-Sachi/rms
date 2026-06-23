@@ -1,8 +1,8 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
-import type {PaymentDto} from "./dtos/payment.dto.js";
-import PaymentRepository from "./payment.repository.js";
-import type {CreatePaymentDto} from "./dtos/createPayment.dto.js";
-import type {UpdatePaymentDto} from "./dtos/updatePayment.dto.js";
+import type { PaymentDto } from './dtos/payment.dto.js';
+import PaymentRepository from './payment.repository.js';
+import type { CreatePaymentDto } from './dtos/createPayment.dto.js';
+import type { UpdatePaymentDto } from './dtos/updatePayment.dto.js';
 
 class EmployeeService {
   private readonly paymentRepository: PaymentRepository;

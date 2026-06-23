@@ -1,6 +1,6 @@
-import type IDto from "../../../../shared/interfaces/dto.interface.js";
-import Big from "big.js";
-import type OrderType from "../../shared/enums/orderType.enum.js";
+import type IDto from '../../../../shared/interfaces/dto.interface.js';
+import Big from 'big.js';
+import type OrderType from '../../shared/enums/orderType.enum.js';
 
 export interface UpdateOrderDetailDto extends IDto<number> {
   orderTypeId?: OrderType;

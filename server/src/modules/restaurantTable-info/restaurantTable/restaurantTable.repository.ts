@@ -1,7 +1,7 @@
 import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type {RestaurantTableDto} from "./dtos/restaurantTable.dto.js";
-import type {CreateRestaurantTableDto} from "./dtos/createRestaurantTable.dto.js";
-import type {UpdateRestaurantTableDto} from "./dtos/updateRestaurantTable.dto.js";
+import type { RestaurantTableDto } from './dtos/restaurantTable.dto.js';
+import type { CreateRestaurantTableDto } from './dtos/createRestaurantTable.dto.js';
+import type { UpdateRestaurantTableDto } from './dtos/updateRestaurantTable.dto.js';
 
 class RestaurantTableRepository implements IRepository<
   RestaurantTableDto,
@@ -17,18 +17,24 @@ class RestaurantTableRepository implements IRepository<
     return [];
   }
 
-  async create(pMutable: CreateRestaurantTableDto): Promise<RestaurantTableDto> {
+  async create(
+    pMutable: CreateRestaurantTableDto,
+  ): Promise<RestaurantTableDto> {
     return {
       id: 1,
       ...pMutable,
     };
   }
 
-  async createMany(_pMutableList: CreateRestaurantTableDto[]): Promise<RestaurantTableDto[]> {
+  async createMany(
+    _pMutableList: CreateRestaurantTableDto[],
+  ): Promise<RestaurantTableDto[]> {
     return [];
   }
 
-  async update(pMutable: UpdateRestaurantTableDto): Promise<RestaurantTableDto> {
+  async update(
+    pMutable: UpdateRestaurantTableDto,
+  ): Promise<RestaurantTableDto> {
     return {
       id: pMutable.id,
       capacity: pMutable.capacity ?? 5,
@@ -36,7 +42,9 @@ class RestaurantTableRepository implements IRepository<
     };
   }
 
-  async updateMany(_pMutableList: UpdateRestaurantTableDto[]): Promise<RestaurantTableDto[]> {
+  async updateMany(
+    _pMutableList: UpdateRestaurantTableDto[],
+  ): Promise<RestaurantTableDto[]> {
     return [];
   }
 

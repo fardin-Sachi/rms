@@ -1,8 +1,8 @@
 import type IRepository from '../../../shared/interfaces/repository.interface.js';
 import Big from 'big.js';
-import type {OrderDetailDto} from "./dtos/orderDetail.dto.js";
-import type {CreateOrderDetailDto} from "./dtos/createOrderDetail.dto.js";
-import type {UpdateOrderDetailDto} from "./dtos/updateOrderDetail.dto.js";
+import type { OrderDetailDto } from './dtos/orderDetail.dto.js';
+import type { CreateOrderDetailDto } from './dtos/createOrderDetail.dto.js';
+import type { UpdateOrderDetailDto } from './dtos/updateOrderDetail.dto.js';
 
 class OrderDetailRepository implements IRepository<
   OrderDetailDto,
@@ -26,7 +26,9 @@ class OrderDetailRepository implements IRepository<
     };
   }
 
-  async createMany(_pMutableList: CreateOrderDetailDto[]): Promise<OrderDetailDto[]> {
+  async createMany(
+    _pMutableList: CreateOrderDetailDto[],
+  ): Promise<OrderDetailDto[]> {
     return [];
   }
 
@@ -44,7 +46,9 @@ class OrderDetailRepository implements IRepository<
     };
   }
 
-  async updateMany(_pMutableList: UpdateOrderDetailDto[]): Promise<OrderDetailDto[]> {
+  async updateMany(
+    _pMutableList: UpdateOrderDetailDto[],
+  ): Promise<OrderDetailDto[]> {
     return [];
   }
 

@@ -6,9 +6,9 @@ import BuyXGetYRuleController from './BuyXGetYRule.controller.js';
 import { buyXGetYRuleIdParamValidator } from './validators/buyXGetYRuleIdParam.validator.js';
 import { createBuyXGetYRuleValidator } from './validators/createBuyXGetYRule.validator.js';
 import { updateBuyXGetYRuleValidator } from './validators/updateBuyXGetYRule.validator.js';
-import {createBuyXGetYRuleArrayValidator} from "./validators/createBuyXGetYRuleArray.validator.js";
-import {updateBuyXGetYRuleArrayValidator} from "./validators/updateBuyXGetYRuleArray.validator.js";
-import {deleteBuyXGetYRuleArrayValidator} from "./validators/deleteBuyXGetYRuleArray.validator.js";
+import { createBuyXGetYRuleArrayValidator } from './validators/createBuyXGetYRuleArray.validator.js';
+import { updateBuyXGetYRuleArrayValidator } from './validators/updateBuyXGetYRuleArray.validator.js';
+import { deleteBuyXGetYRuleArrayValidator } from './validators/deleteBuyXGetYRuleArray.validator.js';
 
 const router: Router = express.Router();
 

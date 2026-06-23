@@ -1,12 +1,12 @@
-import type IRepository from "../../../shared/interfaces/repository.interface.js";
-import type {CreateCustomerOrderDto} from "./dtos/createCustomerOrder.dto.js";
-import type {UpdateCustomerOrderDto} from "./dtos/updateCustomerOrder.dto.js";
-import type {CustomerOrderDto} from "./dtos/customerOrder.dto.js";
-import Big from "big.js";
+import type IRepository from '../../../shared/interfaces/repository.interface.js';
+import type { CreateCustomerOrderDto } from './dtos/createCustomerOrder.dto.js';
+import type { UpdateCustomerOrderDto } from './dtos/updateCustomerOrder.dto.js';
+import type { CustomerOrderDto } from './dtos/customerOrder.dto.js';
+import Big from 'big.js';
 
 class CustomerOrderRepository implements IRepository<
-  CustomerOrderDto, 
-  CreateCustomerOrderDto, 
+  CustomerOrderDto,
+  CreateCustomerOrderDto,
   UpdateCustomerOrderDto
 > {
   async get(_id: number): Promise<CustomerOrderDto | null> {
@@ -20,12 +20,14 @@ class CustomerOrderRepository implements IRepository<
   async create(pMutable: CreateCustomerOrderDto): Promise<CustomerOrderDto> {
     return {
       id: 1,
-      orderNumber: pMutable.orderNumber ?? "Have a relax!",
+      orderNumber: pMutable.orderNumber ?? 'Have a relax!',
       ...pMutable,
     };
   }
 
-  async createMany(_pMutableList: CreateCustomerOrderDto[]): Promise<CustomerOrderDto[]> {
+  async createMany(
+    _pMutableList: CreateCustomerOrderDto[],
+  ): Promise<CustomerOrderDto[]> {
     return [];
   }
 
@@ -37,11 +39,13 @@ class CustomerOrderRepository implements IRepository<
       subtotal: pMutable.subtotal ?? new Big(200),
       netTotal: pMutable.netTotal ?? new Big(500),
       orderStatusId: pMutable.orderStatusId ?? 1,
-      orderNumber: "Have a relax again!"
+      orderNumber: 'Have a relax again!',
     };
   }
 
-  async updateMany(_pMutableList: UpdateCustomerOrderDto[]): Promise<CustomerOrderDto[]> {
+  async updateMany(
+    _pMutableList: UpdateCustomerOrderDto[],
+  ): Promise<CustomerOrderDto[]> {
     return [];
   }
 

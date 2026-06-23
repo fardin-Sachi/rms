@@ -1,8 +1,8 @@
 import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type {OrderStatusLogDto} from "./dtos/orderStatusLog.dto.js";
-import type {CreateOrderStatusLogDto} from "./dtos/createOrderStatusLog.dto.js";
-import type {UpdateOrderStatusLogDto} from "./dtos/updateOrderStatusLog.dto.js";
-import OrderStatus from "../shared/enums/orderStatus.enum.js";
+import type { OrderStatusLogDto } from './dtos/orderStatusLog.dto.js';
+import type { CreateOrderStatusLogDto } from './dtos/createOrderStatusLog.dto.js';
+import type { UpdateOrderStatusLogDto } from './dtos/updateOrderStatusLog.dto.js';
+import OrderStatus from '../shared/enums/orderStatus.enum.js';
 
 class OrderStatusLogRepository implements IRepository<
   OrderStatusLogDto,
@@ -25,7 +25,9 @@ class OrderStatusLogRepository implements IRepository<
     };
   }
 
-  async createMany(_pMutableList: CreateOrderStatusLogDto[]): Promise<OrderStatusLogDto[]> {
+  async createMany(
+    _pMutableList: CreateOrderStatusLogDto[],
+  ): Promise<OrderStatusLogDto[]> {
     return [];
   }
 
@@ -33,11 +35,13 @@ class OrderStatusLogRepository implements IRepository<
     return {
       id: pMutable.id,
       customerOrderId: 1,
-      orderStatusId: OrderStatus.PENDING
+      orderStatusId: OrderStatus.PENDING,
     };
   }
 
-  async updateMany(_pMutableList: UpdateOrderStatusLogDto[]): Promise<OrderStatusLogDto[]> {
+  async updateMany(
+    _pMutableList: UpdateOrderStatusLogDto[],
+  ): Promise<OrderStatusLogDto[]> {
     return [];
   }
 

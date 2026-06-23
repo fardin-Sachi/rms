@@ -1,8 +1,8 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
-import OrderStatusLogRepository from "./orderStatusLog.repository.js";
-import type {OrderStatusLogDto} from "./dtos/orderStatusLog.dto.js";
-import type {CreateOrderStatusLogDto} from "./dtos/createOrderStatusLog.dto.js";
-import type {UpdateOrderStatusLogDto} from "./dtos/updateOrderStatusLog.dto.js";
+import OrderStatusLogRepository from './orderStatusLog.repository.js';
+import type { OrderStatusLogDto } from './dtos/orderStatusLog.dto.js';
+import type { CreateOrderStatusLogDto } from './dtos/createOrderStatusLog.dto.js';
+import type { UpdateOrderStatusLogDto } from './dtos/updateOrderStatusLog.dto.js';
 
 class OrderStatusLogService {
   private readonly orderStatusLogRepository: OrderStatusLogRepository;
@@ -23,7 +23,9 @@ class OrderStatusLogService {
     return this.orderStatusLogRepository.create(pMutable);
   }
 
-  async createMany(pMutableList: CreateOrderStatusLogDto[]): Promise<OrderStatusLogDto[]> {
+  async createMany(
+    pMutableList: CreateOrderStatusLogDto[],
+  ): Promise<OrderStatusLogDto[]> {
     return this.orderStatusLogRepository.createMany(pMutableList);
   }
 
@@ -31,7 +33,9 @@ class OrderStatusLogService {
     return this.orderStatusLogRepository.update(pMutable);
   }
 
-  async updateMany(pMutableList: UpdateOrderStatusLogDto[]): Promise<OrderStatusLogDto[]> {
+  async updateMany(
+    pMutableList: UpdateOrderStatusLogDto[],
+  ): Promise<OrderStatusLogDto[]> {
     return this.orderStatusLogRepository.updateMany(pMutableList);
   }
 

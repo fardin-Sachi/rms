@@ -1,10 +1,10 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import type {OrderTableAssignmentDto} from "./dtos/orderTableAssignment.dto.js";
-import {ApiResponse} from "../../../shared/libs/apiResponse.js";
-import OrderTableAssignmentService from "./orderTableAssignment.service.js";
-import type {CreateOrderTableAssignmentDto} from "./dtos/createOrderTableAssignment.dto.js";
-import type {UpdateOrderTableAssignmentDto} from "./dtos/updateOrderTableAssignment.dto.js";
+import type { OrderTableAssignmentDto } from './dtos/orderTableAssignment.dto.js';
+import { ApiResponse } from '../../../shared/libs/apiResponse.js';
+import OrderTableAssignmentService from './orderTableAssignment.service.js';
+import type { CreateOrderTableAssignmentDto } from './dtos/createOrderTableAssignment.dto.js';
+import type { UpdateOrderTableAssignmentDto } from './dtos/updateOrderTableAssignment.dto.js';
 
 class OrderTableAssignmentController {
   private readonly orderTableAssignmentService: OrderTableAssignmentService;
@@ -26,7 +26,8 @@ class OrderTableAssignmentController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const orderTableAssignmentDto: OrderTableAssignmentDto | null = await this.orderTableAssignmentService.get(id);
+    const orderTableAssignmentDto: OrderTableAssignmentDto | null =
+      await this.orderTableAssignmentService.get(id);
 
     if (!orderTableAssignmentDto) {
       return ApiResponse.error(
@@ -47,7 +48,8 @@ class OrderTableAssignmentController {
   async getByCustomerId(req: Request, res: Response): Promise<Response> {
     const customerOrderId: number = Number(req.params.customerOrderId);
 
-    const orderTableAssignmentDto: OrderTableAssignmentDto | null = await this.orderTableAssignmentService.getByCustomerId(customerOrderId);
+    const orderTableAssignmentDto: OrderTableAssignmentDto | null =
+      await this.orderTableAssignmentService.getByCustomerId(customerOrderId);
 
     if (!orderTableAssignmentDto) {
       return ApiResponse.error(
@@ -68,7 +70,10 @@ class OrderTableAssignmentController {
   async getByRestaurantTable(req: Request, res: Response): Promise<Response> {
     const restaurantTableId: number = Number(req.params.restaurantTableId);
 
-    const orderTableAssignmentDto: OrderTableAssignmentDto | null = await this.orderTableAssignmentService.getByRestaurantTable(restaurantTableId);
+    const orderTableAssignmentDto: OrderTableAssignmentDto | null =
+      await this.orderTableAssignmentService.getByRestaurantTable(
+        restaurantTableId,
+      );
 
     if (!orderTableAssignmentDto) {
       return ApiResponse.error(
@@ -87,7 +92,8 @@ class OrderTableAssignmentController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const orderTableAssignmentDtos: OrderTableAssignmentDto[] = await this.orderTableAssignmentService.getAll();
+    const orderTableAssignmentDtos: OrderTableAssignmentDto[] =
+      await this.orderTableAssignmentService.getAll();
 
     return ApiResponse.success<OrderTableAssignmentDto[]>(
       res,
@@ -130,7 +136,8 @@ class OrderTableAssignmentController {
     const payload: UpdateOrderTableAssignmentDto = req.body;
     payload.customerOrderId = customerOrderId;
 
-    const updatedOrderTableAssignmentDto = await this.orderTableAssignmentService.update(payload);
+    const updatedOrderTableAssignmentDto =
+      await this.orderTableAssignmentService.update(payload);
 
     return ApiResponse.success<OrderTableAssignmentDto>(
       res,
@@ -157,7 +164,8 @@ class OrderTableAssignmentController {
   async delete(req: Request, res: Response): Promise<Response> {
     const customerOrderId: number = Number(req.params.customerOrderId);
 
-    const deletedId: number = await this.orderTableAssignmentService.delete(customerOrderId);
+    const deletedId: number =
+      await this.orderTableAssignmentService.delete(customerOrderId);
 
     return ApiResponse.success<void>(
       res,
@@ -169,7 +177,8 @@ class OrderTableAssignmentController {
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.orderTableAssignmentService.deleteMany(ids);
+    const deletedIds: number[] =
+      await this.orderTableAssignmentService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,

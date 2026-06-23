@@ -5,7 +5,13 @@ class PaymentStatus {
   static readonly CANCELLED = 3;
   static readonly REFUNDED = 4;
 
-  static readonly names = ['PENDING', 'COMPLETED','FAILED', 'CANCELLED','REFUNDED'] as const;
+  static readonly names = [
+    'PENDING',
+    'COMPLETED',
+    'FAILED',
+    'CANCELLED',
+    'REFUNDED',
+  ] as const;
 
   static readonly values = [
     PaymentStatus.PENDING,

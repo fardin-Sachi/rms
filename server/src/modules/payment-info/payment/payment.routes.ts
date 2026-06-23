@@ -2,10 +2,10 @@ import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import PaymentController from "./payment.controller.js";
-import {paymentIdParamValidator} from "./validators/paymentIdParam.validator.js";
-import {createPaymentValidator} from "./validators/createPayment.validator.js";
-import {updatePaymentValidator} from "./validators/updatePayment.validator.js";
+import PaymentController from './payment.controller.js';
+import { paymentIdParamValidator } from './validators/paymentIdParam.validator.js';
+import { createPaymentValidator } from './validators/createPayment.validator.js';
+import { updatePaymentValidator } from './validators/updatePayment.validator.js';
 
 const router: Router = express.Router();
 

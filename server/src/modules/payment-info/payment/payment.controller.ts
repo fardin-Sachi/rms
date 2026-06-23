@@ -1,10 +1,10 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../../../shared/libs/apiResponse.js';
-import type {PaymentDto} from "./dtos/payment.dto.js";
-import type {UpdatePaymentDto} from "./dtos/updatePayment.dto.js";
-import type {CreatePaymentDto} from "./dtos/createPayment.dto.js";
-import PaymentService from "./payment.service.js";
+import type { PaymentDto } from './dtos/payment.dto.js';
+import type { UpdatePaymentDto } from './dtos/updatePayment.dto.js';
+import type { CreatePaymentDto } from './dtos/createPayment.dto.js';
+import PaymentService from './payment.service.js';
 
 class PaymentController {
   private readonly paymentService: PaymentService;
