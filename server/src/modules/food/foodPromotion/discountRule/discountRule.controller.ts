@@ -1,6 +1,6 @@
 import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../../../shared/libs/apiResponse.js';
+import { ApiResponse } from '../../../../shared/utils/apiResponse.js';
 import DiscountRuleService from './discountRule.service.js';
 import type { DiscountRuleDto } from './dtos/discountRule.dto.js';
 import type { CreateDiscountRuleDto } from './dtos/createDiscountRule.dto.js';

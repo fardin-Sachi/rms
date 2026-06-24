@@ -7,4 +7,5 @@ export const createBuyXGetYRuleArrayValidator = z.array(
     buyQuantity: z.coerce.number().int().positive(),
     freeFoodId: z.coerce.number().int().positive(),
     freeFoodQuantity: z.coerce.number().int().positive(),
-}));
+  }),
+);

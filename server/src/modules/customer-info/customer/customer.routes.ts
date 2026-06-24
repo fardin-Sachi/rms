@@ -1,5 +1,5 @@
 import express, { type Router } from 'express';
-import { logger } from '../../../shared/libs/logger.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
 import CustomerController from './customer.controller.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import { customerIdParamSchema } from './validators/customerIdParam.validator.js';

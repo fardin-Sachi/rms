@@ -1,5 +1,5 @@
-import type { ILogger } from './logger.interface.js';
-import type IRepository from './repository.interface.js';
+import type { ILogger } from '../interfaces/logger.interface.js';
+import type IRepository from '../interfaces/repository.interface.js';
 
 abstract class BaseService<
   TEntity,
@@ -11,12 +11,7 @@ abstract class BaseService<
     TCreateDto,
     TUpdateDto,
     TIdentifier
-  > = IRepository<
-    TEntity,
-    TCreateDto,
-    TUpdateDto,
-    TIdentifier
-  >,
+  > = IRepository<TEntity, TCreateDto, TUpdateDto, TIdentifier>,
 > {
   protected constructor(
     protected readonly mLogger: ILogger,
@@ -47,12 +42,12 @@ abstract class BaseService<
     return this.mRepository.updateMany(dtos);
   }
 
-  async delete(id: TIdentifier): Promise<TIdentifier> {
-    return this.mRepository.delete(id);
+  async delete(id: TIdentifier): Promise<void> {
+    this.mRepository.delete(id);
   }
 
-  async deleteMany(ids: TIdentifier[]): Promise<TIdentifier[]> {
-    return this.mRepository.deleteMany(ids);
+  async deleteMany(ids: TIdentifier[]): Promise<void> {
+    this.mRepository.deleteMany(ids);
   }
 }
 

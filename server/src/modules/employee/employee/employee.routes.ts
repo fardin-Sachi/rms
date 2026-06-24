@@ -1,4 +1,4 @@
-import { logger } from '../../../shared/libs/logger.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import EmployeeController from './employee.controller.js';
@@ -11,6 +11,8 @@ import { updateEmployeeArraySchema } from './validators/updateEmployeeArray.vali
 import { deleteEmployeeArraySchema } from './validators/deleteEmployeeArray.validator.js';
 import { empAddressSchema } from './validators/empAddress.validator.js';
 import { empRoleSchema } from './validators/empRole.validator.js';
+import EmployeeRepository from './employee.repository.js';
+import EmployeeService from './employee.service.js';
 
 const router: Router = express.Router();
 
@@ -19,25 +21,27 @@ const router: Router = express.Router();
  */
 
 /// Object declarations
-const employeeController = new EmployeeController(logger);
+const mRepository = new EmployeeRepository(logger);
+const mService = new EmployeeService(logger, mRepository);
+const mController = new EmployeeController(logger, mService);
 
 /// Employee Address Routes
 router
   .get(
     '/address/:id',
     validate(employeeIdParamSchema, 'params'),
-    employeeController.getEmployeeAddress,
+    mController.getEmployeeAddress,
   )
   .post(
     '/address/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(empAddressSchema, 'body'),
-    employeeController.createEmployeeAddress,
+    mController.createEmployeeAddress,
   )
   .patch(
     '/address/:id',
     validate(empAddressSchema, 'body'),
-    employeeController.updateEmployeeAddress,
+    mController.updateEmployeeAddress,
   );
 
 /// Employee Role Routes
@@ -45,61 +49,57 @@ router
   .get(
     '/role/:id',
     validate(employeeIdParamSchema, 'params'),
-    employeeController.getEmployeeRole,
+    mController.getEmployeeRole,
   )
   .post(
     '/role/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(empRoleSchema, 'body'),
-    employeeController.createEmployeeRole,
+    mController.createEmployeeRole,
   )
   .patch(
     '/role/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(empRoleSchema, 'body'),
-    employeeController.updateEmployeeRole,
+    mController.updateEmployeeRole,
   );
 
 /// Employee Batch Routes
 router
-  .get('', employeeController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
     validate(createEmployeeArraySchema, 'body'),
-    employeeController.createMany,
+    mController.createMany,
   )
   .patch(
     '/batch',
     validate(updateEmployeeArraySchema, 'body'),
-    employeeController.updateMany,
+    mController.updateMany,
   )
   .delete(
     '/batch',
     validate(deleteEmployeeArraySchema, 'body'),
-    employeeController.deleteMany,
+    mController.deleteMany,
   );
 
 /// Employee Single Routes
 router
-  .get(
-    '/:id',
-    validate(employeeIdParamSchema, 'params'),
-    employeeController.get,
-  )
-  .post('', validate(createEmployeeSchema), employeeController.create)
+  .get('/:id', validate(employeeIdParamSchema, 'params'), mController.get)
+  .post('', validate(createEmployeeSchema), mController.create)
   .patch(
     '/:id',
     validate(employeeIdParamSchema, 'params'),
     validate(updateEmployeeSchema, 'body'),
-    employeeController.update,
+    mController.update,
   )
   .delete(
     '/:id',
     validate(employeeIdParamSchema, 'params'),
-    employeeController.delete,
+    mController.delete,
   );
 
 // To get the whole history of a Single Employee
-router.get('/record/:id', employeeController.getSingleEmployeeData);
+router.get('/record/:id', mController.getSingleEmployeeData);
 
 export default router;

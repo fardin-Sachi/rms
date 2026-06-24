@@ -6,13 +6,17 @@ import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeRecordDto } from './dtos/empRecord.dto.js';
 import Big from 'big.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 
-class EmployeeRepository implements IRepository<
-  EmployeeDto,
-  CreateEmployeeDto,
-  UpdateEmployeeDto,
-  number
-> {
+class EmployeeRepository
+  extends BaseRepository
+  implements
+    IRepository<EmployeeDto, CreateEmployeeDto, UpdateEmployeeDto, number>
+{
+  constructor(logger: ILogger) {
+    super(logger);
+  }
   async get(_id: number): Promise<EmployeeDto | null> {
     return null;
   }

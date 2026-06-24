@@ -1,4 +1,4 @@
-import { logger } from '../../../../shared/libs/logger.js';
+import { logger } from '../../../../infrastructures/logger/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../../shared/middlewares/validate.middleware.js';
@@ -6,9 +6,9 @@ import BuyXGetYRuleController from './BuyXGetYRule.controller.js';
 import { buyXGetYRuleIdParamValidator } from './validators/buyXGetYRuleIdParam.validator.js';
 import { createBuyXGetYRuleValidator } from './validators/createBuyXGetYRule.validator.js';
 import { updateBuyXGetYRuleValidator } from './validators/updateBuyXGetYRule.validator.js';
-import {createBuyXGetYRuleArrayValidator} from "./validators/createBuyXGetYRuleArray.validator.js";
-import {updateBuyXGetYRuleArraySchema} from "./validators/updateBuyXGetYRuleArray.validator.js";
-import {deleteBuyXGetYRuleArraySchema} from "./validators/deleteBuyXGetYRuleArray.validator.js";
+import { createBuyXGetYRuleArrayValidator } from './validators/createBuyXGetYRuleArray.validator.js';
+import { updateBuyXGetYRuleArraySchema } from './validators/updateBuyXGetYRuleArray.validator.js';
+import { deleteBuyXGetYRuleArraySchema } from './validators/deleteBuyXGetYRuleArray.validator.js';
 
 const router: Router = express.Router();
 

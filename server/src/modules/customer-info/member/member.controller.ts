@@ -1,6 +1,6 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../../shared/libs/apiResponse.js';
+import { ApiResponse } from '../../../shared/utils/apiResponse.js';
 import type UpdateMemberDto from './dtos/updateMember.dto.js';
 import type MemberDto from './dtos/member.dto.js';
 import type CreateMemberDto from './dtos/createMember.dto.js';

@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../shared/libs/apiResponse.js';
+import { ApiResponse } from '../../shared/utils/apiResponse.js';
 import type { ILogger } from '../../shared/interfaces/logger.interface.js';
 import { TryCatch } from '../../shared/utils/TryCatch.js';
 import { ServerStatusService } from './serverStatus.service.js';

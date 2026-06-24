@@ -5,21 +5,17 @@ import type { EmployeeDto } from './dtos/employee.dto.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
 import type { EmployeeRecordDto } from './dtos/empRecord.dto.js';
-import BaseService from '../../../shared/interfaces/baseService.js';
+import BaseService from '../../../shared/abstractions/base.service.js';
 import type EmployeeRepository from './employee.repository.js';
 
-class EmployeeService extends BaseService <
+class EmployeeService extends BaseService<
   EmployeeDto,
   CreateEmployeeDto,
   UpdateEmployeeDto,
   number,
   EmployeeRepository
 > {
-
-  constructor(
-    mLogger: ILogger,
-    mRepository: EmployeeRepository,
-  ) {
+  constructor(mLogger: ILogger, mRepository: EmployeeRepository) {
     super(mLogger, mRepository);
   }
 

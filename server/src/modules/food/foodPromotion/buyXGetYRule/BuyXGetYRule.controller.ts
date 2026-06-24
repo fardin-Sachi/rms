@@ -1,6 +1,6 @@
 import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../../../shared/libs/apiResponse.js';
+import { ApiResponse } from '../../../../shared/utils/apiResponse.js';
 import BuyXGetYRuleService from './BuyXGetYRule.service.js';
 import type { BuyXGetYRuleDto } from './dtos/buyXGetYRule.dto.js';
 import type { UpdateBuyXGetYRuleDto } from './dtos/updateBuyXGetYRule.dto.js';
