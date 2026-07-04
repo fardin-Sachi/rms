@@ -1,6 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { employeeTable } from './employee.schema.js';
-import { employeeRoleAssignmentTable } from './employeeRoleAssignemnt.schema.js';
+import { employeeRoleAssignmentTable } from './employeeRoleAssignment.schema.js';
 import { salarySheetTable } from './salarySheet.schema.js';
 import { foodMenuTable } from '../food/foodMenu.schema.js';
 import { customerTable } from '../customer/customer.schema.js';
@@ -33,9 +33,19 @@ export const employeeRelations = relations(employeeTable, ({ many, one }) => ({
     relationName: 'EMPLOYEE_UPDATED_BY',
   }),
 
-  roles: many(employeeRoleAssignmentTable),
+  roleAssignments: many(employeeRoleAssignmentTable),
 
-  salaries: many(salarySheetTable),
+  salaries: many(salarySheetTable, {
+    relationName: "salaryEmployee",
+  }),
+
+  createdSalarySheets: many(salarySheetTable, {
+    relationName: "salaryCreatedBy",
+  }),
+
+  updatedSalarySheets: many(salarySheetTable, {
+    relationName: "salaryUpdatedBy",
+  }),
   // EMPLOYEE Module Relations finished
 
   // FOOD_MENU Module Relations

@@ -6,7 +6,5 @@ export const discountRuleTable = pgTable('DISCOUNT_RULE', {
     .primaryKey()
     .references(() => promotionTable.id),
 
-  promotionTypeId: integer('PROMOTION_TYPE_ID').notNull(),
-
   discountValue: doublePrecision('DISCOUNT_VALUE').notNull(),
 });

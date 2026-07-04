@@ -1,10 +1,11 @@
 import { integer, pgTable, timestamp, text } from 'drizzle-orm/pg-core';
 import { employeeTable } from './employee.schema.js';
 
-export const employeeAddressTable = pgTable('EMPLOYEE', {
+export const employeeAddressTable = pgTable('EMPLOYEE_ADDRESS', {
   employeeId: integer('EMPLOYEE_ID')
     .notNull()
-    .references(() => employeeTable.id),
+    .references(() => employeeTable.id)
+    .primaryKey(),
 
   addressLine1: text('ADDRESS_LINE_1').notNull(),
 

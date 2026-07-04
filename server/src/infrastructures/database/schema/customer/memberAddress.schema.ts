@@ -1,11 +1,18 @@
-import { integer, pgTable, timestamp, text } from 'drizzle-orm/pg-core';
+import { integer, pgTable, timestamp, text, serial } from 'drizzle-orm/pg-core';
 import { customerTable } from './customer.schema.js';
 import { employeeTable } from '../employee/employee.schema.js';
+import { addressTypeTable } from './addressType.schema.js';
 
 export const memberAddressTable = pgTable('MEMBER_ADDRESS', {
+  id: serial('ID').primaryKey(),
+
   customerId: integer('CUSTOMER_ID')
     .notNull()
     .references(() => customerTable.id),
+
+  addressTypeId: integer('ADDRESS_TYPE_ID').references(
+    () => addressTypeTable.id,
+  ),
 
   addressLine1: text('ADDRESS_LINE_1').notNull(),
 

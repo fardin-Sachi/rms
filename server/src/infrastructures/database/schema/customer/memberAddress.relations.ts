@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm';
 import { memberAddressTable } from './memberAddress.schema.js';
 import { customerTable } from './customer.schema.js';
 import { employeeTable } from '../employee/employee.schema.js';
+import { addressTypeTable } from './addressType.schema.js';
 
 export const memberAddressRelations = relations(
   memberAddressTable,
@@ -9,6 +10,11 @@ export const memberAddressRelations = relations(
     customer: one(customerTable, {
       fields: [memberAddressTable.customerId],
       references: [customerTable.id],
+    }),
+
+    addressType: one(addressTypeTable, {
+      fields: [memberAddressTable.addressTypeId],
+      references: [addressTypeTable.id],
     }),
 
     createdByEmployee: one(employeeTable, {

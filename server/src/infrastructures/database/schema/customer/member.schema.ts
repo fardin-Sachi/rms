@@ -10,7 +10,7 @@ import {
 import { customerTable } from './customer.schema.js';
 import { employeeTable } from '../employee/employee.schema.js';
 
-export const memberTable = pgTable('member', {
+export const memberTable = pgTable('MEMBER', {
   customerId: integer('customer_id')
     .primaryKey()
     .references(() => customerTable.id),

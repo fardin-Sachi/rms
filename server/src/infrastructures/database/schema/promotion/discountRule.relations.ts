@@ -10,10 +10,5 @@ export const discountRuleRelations = relations(
       fields: [discountRuleTable.promotionId],
       references: [promotionTable.id],
     }),
-
-    promotionType: one(promotionTypeTable, {
-      fields: [discountRuleTable.promotionTypeId],
-      references: [promotionTypeTable.id],
-    }),
   }),
 );

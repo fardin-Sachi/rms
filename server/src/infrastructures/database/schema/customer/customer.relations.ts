@@ -11,10 +11,7 @@ export const customerRelations = relations(customerTable, ({ one, many }) => ({
     references: [memberTable.customerId],
   }),
 
-  memberAddress: one(memberAddressTable, {
-    fields: [customerTable.id],
-    references: [memberAddressTable.customerId],
-  }),
+  memberAddress: many(memberAddressTable),
 
   orders: many(customerOrderTable),
 

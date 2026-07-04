@@ -2,9 +2,12 @@
 export * from './employee/employee.schema.js';
 export * from './employee/employeeAddress.schema.js';
 export * from './employee/employeeRole.schema.js';
-export * from './employee/employeeRoleAssignemnt.schema.js';
+export * from './employee/employeeRoleAssignment.schema.js';
 export * from './employee/salarySheet.schema.js';
 export * from './employee/employee.relations.js';
+export * from './employee/employeeRole.relations.js';
+export * from './employee/employeeRoleAssignment.relations.js';
+export * from './employee/salarySheet.relations.js';
 
 export * from './customer/customer.schema.js';
 export * from './customer/member.schema.js';

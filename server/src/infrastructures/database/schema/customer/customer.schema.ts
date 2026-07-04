@@ -8,7 +8,7 @@ export const customerTable = pgTable('CUSTOMER', {
 
   contact: text('CONTACT'),
 
-  email: text('EMAIL'),
+  email: text('EMAIL').unique(),
 
   createdBy: integer('CREATED_BY').references(() => employeeTable.id),
 

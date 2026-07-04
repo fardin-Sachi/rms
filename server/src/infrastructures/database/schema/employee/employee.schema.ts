@@ -21,7 +21,7 @@ export const employeeTable = pgTable('EMPLOYEE', {
 
   contact: text('CONTACT').notNull(),
 
-  email: text('EMAIL'),
+  email: text('EMAIL').unique(),
 
   sex: integer('SEX').$type<SexEnumValue>().notNull(),
 

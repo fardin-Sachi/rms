@@ -3,7 +3,7 @@ import AddressType from '../../../../modules/customer-info/member/enums/addressT
 
 type AddressTypeEnum = (typeof AddressType.names)[number];
 
-export const addressTypeTable = pgTable('EMPLOYEE_ROLE', {
+export const addressTypeTable = pgTable('ADDRESS_TYPE', {
   id: serial('ID').primaryKey(),
 
   name: text('NAME').$type<AddressTypeEnum>().notNull().unique(),

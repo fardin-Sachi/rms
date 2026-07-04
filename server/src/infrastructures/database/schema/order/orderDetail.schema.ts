@@ -27,15 +27,15 @@ export const orderDetailTable = pgTable('ORDER_DETAIL', {
 
   promotionId: integer('PROMOTION_ID').references(() => promotionTable.id),
 
-  unitPrice: doublePrecision('UNIT_PRICE'),
+  unitPrice: doublePrecision('UNIT_PRICE').notNull(),
 
-  quantity: integer('QUANTITY'),
+  quantity: integer('QUANTITY').notNull(),
 
   discountAmount: doublePrecision('DISCOUNT_AMOUNT'),
 
   lineTotal: doublePrecision('LINE_TOTAL'),
 
-  finalAmount: doublePrecision('FINAL_AMOUNT'),
+  finalAmount: doublePrecision('FINAL_AMOUNT').notNull(),
 
   activeStatus: boolean('ACTIVE_STATUS').default(true).notNull(),
 });

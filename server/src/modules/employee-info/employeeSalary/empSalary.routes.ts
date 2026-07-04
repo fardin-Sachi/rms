@@ -1,6 +1,5 @@
 import express, { type Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import { employeeIdParamSchema } from '../employee/validators/employeeIdParam.validator.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
 import { employeeIdParamValidator } from '../employee/validators/employeeIdParam.validator.js';
 import EmployeeSalaryController from './empSalary.controller.js';
@@ -25,22 +24,22 @@ const mController = new EmployeeSalaryController(logger, mService);
 router
   .get(
     '/salary/:id',
-    validate(employeeIdParamSchema, 'params'),
+    validate(employeeIdParamValidator, 'params'),
     mController.get,
     validate(employeeIdParamValidator, 'params'),
-    employeeSalaryController.get,
+    mController.get,
   )
   .post(
     '/salary/:id',
     validate(employeeIdParamValidator, 'params'),
     validate(createEmpSalaryValidator, 'body'),
-    employeeSalaryController.create,
+    mController.create,
   )
   .patch(
     '/salary/:id',
     validate(employeeIdParamValidator, 'params'),
     validate(updateEmpSalaryValidator, 'body'),
-    employeeSalaryController.update,
+    mController.update,
   );
 
 export default router;

@@ -1,0 +1,2334 @@
+{
+  "id": "75d77333-ab14-4163-9fff-b6f8e10499c1",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.EMPLOYEE": {
+      "name": "EMPLOYEE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "DOB": {
+          "name": "DOB",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CONTACT": {
+          "name": "CONTACT",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "EMAIL": {
+          "name": "EMAIL",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "SEX": {
+          "name": "SEX",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "JOINING_DATE": {
+          "name": "JOINING_DATE",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "END_DATE": {
+          "name": "END_DATE",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "NID_NUMBER": {
+          "name": "NID_NUMBER",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "IMAGE_URL": {
+          "name": "IMAGE_URL",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "PASSWORD": {
+          "name": "PASSWORD",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "LAST_LOGIN": {
+          "name": "LAST_LOGIN",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ON_VACATION": {
+          "name": "ON_VACATION",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "ACTIVE_STATUS": {
+          "name": "ACTIVE_STATUS",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "EMPLOYEE_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "EMPLOYEE_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "EMPLOYEE",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "EMPLOYEE_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "EMPLOYEE_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "EMPLOYEE",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "EMPLOYEE_EMAIL_unique": {
+          "name": "EMPLOYEE_EMAIL_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "EMAIL"
+          ]
+        },
+        "EMPLOYEE_NID_NUMBER_unique": {
+          "name": "EMPLOYEE_NID_NUMBER_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "NID_NUMBER"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.EMPLOYEE_ADDRESS": {
+      "name": "EMPLOYEE_ADDRESS",
+      "schema": "",
+      "columns": {
+        "EMPLOYEE_ID": {
+          "name": "EMPLOYEE_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ADDRESS_LINE_1": {
+          "name": "ADDRESS_LINE_1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ADDRESS_LINE_2": {
+          "name": "ADDRESS_LINE_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "CITY": {
+          "name": "CITY",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "STATE": {
+          "name": "STATE",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "POSTAL_CODE": {
+          "name": "POSTAL_CODE",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "COUNTRY": {
+          "name": "COUNTRY",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "EMPLOYEE_ADDRESS_EMPLOYEE_ID_EMPLOYEE_ID_fk": {
+          "name": "EMPLOYEE_ADDRESS_EMPLOYEE_ID_EMPLOYEE_ID_fk",
+          "tableFrom": "EMPLOYEE_ADDRESS",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "EMPLOYEE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "EMPLOYEE_ADDRESS_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "EMPLOYEE_ADDRESS_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "EMPLOYEE_ADDRESS",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "EMPLOYEE_ADDRESS_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "EMPLOYEE_ADDRESS_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "EMPLOYEE_ADDRESS",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.EMPLOYEE_ROLE": {
+      "name": "EMPLOYEE_ROLE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "EMPLOYEE_ROLE_NAME_unique": {
+          "name": "EMPLOYEE_ROLE_NAME_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "NAME"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.EMPLOYEE_ROLE_ASSIGNMENT": {
+      "name": "EMPLOYEE_ROLE_ASSIGNMENT",
+      "schema": "",
+      "columns": {
+        "EMPLOYEE_ID": {
+          "name": "EMPLOYEE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "EMPLOYEE_ROLE_ID": {
+          "name": "EMPLOYEE_ROLE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "EMPLOYEE_ROLE_ASSIGNMENT_EMPLOYEE_ID_EMPLOYEE_ID_fk": {
+          "name": "EMPLOYEE_ROLE_ASSIGNMENT_EMPLOYEE_ID_EMPLOYEE_ID_fk",
+          "tableFrom": "EMPLOYEE_ROLE_ASSIGNMENT",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "EMPLOYEE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "EMPLOYEE_ROLE_ASSIGNMENT_EMPLOYEE_ROLE_ID_EMPLOYEE_ROLE_ID_fk": {
+          "name": "EMPLOYEE_ROLE_ASSIGNMENT_EMPLOYEE_ROLE_ID_EMPLOYEE_ROLE_ID_fk",
+          "tableFrom": "EMPLOYEE_ROLE_ASSIGNMENT",
+          "tableTo": "EMPLOYEE_ROLE",
+          "columnsFrom": [
+            "EMPLOYEE_ROLE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "EMPLOYEE_ROLE_ASSIGNMENT_EMPLOYEE_ID_EMPLOYEE_ROLE_ID_pk": {
+          "name": "EMPLOYEE_ROLE_ASSIGNMENT_EMPLOYEE_ID_EMPLOYEE_ROLE_ID_pk",
+          "columns": [
+            "EMPLOYEE_ID",
+            "EMPLOYEE_ROLE_ID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.SALARY_SHEET": {
+      "name": "SALARY_SHEET",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "EMPLOYEE_ID": {
+          "name": "EMPLOYEE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "SALARY_AMOUNT": {
+          "name": "SALARY_AMOUNT",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "SALARY_START_DATE": {
+          "name": "SALARY_START_DATE",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "SALARY_END_DATE": {
+          "name": "SALARY_END_DATE",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ACTIVE_STATUS": {
+          "name": "ACTIVE_STATUS",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "SALARY_SHEET_EMPLOYEE_ID_EMPLOYEE_ID_fk": {
+          "name": "SALARY_SHEET_EMPLOYEE_ID_EMPLOYEE_ID_fk",
+          "tableFrom": "SALARY_SHEET",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "EMPLOYEE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "SALARY_SHEET_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "SALARY_SHEET_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "SALARY_SHEET",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "SALARY_SHEET_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "SALARY_SHEET_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "SALARY_SHEET",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.CUSTOMER": {
+      "name": "CUSTOMER",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CONTACT": {
+          "name": "CONTACT",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "EMAIL": {
+          "name": "EMAIL",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "CUSTOMER_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "CUSTOMER_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "CUSTOMER",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "CUSTOMER_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "CUSTOMER_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "CUSTOMER",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "CUSTOMER_EMAIL_unique": {
+          "name": "CUSTOMER_EMAIL_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "EMAIL"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.MEMBER": {
+      "name": "MEMBER",
+      "schema": "",
+      "columns": {
+        "customer_id": {
+          "name": "customer_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "membership_number": {
+          "name": "membership_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "points": {
+          "name": "points",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "discount": {
+          "name": "discount",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "discount_type_id": {
+          "name": "discount_type_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dob": {
+          "name": "dob",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "card_issue_date": {
+          "name": "card_issue_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "membership_expiry_date": {
+          "name": "membership_expiry_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "active_status": {
+          "name": "active_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "MEMBER_customer_id_CUSTOMER_ID_fk": {
+          "name": "MEMBER_customer_id_CUSTOMER_ID_fk",
+          "tableFrom": "MEMBER",
+          "tableTo": "CUSTOMER",
+          "columnsFrom": [
+            "customer_id"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "MEMBER_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "MEMBER_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "MEMBER",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "MEMBER_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "MEMBER_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "MEMBER",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "MEMBER_membership_number_unique": {
+          "name": "MEMBER_membership_number_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "membership_number"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.MEMBER_ADDRESS": {
+      "name": "MEMBER_ADDRESS",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "CUSTOMER_ID": {
+          "name": "CUSTOMER_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ADDRESS_TYPE_ID": {
+          "name": "ADDRESS_TYPE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ADDRESS_LINE_1": {
+          "name": "ADDRESS_LINE_1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ADDRESS_LINE_2": {
+          "name": "ADDRESS_LINE_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "CITY": {
+          "name": "CITY",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "STATE": {
+          "name": "STATE",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "POSTAL_CODE": {
+          "name": "POSTAL_CODE",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "COUNTRY": {
+          "name": "COUNTRY",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "MEMBER_ADDRESS_CUSTOMER_ID_CUSTOMER_ID_fk": {
+          "name": "MEMBER_ADDRESS_CUSTOMER_ID_CUSTOMER_ID_fk",
+          "tableFrom": "MEMBER_ADDRESS",
+          "tableTo": "CUSTOMER",
+          "columnsFrom": [
+            "CUSTOMER_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "MEMBER_ADDRESS_ADDRESS_TYPE_ID_ADDRESS_TYPE_ID_fk": {
+          "name": "MEMBER_ADDRESS_ADDRESS_TYPE_ID_ADDRESS_TYPE_ID_fk",
+          "tableFrom": "MEMBER_ADDRESS",
+          "tableTo": "ADDRESS_TYPE",
+          "columnsFrom": [
+            "ADDRESS_TYPE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "MEMBER_ADDRESS_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "MEMBER_ADDRESS_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "MEMBER_ADDRESS",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "MEMBER_ADDRESS_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "MEMBER_ADDRESS_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "MEMBER_ADDRESS",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ADDRESS_TYPE": {
+      "name": "ADDRESS_TYPE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ADDRESS_TYPE_NAME_unique": {
+          "name": "ADDRESS_TYPE_NAME_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "NAME"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.DISCOUNT_TYPE": {
+      "name": "DISCOUNT_TYPE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "DISCOUNT_TYPE_NAME_unique": {
+          "name": "DISCOUNT_TYPE_NAME_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "NAME"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.FOOD_CATEGORY": {
+      "name": "FOOD_CATEGORY",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ACTIVE_STATUS": {
+          "name": "ACTIVE_STATUS",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.FOOD_CATEGORY_RELATION_MENU": {
+      "name": "FOOD_CATEGORY_RELATION_MENU",
+      "schema": "",
+      "columns": {
+        "FOOD_MENU_ID": {
+          "name": "FOOD_MENU_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "FOOD_CATEGORY_ID": {
+          "name": "FOOD_CATEGORY_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FOOD_CATEGORY_RELATION_MENU_FOOD_MENU_ID_FOOD_MENU_ID_fk": {
+          "name": "FOOD_CATEGORY_RELATION_MENU_FOOD_MENU_ID_FOOD_MENU_ID_fk",
+          "tableFrom": "FOOD_CATEGORY_RELATION_MENU",
+          "tableTo": "FOOD_MENU",
+          "columnsFrom": [
+            "FOOD_MENU_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FOOD_CATEGORY_RELATION_MENU_FOOD_CATEGORY_ID_FOOD_CATEGORY_ID_fk": {
+          "name": "FOOD_CATEGORY_RELATION_MENU_FOOD_CATEGORY_ID_FOOD_CATEGORY_ID_fk",
+          "tableFrom": "FOOD_CATEGORY_RELATION_MENU",
+          "tableTo": "FOOD_CATEGORY",
+          "columnsFrom": [
+            "FOOD_CATEGORY_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "FOOD_CATEGORY_RELATION_MENU_FOOD_MENU_ID_FOOD_CATEGORY_ID_pk": {
+          "name": "FOOD_CATEGORY_RELATION_MENU_FOOD_MENU_ID_FOOD_CATEGORY_ID_pk",
+          "columns": [
+            "FOOD_MENU_ID",
+            "FOOD_CATEGORY_ID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.FOOD_MENU": {
+      "name": "FOOD_MENU",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "DESCRIPTION": {
+          "name": "DESCRIPTION",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "IMAGE_URL": {
+          "name": "IMAGE_URL",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "PREPARATION_TIME": {
+          "name": "PREPARATION_TIME",
+          "type": "interval",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "PRICE": {
+          "name": "PRICE",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ACTIVE_STATUS": {
+          "name": "ACTIVE_STATUS",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FOOD_MENU_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "FOOD_MENU_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "FOOD_MENU",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FOOD_MENU_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "FOOD_MENU_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "FOOD_MENU",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.CUSTOMER_ORDER": {
+      "name": "CUSTOMER_ORDER",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "CUSTOMER_ID": {
+          "name": "CUSTOMER_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ORDER_NUMBER": {
+          "name": "ORDER_NUMBER",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "EMPLOYEE_ID": {
+          "name": "EMPLOYEE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ORDER_TIME": {
+          "name": "ORDER_TIME",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "SUBTOTAL": {
+          "name": "SUBTOTAL",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "DISCOUNT": {
+          "name": "DISCOUNT",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "VAT": {
+          "name": "VAT",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "NET_TOTAL": {
+          "name": "NET_TOTAL",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ORDER_STATUS_ID": {
+          "name": "ORDER_STATUS_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "CUSTOMER_ORDER_CUSTOMER_ID_CUSTOMER_ID_fk": {
+          "name": "CUSTOMER_ORDER_CUSTOMER_ID_CUSTOMER_ID_fk",
+          "tableFrom": "CUSTOMER_ORDER",
+          "tableTo": "CUSTOMER",
+          "columnsFrom": [
+            "CUSTOMER_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "CUSTOMER_ORDER_EMPLOYEE_ID_EMPLOYEE_ID_fk": {
+          "name": "CUSTOMER_ORDER_EMPLOYEE_ID_EMPLOYEE_ID_fk",
+          "tableFrom": "CUSTOMER_ORDER",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "EMPLOYEE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "CUSTOMER_ORDER_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "CUSTOMER_ORDER_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "CUSTOMER_ORDER",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "CUSTOMER_ORDER_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "CUSTOMER_ORDER_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "CUSTOMER_ORDER",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "CUSTOMER_ORDER_ORDER_NUMBER_unique": {
+          "name": "CUSTOMER_ORDER_ORDER_NUMBER_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "ORDER_NUMBER"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ORDER_DETAIL": {
+      "name": "ORDER_DETAIL",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "CUSTOMER_ORDER_ID": {
+          "name": "CUSTOMER_ORDER_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "FOOD_MENU_ID": {
+          "name": "FOOD_MENU_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ORDER_TYPE_ID": {
+          "name": "ORDER_TYPE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "PROMOTION_ID": {
+          "name": "PROMOTION_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UNIT_PRICE": {
+          "name": "UNIT_PRICE",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "QUANTITY": {
+          "name": "QUANTITY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "DISCOUNT_AMOUNT": {
+          "name": "DISCOUNT_AMOUNT",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "LINE_TOTAL": {
+          "name": "LINE_TOTAL",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "FINAL_AMOUNT": {
+          "name": "FINAL_AMOUNT",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ACTIVE_STATUS": {
+          "name": "ACTIVE_STATUS",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ORDER_DETAIL_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk": {
+          "name": "ORDER_DETAIL_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk",
+          "tableFrom": "ORDER_DETAIL",
+          "tableTo": "CUSTOMER_ORDER",
+          "columnsFrom": [
+            "CUSTOMER_ORDER_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ORDER_DETAIL_FOOD_MENU_ID_FOOD_MENU_ID_fk": {
+          "name": "ORDER_DETAIL_FOOD_MENU_ID_FOOD_MENU_ID_fk",
+          "tableFrom": "ORDER_DETAIL",
+          "tableTo": "FOOD_MENU",
+          "columnsFrom": [
+            "FOOD_MENU_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ORDER_DETAIL_ORDER_TYPE_ID_ORDER_TYPE_ID_fk": {
+          "name": "ORDER_DETAIL_ORDER_TYPE_ID_ORDER_TYPE_ID_fk",
+          "tableFrom": "ORDER_DETAIL",
+          "tableTo": "ORDER_TYPE",
+          "columnsFrom": [
+            "ORDER_TYPE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ORDER_DETAIL_PROMOTION_ID_PROMOTION_ID_fk": {
+          "name": "ORDER_DETAIL_PROMOTION_ID_PROMOTION_ID_fk",
+          "tableFrom": "ORDER_DETAIL",
+          "tableTo": "PROMOTION",
+          "columnsFrom": [
+            "PROMOTION_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ORDER_STATUS": {
+      "name": "ORDER_STATUS",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ORDER_STATUS_NAME_unique": {
+          "name": "ORDER_STATUS_NAME_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "NAME"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ORDER_STATUS_LOG": {
+      "name": "ORDER_STATUS_LOG",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "CUSTOMER_ORDER_ID": {
+          "name": "CUSTOMER_ORDER_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ORDER_STATUS_ID": {
+          "name": "ORDER_STATUS_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "NOTE": {
+          "name": "NOTE",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ORDER_STATUS_LOG_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk": {
+          "name": "ORDER_STATUS_LOG_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk",
+          "tableFrom": "ORDER_STATUS_LOG",
+          "tableTo": "CUSTOMER_ORDER",
+          "columnsFrom": [
+            "CUSTOMER_ORDER_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ORDER_STATUS_LOG_ORDER_STATUS_ID_ORDER_STATUS_ID_fk": {
+          "name": "ORDER_STATUS_LOG_ORDER_STATUS_ID_ORDER_STATUS_ID_fk",
+          "tableFrom": "ORDER_STATUS_LOG",
+          "tableTo": "ORDER_STATUS",
+          "columnsFrom": [
+            "ORDER_STATUS_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ORDER_STATUS_LOG_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "ORDER_STATUS_LOG_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "ORDER_STATUS_LOG",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ORDER_TYPE": {
+      "name": "ORDER_TYPE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ORDER_TYPE_NAME_unique": {
+          "name": "ORDER_TYPE_NAME_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "NAME"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PAYMENT": {
+      "name": "PAYMENT",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "CUSTOMER_ORDER_ID": {
+          "name": "CUSTOMER_ORDER_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "PAYMENT_TYPE_ID": {
+          "name": "PAYMENT_TYPE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "TRANSACTION_ID": {
+          "name": "TRANSACTION_ID",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "AMOUNT": {
+          "name": "AMOUNT",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "CURRENT_PAYMENT_STATUS_ID": {
+          "name": "CURRENT_PAYMENT_STATUS_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "PAYMENT_TIME": {
+          "name": "PAYMENT_TIME",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "PAYMENT_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk": {
+          "name": "PAYMENT_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk",
+          "tableFrom": "PAYMENT",
+          "tableTo": "CUSTOMER_ORDER",
+          "columnsFrom": [
+            "CUSTOMER_ORDER_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PAYMENT_PAYMENT_TYPE_ID_PAYMENT_TYPE_ID_fk": {
+          "name": "PAYMENT_PAYMENT_TYPE_ID_PAYMENT_TYPE_ID_fk",
+          "tableFrom": "PAYMENT",
+          "tableTo": "PAYMENT_TYPE",
+          "columnsFrom": [
+            "PAYMENT_TYPE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PAYMENT_CURRENT_PAYMENT_STATUS_ID_PAYMENT_STATUS_ID_fk": {
+          "name": "PAYMENT_CURRENT_PAYMENT_STATUS_ID_PAYMENT_STATUS_ID_fk",
+          "tableFrom": "PAYMENT",
+          "tableTo": "PAYMENT_STATUS",
+          "columnsFrom": [
+            "CURRENT_PAYMENT_STATUS_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PAYMENT_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "PAYMENT_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "PAYMENT",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PAYMENT_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "PAYMENT_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "PAYMENT",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "PAYMENT_TRANSACTION_ID_unique": {
+          "name": "PAYMENT_TRANSACTION_ID_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "TRANSACTION_ID"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PAYMENT_STATUS": {
+      "name": "PAYMENT_STATUS",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PAYMENT_STATUS_LOG": {
+      "name": "PAYMENT_STATUS_LOG",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "PAYMENT_ID": {
+          "name": "PAYMENT_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "PAYMENT_STATUS_ID": {
+          "name": "PAYMENT_STATUS_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "PAYMENT_STATUS_LOG_PAYMENT_ID_PAYMENT_ID_fk": {
+          "name": "PAYMENT_STATUS_LOG_PAYMENT_ID_PAYMENT_ID_fk",
+          "tableFrom": "PAYMENT_STATUS_LOG",
+          "tableTo": "PAYMENT",
+          "columnsFrom": [
+            "PAYMENT_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PAYMENT_STATUS_LOG_PAYMENT_STATUS_ID_PAYMENT_STATUS_ID_fk": {
+          "name": "PAYMENT_STATUS_LOG_PAYMENT_STATUS_ID_PAYMENT_STATUS_ID_fk",
+          "tableFrom": "PAYMENT_STATUS_LOG",
+          "tableTo": "PAYMENT_STATUS",
+          "columnsFrom": [
+            "PAYMENT_STATUS_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PAYMENT_STATUS_LOG_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "PAYMENT_STATUS_LOG_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "PAYMENT_STATUS_LOG",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PAYMENT_TYPE": {
+      "name": "PAYMENT_TYPE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PROMOTION": {
+      "name": "PROMOTION",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "DESCRIPTION": {
+          "name": "DESCRIPTION",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "PROMOTION_TYPE_ID": {
+          "name": "PROMOTION_TYPE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "START_TIME": {
+          "name": "START_TIME",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "END_TIME": {
+          "name": "END_TIME",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "IS_PERMANENT": {
+          "name": "IS_PERMANENT",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ACTIVE_STATUS": {
+          "name": "ACTIVE_STATUS",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "CREATED_BY": {
+          "name": "CREATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CREATED_ON": {
+          "name": "CREATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_BY": {
+          "name": "UPDATED_BY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UPDATED_ON": {
+          "name": "UPDATED_ON",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "PROMOTION_PROMOTION_TYPE_ID_PROMOTION_TYPE_ID_fk": {
+          "name": "PROMOTION_PROMOTION_TYPE_ID_PROMOTION_TYPE_ID_fk",
+          "tableFrom": "PROMOTION",
+          "tableTo": "PROMOTION_TYPE",
+          "columnsFrom": [
+            "PROMOTION_TYPE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PROMOTION_CREATED_BY_EMPLOYEE_ID_fk": {
+          "name": "PROMOTION_CREATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "PROMOTION",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "CREATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PROMOTION_UPDATED_BY_EMPLOYEE_ID_fk": {
+          "name": "PROMOTION_UPDATED_BY_EMPLOYEE_ID_fk",
+          "tableFrom": "PROMOTION",
+          "tableTo": "EMPLOYEE",
+          "columnsFrom": [
+            "UPDATED_BY"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PROMOTION_TYPE": {
+      "name": "PROMOTION_TYPE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "NAME": {
+          "name": "NAME",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "PROMOTION_TYPE_NAME_unique": {
+          "name": "PROMOTION_TYPE_NAME_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "NAME"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PROMOTION_FOOD": {
+      "name": "PROMOTION_FOOD",
+      "schema": "",
+      "columns": {
+        "PROMOTION_ID": {
+          "name": "PROMOTION_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "FOOD_MENU_ID": {
+          "name": "FOOD_MENU_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "PROMOTION_FOOD_PROMOTION_ID_PROMOTION_ID_fk": {
+          "name": "PROMOTION_FOOD_PROMOTION_ID_PROMOTION_ID_fk",
+          "tableFrom": "PROMOTION_FOOD",
+          "tableTo": "PROMOTION",
+          "columnsFrom": [
+            "PROMOTION_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "PROMOTION_FOOD_FOOD_MENU_ID_FOOD_MENU_ID_fk": {
+          "name": "PROMOTION_FOOD_FOOD_MENU_ID_FOOD_MENU_ID_fk",
+          "tableFrom": "PROMOTION_FOOD",
+          "tableTo": "FOOD_MENU",
+          "columnsFrom": [
+            "FOOD_MENU_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "PROMOTION_FOOD_PROMOTION_ID_FOOD_MENU_ID_pk": {
+          "name": "PROMOTION_FOOD_PROMOTION_ID_FOOD_MENU_ID_pk",
+          "columns": [
+            "PROMOTION_ID",
+            "FOOD_MENU_ID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.DISCOUNT_RULE": {
+      "name": "DISCOUNT_RULE",
+      "schema": "",
+      "columns": {
+        "PROMOTION_ID": {
+          "name": "PROMOTION_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "DISCOUNT_VALUE": {
+          "name": "DISCOUNT_VALUE",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "DISCOUNT_RULE_PROMOTION_ID_PROMOTION_ID_fk": {
+          "name": "DISCOUNT_RULE_PROMOTION_ID_PROMOTION_ID_fk",
+          "tableFrom": "DISCOUNT_RULE",
+          "tableTo": "PROMOTION",
+          "columnsFrom": [
+            "PROMOTION_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.BUY_X_GET_Y_RULE": {
+      "name": "BUY_X_GET_Y_RULE",
+      "schema": "",
+      "columns": {
+        "PROMOTION_ID": {
+          "name": "PROMOTION_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "BUY_FOOD_ID": {
+          "name": "BUY_FOOD_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "BUY_QUANTITY": {
+          "name": "BUY_QUANTITY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "FREE_FOOD_ID": {
+          "name": "FREE_FOOD_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "FREE_FOOD_QUANTITY": {
+          "name": "FREE_FOOD_QUANTITY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "BUY_X_GET_Y_RULE_PROMOTION_ID_PROMOTION_ID_fk": {
+          "name": "BUY_X_GET_Y_RULE_PROMOTION_ID_PROMOTION_ID_fk",
+          "tableFrom": "BUY_X_GET_Y_RULE",
+          "tableTo": "PROMOTION",
+          "columnsFrom": [
+            "PROMOTION_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "BUY_X_GET_Y_RULE_BUY_FOOD_ID_FOOD_MENU_ID_fk": {
+          "name": "BUY_X_GET_Y_RULE_BUY_FOOD_ID_FOOD_MENU_ID_fk",
+          "tableFrom": "BUY_X_GET_Y_RULE",
+          "tableTo": "FOOD_MENU",
+          "columnsFrom": [
+            "BUY_FOOD_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "BUY_X_GET_Y_RULE_FREE_FOOD_ID_FOOD_MENU_ID_fk": {
+          "name": "BUY_X_GET_Y_RULE_FREE_FOOD_ID_FOOD_MENU_ID_fk",
+          "tableFrom": "BUY_X_GET_Y_RULE",
+          "tableTo": "FOOD_MENU",
+          "columnsFrom": [
+            "FREE_FOOD_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ORDER_TABLE_ASSIGNMENT": {
+      "name": "ORDER_TABLE_ASSIGNMENT",
+      "schema": "",
+      "columns": {
+        "CUSTOMER_ORDER_ID": {
+          "name": "CUSTOMER_ORDER_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "RESTAURANT_TABLE_ID": {
+          "name": "RESTAURANT_TABLE_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ORDER_TABLE_ASSIGNMENT_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk": {
+          "name": "ORDER_TABLE_ASSIGNMENT_CUSTOMER_ORDER_ID_CUSTOMER_ORDER_ID_fk",
+          "tableFrom": "ORDER_TABLE_ASSIGNMENT",
+          "tableTo": "CUSTOMER_ORDER",
+          "columnsFrom": [
+            "CUSTOMER_ORDER_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ORDER_TABLE_ASSIGNMENT_RESTAURANT_TABLE_ID_RESTAURANT_TABLE_ID_fk": {
+          "name": "ORDER_TABLE_ASSIGNMENT_RESTAURANT_TABLE_ID_RESTAURANT_TABLE_ID_fk",
+          "tableFrom": "ORDER_TABLE_ASSIGNMENT",
+          "tableTo": "RESTAURANT_TABLE",
+          "columnsFrom": [
+            "RESTAURANT_TABLE_ID"
+          ],
+          "columnsTo": [
+            "ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "ORDER_TABLE_ASSIGNMENT_CUSTOMER_ORDER_ID_RESTAURANT_TABLE_ID_pk": {
+          "name": "ORDER_TABLE_ASSIGNMENT_CUSTOMER_ORDER_ID_RESTAURANT_TABLE_ID_pk",
+          "columns": [
+            "CUSTOMER_ORDER_ID",
+            "RESTAURANT_TABLE_ID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.RESTAURANT_TABLE": {
+      "name": "RESTAURANT_TABLE",
+      "schema": "",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "CAPACITY": {
+          "name": "CAPACITY",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "TABLE_NO": {
+          "name": "TABLE_NO",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ACTIVE_STATUS": {
+          "name": "ACTIVE_STATUS",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "RESTAURANT_TABLE_TABLE_NO_unique": {
+          "name": "RESTAURANT_TABLE_TABLE_NO_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "TABLE_NO"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

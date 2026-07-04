@@ -22,7 +22,7 @@ export const paymentTable = pgTable('PAYMENT', {
     .notNull()
     .references(() => paymentTypeTable.id),
 
-  transactionId: text('TRANSACTION_ID'),
+  transactionId: text('TRANSACTION_ID').unique(),
 
   amount: doublePrecision('AMOUNT').notNull(),
 
