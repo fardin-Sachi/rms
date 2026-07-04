@@ -1,16 +1,16 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../../shared/libs/apiResponse.js';
+import { ApiResponse } from '../../../shared/utils/apiResponse.js';
 import EmployeeSalaryService from './empSalary.service.js';
 import type UpdateEmpSalaryDto from './dtos/updateEmpSalary.dto.js';
 import type CreateEmpSalaryDto from './dtos/createEmpSalary.dto.js';
 import type EmpSalaryDto from './dtos/empSalary.dto.js';
 
 class EmployeeSalaryController {
-  private readonly employeeSalaryService: EmployeeSalaryService;
-  constructor(private readonly logger: ILogger) {
-    this.employeeSalaryService = new EmployeeSalaryService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: EmployeeSalaryService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -22,10 +22,9 @@ class EmployeeSalaryController {
   }
 
   async get(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.employeeId);
+    const id: number = Number(req.params.id);
 
-    const employeeSalaryDto: EmpSalaryDto | null =
-      await this.employeeSalaryService.get(id);
+    const employeeSalaryDto: EmpSalaryDto | null = await this.mService.get(id);
 
     if (!employeeSalaryDto) {
       return ApiResponse.error(
@@ -44,7 +43,7 @@ class EmployeeSalaryController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const employeeSalaryDtos = await this.employeeSalaryService.getAll();
+    const employeeSalaryDtos = await this.mService.getAll();
 
     return ApiResponse.success<EmpSalaryDto[]>(
       res,
@@ -60,7 +59,7 @@ class EmployeeSalaryController {
     payload.employeeId = employeeId;
 
     const createdEmployeeSalaryDto: EmpSalaryDto =
-      await this.employeeSalaryService.create(payload);
+      await this.mService.create(payload);
 
     return ApiResponse.success<EmpSalaryDto>(
       res,
@@ -74,7 +73,7 @@ class EmployeeSalaryController {
     const payload = req.body as CreateEmpSalaryDto[];
 
     const createdEmployeeSalaryDtos: EmpSalaryDto[] =
-      await this.employeeSalaryService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<EmpSalaryDto[]>(
       res,
@@ -89,8 +88,7 @@ class EmployeeSalaryController {
     const payload: UpdateEmpSalaryDto = req.body;
     payload.employeeId = employeeId;
 
-    const updatedEmployeeSalaryDto =
-      await this.employeeSalaryService.update(payload);
+    const updatedEmployeeSalaryDto = await this.mService.update(payload);
 
     return ApiResponse.success<EmpSalaryDto>(
       res,
@@ -103,8 +101,7 @@ class EmployeeSalaryController {
   async updateMany(req: Request, res: Response): Promise<Response> {
     const payload = req.body as UpdateEmpSalaryDto[];
 
-    const updatedEmployeeSalaryDtos =
-      await this.employeeSalaryService.updateMany(payload);
+    const updatedEmployeeSalaryDtos = await this.mService.updateMany(payload);
 
     return ApiResponse.success<EmpSalaryDto[]>(
       res,
@@ -117,19 +114,19 @@ class EmployeeSalaryController {
   async delete(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.employeeId);
 
-    const deletedId: number = await this.employeeSalaryService.delete(id);
+    await this.mService.delete(id);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Employee salary is deleted with ID: ${deletedId}`,
+      `Employee salary is deleted with ID: ${id}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds = await this.employeeSalaryService.deleteMany(ids);
+    const deletedIds = await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,

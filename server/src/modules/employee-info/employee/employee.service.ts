@@ -1,87 +1,60 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
-import EmployeeRepository from './employee.repository.js';
 import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
 import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
 import type { EmployeeDto } from './dtos/employee.dto.js';
 import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
 import type { EmployeeRecordDto } from './dtos/empRecord.dto.js';
+import BaseService from '../../../shared/abstractions/base.service.js';
+import type EmployeeRepository from './employee.repository.js';
 
-class EmployeeService {
-  private readonly employeeRepository: EmployeeRepository;
-
-  constructor(private readonly logger: ILogger) {
-    this.employeeRepository = new EmployeeRepository();
-  }
-
-  async get(id: number): Promise<EmployeeDto | null> {
-    return this.employeeRepository.get(id);
-  }
-
-  async getAll(): Promise<EmployeeDto[]> {
-    return this.employeeRepository.getAll();
-  }
-
-  async create(pMutable: CreateEmployeeDto): Promise<EmployeeDto> {
-    return this.employeeRepository.create(pMutable);
-  }
-
-  async createMany(pMutableList: CreateEmployeeDto[]): Promise<EmployeeDto[]> {
-    return this.employeeRepository.createMany(pMutableList);
-  }
-
-  async update(pMutable: UpdateEmployeeDto): Promise<EmployeeDto> {
-    return this.employeeRepository.update(pMutable);
-  }
-
-  async updateMany(pMutableList: UpdateEmployeeDto[]): Promise<EmployeeDto[]> {
-    return this.employeeRepository.updateMany(pMutableList);
-  }
-
-  async delete(id: number): Promise<number> {
-    return this.employeeRepository.delete(id);
-  }
-
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return this.employeeRepository.deleteMany(ids);
+class EmployeeService extends BaseService<
+  EmployeeDto,
+  CreateEmployeeDto,
+  UpdateEmployeeDto,
+  number,
+  EmployeeRepository
+> {
+  constructor(mLogger: ILogger, mRepository: EmployeeRepository) {
+    super(mLogger, mRepository);
   }
 
   async getEmployeeRole(pEmployeeId: number): Promise<EmployeeRoleDto> {
-    return this.employeeRepository.getEmployeeRole(pEmployeeId);
+    return this.mRepository.getEmployeeRole(pEmployeeId);
   }
 
   async createEmployeeRole(
     pMutable: EmployeeRoleDto,
   ): Promise<EmployeeRoleDto> {
-    return this.employeeRepository.createEmployeeRole(pMutable);
+    return this.mRepository.createEmployeeRole(pMutable);
   }
 
   async updateEmployeeRole(
     pMutable: EmployeeRoleDto,
   ): Promise<EmployeeRoleDto> {
-    return this.employeeRepository.updateEmployeeRole(pMutable);
+    return this.mRepository.updateEmployeeRole(pMutable);
   }
 
   async getEmployeeAddress(pEmployeeId: number): Promise<EmployeeAddressDto> {
-    return this.employeeRepository.getEmployeeAddress(pEmployeeId);
+    return this.mRepository.getEmployeeAddress(pEmployeeId);
   }
 
   async createEmployeeAddress(
     pMutable: EmployeeAddressDto,
   ): Promise<EmployeeAddressDto> {
-    return this.employeeRepository.createEmployeeAddress(pMutable);
+    return this.mRepository.createEmployeeAddress(pMutable);
   }
 
   async updateEmployeeAddress(
     pMutable: EmployeeAddressDto,
   ): Promise<EmployeeAddressDto> {
-    return this.employeeRepository.updateEmployeeAddress(pMutable);
+    return this.mRepository.updateEmployeeAddress(pMutable);
   }
 
   async getSingleEmployeeData(
     employeeId: number,
   ): Promise<EmployeeRecordDto | null> {
-    return this.employeeRepository.getSingleEmployeeData(employeeId);
+    return this.mRepository.getSingleEmployeeData(employeeId);
   }
 }
 

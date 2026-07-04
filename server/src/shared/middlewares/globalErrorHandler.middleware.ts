@@ -2,10 +2,10 @@ import type { Request, Response, NextFunction } from 'express';
 
 import { ZodError } from 'zod';
 
-import { ApiResponse } from '../libs/apiResponse.js';
+import { ApiResponse } from '../utils/apiResponse.js';
 import { AppError } from '../errors/AppError.js';
 import ENV from '../../configs/index.config.js';
-import { logger } from '../libs/logger.js';
+import { logger } from '../../infrastructures/logger/logger.js';
 import { RouteNotFoundError } from '../errors/RouteNotFoundError.js';
 
 const isDev = ENV.serverEnv.NODE_ENV === 'development';

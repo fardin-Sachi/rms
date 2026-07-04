@@ -3,13 +3,18 @@ import type EmpSalaryDto from './dtos/empSalary.dto.js';
 import type CreateEmpSalaryDto from './dtos/createEmpSalary.dto.js';
 import type UpdateEmpSalaryDto from './dtos/updateEmpSalary.dto.js';
 import Big from 'big.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 
-class EmployeeSalaryRepository implements IRepository<
-  EmpSalaryDto,
-  CreateEmpSalaryDto,
-  UpdateEmpSalaryDto,
-  number
-> {
+class EmployeeSalaryRepository
+  extends BaseRepository
+  implements
+    IRepository<EmpSalaryDto, CreateEmpSalaryDto, UpdateEmpSalaryDto, number>
+{
+  constructor(logger: ILogger) {
+    super(logger);
+  }
+
   async get(_id: number): Promise<EmpSalaryDto | null> {
     return {
       id: 1,

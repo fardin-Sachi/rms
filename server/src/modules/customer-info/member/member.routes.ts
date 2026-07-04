@@ -1,5 +1,5 @@
 import express, { type Router } from 'express';
-import { logger } from '../../../shared/libs/logger.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import MemberController from './member.controller.js';
 import { createMemberValidator } from './validators/createMember.validator.js';

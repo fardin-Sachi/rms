@@ -1,4 +1,4 @@
-import { logger } from '../../../shared/libs/logger.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { updateFoodMenuValidator } from './validators/updateFoodMenu.validator.js';
