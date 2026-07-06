@@ -1,67 +1,54 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type EmpSalaryDto from './dtos/empSalary.dto.js';
-import type CreateEmpSalaryDto from './dtos/createEmpSalary.dto.js';
-import type UpdateEmpSalaryDto from './dtos/updateEmpSalary.dto.js';
-import Big from 'big.js';
 import BaseRepository from '../../../shared/abstractions/base.repository.js';
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import type EmployeeSalaryEntity from './entities/employeeSalary.entity.js';
 
-class EmployeeSalaryRepository
-  extends BaseRepository
-  implements
-    IRepository<EmpSalaryDto, CreateEmpSalaryDto, UpdateEmpSalaryDto, number>
-{
-  constructor(logger: ILogger) {
-    super(logger);
+/*
+ * TODO: Remove Dtos from Repository layer
+ * TODO: Separate EmployeeAddress and EmployeeRole as individual sub-module
+ */
+class EmployeeSalaryRepository extends BaseRepository<
+  EmployeeSalaryEntity,
+  number
+> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
   }
 
-  async get(_id: number): Promise<EmpSalaryDto | null> {
-    return {
-      id: 1,
-      employeeId: 1,
-      salaryAmount: Big(10_000),
-      activeStatus: true,
-    };
+  async get(_id: number): Promise<EmployeeSalaryEntity | null> {
+    return null;
   }
 
-  async getAll(): Promise<EmpSalaryDto[]> {
+  async getAll(): Promise<EmployeeSalaryEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateEmpSalaryDto): Promise<EmpSalaryDto> {
-    return {
-      id: 1,
-      ...pMutable,
-      activeStatus: pMutable.activeStatus ?? true,
-    };
+  async create(pMutable: EmployeeSalaryEntity): Promise<EmployeeSalaryEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreateEmpSalaryDto[],
-  ): Promise<EmpSalaryDto[]> {
+    _pMutableList: EmployeeSalaryEntity[],
+  ): Promise<EmployeeSalaryEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateEmpSalaryDto): Promise<EmpSalaryDto> {
-    return {
-      ...pMutable,
-      salaryAmount: Big(pMutable.salaryAmount ?? 10_000),
-      activeStatus: pMutable.activeStatus ?? true,
-    };
+  async update(entity: EmployeeSalaryEntity): Promise<EmployeeSalaryEntity> {
+    return entity;
   }
 
   async updateMany(
-    _pMutableList: UpdateEmpSalaryDto[],
-  ): Promise<EmpSalaryDto[]> {
+    _pMutableList: EmployeeSalaryEntity[],
+  ): Promise<EmployeeSalaryEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

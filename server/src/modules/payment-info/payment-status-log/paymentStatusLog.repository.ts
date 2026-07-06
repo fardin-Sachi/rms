@@ -1,61 +1,54 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type { PaymentStatusLogDto } from './dtos/paymentStatusLog.dto.js';
-import type { CreatePaymentStatusLogDto } from './dtos/createPaymentStatusLog.dto.js';
-import type { UpdatePaymentStatusLogDto } from './dtos/updatePaymentStatusLog.dto.js';
-import PaymentStatus from '../shared/enums/paymentStatus.enum.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type PaymentStatusLogEntity from './entities/paymentStatusLog.entity.js';
 
-class PaymentStatusLogRepository implements IRepository<
-  PaymentStatusLogDto,
-  CreatePaymentStatusLogDto,
-  UpdatePaymentStatusLogDto,
+class PaymentStatusLogRepository extends BaseRepository<
+  PaymentStatusLogEntity,
   number
 > {
-  async get(_id: number): Promise<PaymentStatusLogDto | null> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+
+  async get(_id: number): Promise<PaymentStatusLogEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<PaymentStatusLogDto[]> {
+  async getAll(): Promise<PaymentStatusLogEntity[]> {
     return [];
   }
 
   async create(
-    pMutable: CreatePaymentStatusLogDto,
-  ): Promise<PaymentStatusLogDto> {
-    return {
-      ...pMutable,
-      changedAt: pMutable.changedAt ?? new Date(),
-    };
+    pMutable: PaymentStatusLogEntity,
+  ): Promise<PaymentStatusLogEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreatePaymentStatusLogDto[],
-  ): Promise<PaymentStatusLogDto[]> {
+    _pMutableList: PaymentStatusLogEntity[],
+  ): Promise<PaymentStatusLogEntity[]> {
     return [];
   }
 
   async update(
-    pMutable: UpdatePaymentStatusLogDto,
-  ): Promise<PaymentStatusLogDto> {
-    return {
-      ...pMutable,
-      paymentId: 1,
-      paymentStatusId: PaymentStatus.PENDING,
-      changedAt: pMutable.changedAt ?? new Date(),
-    };
+    pMutable: PaymentStatusLogEntity,
+  ): Promise<PaymentStatusLogEntity> {
+    return pMutable;
   }
 
   async updateMany(
-    _pMutableList: UpdatePaymentStatusLogDto[],
-  ): Promise<PaymentStatusLogDto[]> {
+    _pMutableList: PaymentStatusLogEntity[],
+  ): Promise<PaymentStatusLogEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

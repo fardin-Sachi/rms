@@ -1,53 +1,90 @@
+import type IDto from '../interfaces/dto.interface.js';
 import type { ILogger } from '../interfaces/logger.interface.js';
+import type { IEntityMapper } from '../interfaces/mapper.interface.js';
 import type IRepository from '../interfaces/repository.interface.js';
 
 abstract class BaseService<
-  TEntity,
+  TDto extends IDto<TId>,
   TCreateDto,
-  TUpdateDto,
-  TIdentifier = number,
-  TRepository extends IRepository<
-    TEntity,
-    TCreateDto,
-    TUpdateDto,
-    TIdentifier
-  > = IRepository<TEntity, TCreateDto, TUpdateDto, TIdentifier>,
+  TUpdateDto extends IDto<TId>,
+  TEntity,
+  TId,
+  TRepository extends IRepository<TEntity, TId>,
 > {
   protected constructor(
     protected readonly mLogger: ILogger,
     protected readonly mRepository: TRepository,
+    protected readonly mMapper: IEntityMapper<
+      TEntity,
+      TDto,
+      TCreateDto,
+      TUpdateDto
+    >,
   ) {}
 
-  async get(id: TIdentifier): Promise<TEntity | null> {
-    return this.mRepository.get(id);
+  async get(id: TId): Promise<TDto | null> {
+    const entity = await this.mRepository.get(id);
+
+    return entity ? this.mMapper.toDto(entity) : null;
   }
 
-  async getAll(): Promise<TEntity[]> {
-    return this.mRepository.getAll();
+  async getAll(): Promise<TDto[]> {
+    const entities = await this.mRepository.getAll();
+
+    return entities.map((entity) => this.mMapper.toDto(entity));
   }
 
-  async create(dto: TCreateDto): Promise<TEntity> {
-    return this.mRepository.create(dto);
+  async create(dto: TCreateDto): Promise<TDto> {
+    const entity = this.mMapper.fromCreateDto(dto);
+
+    const created = await this.mRepository.create(entity);
+
+    return this.mMapper.toDto(created);
   }
 
-  async createMany(dtos: TCreateDto[]): Promise<TEntity[]> {
-    return this.mRepository.createMany(dtos);
+  async createMany(dtos: TCreateDto[]): Promise<TDto[]> {
+    const entities = dtos.map((dto) => this.mMapper.fromCreateDto(dto));
+    const created = await this.mRepository.createMany(entities);
+
+    return created.map((entity) => this.mMapper.toDto(entity));
   }
 
-  async update(dto: TUpdateDto): Promise<TEntity> {
-    return this.mRepository.update(dto);
+  async update(dto: TUpdateDto): Promise<TDto> {
+    const entity = await this.mRepository.get(dto.id);
+
+    if (!entity) throw new Error('Entity not found');
+
+    this.mMapper.updateEntity(entity, dto);
+
+    const updated = await this.mRepository.update(entity);
+
+    return this.mMapper.toDto(updated);
   }
 
-  async updateMany(dtos: TUpdateDto[]): Promise<TEntity[]> {
-    return this.mRepository.updateMany(dtos);
+  async updateMany(dtos: TUpdateDto[]): Promise<TDto[]> {
+    const entities: TEntity[] = [];
+
+    for (const dto of dtos) {
+      const entity = await this.mRepository.get(dto.id);
+
+      if (!entity) throw new Error('Entity not found');
+
+      this.mMapper.updateEntity(entity, dto);
+
+      entities.push(entity);
+    }
+
+    const updated = await this.mRepository.updateMany(entities);
+
+    return updated.map((e) => this.mMapper.toDto(e));
   }
 
-  async delete(id: TIdentifier): Promise<void> {
-    this.mRepository.delete(id);
+  async delete(id: TId): Promise<void> {
+    await this.mRepository.delete(id);
   }
 
-  async deleteMany(ids: TIdentifier[]): Promise<void> {
-    this.mRepository.deleteMany(ids);
+  async deleteMany(ids: TId[]): Promise<void> {
+    await this.mRepository.deleteMany(ids);
   }
 }
 

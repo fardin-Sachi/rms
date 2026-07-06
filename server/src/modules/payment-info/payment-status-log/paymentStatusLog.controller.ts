@@ -1,16 +1,16 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../../shared/libs/apiResponse.js';
 import type { CreatePaymentStatusLogDto } from './dtos/createPaymentStatusLog.dto.js';
 import type { UpdatePaymentStatusLogDto } from './dtos/updatePaymentStatusLog.dto.js';
 import type { PaymentStatusLogDto } from './dtos/paymentStatusLog.dto.js';
 import PaymentStatusLogService from './paymentStatusLog.service.js';
+import { ApiResponse } from '../../../shared/utils/apiResponse.js';
 
 class PaymentStatusLogController {
-  private readonly pymentStatusLogService: PaymentStatusLogService;
-  constructor(private readonly logger: ILogger) {
-    this.pymentStatusLogService = new PaymentStatusLogService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: PaymentStatusLogService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -25,7 +25,7 @@ class PaymentStatusLogController {
     const id: number = Number(req.params.id);
 
     const pymentStatusLogDto: PaymentStatusLogDto | null =
-      await this.pymentStatusLogService.get(id);
+      await this.mService.get(id);
 
     if (!pymentStatusLogDto) {
       return ApiResponse.error(
@@ -45,7 +45,7 @@ class PaymentStatusLogController {
 
   async getAll(_req: Request, res: Response): Promise<Response> {
     const pymentStatusLogDtos: PaymentStatusLogDto[] =
-      await this.pymentStatusLogService.getAll();
+      await this.mService.getAll();
 
     return ApiResponse.success<PaymentStatusLogDto[]>(
       res,
@@ -59,7 +59,7 @@ class PaymentStatusLogController {
     const payload = req.body as CreatePaymentStatusLogDto;
 
     const createdpaymentStatusLogDto: PaymentStatusLogDto =
-      await this.pymentStatusLogService.create(payload);
+      await this.mService.create(payload);
 
     return ApiResponse.success<PaymentStatusLogDto>(
       res,
@@ -73,7 +73,7 @@ class PaymentStatusLogController {
     const payload = req.body as CreatePaymentStatusLogDto[];
 
     const createdPaymentStatusLogDtos: PaymentStatusLogDto[] =
-      await this.pymentStatusLogService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<PaymentStatusLogDto[]>(
       res,
@@ -88,8 +88,7 @@ class PaymentStatusLogController {
     const payload: UpdatePaymentStatusLogDto = req.body;
     payload.id = id;
 
-    const updatedpaymentStatusLogDto =
-      await this.pymentStatusLogService.update(payload);
+    const updatedpaymentStatusLogDto = await this.mService.update(payload);
 
     return ApiResponse.success<PaymentStatusLogDto>(
       res,
@@ -103,7 +102,7 @@ class PaymentStatusLogController {
     const payload = req.body as UpdatePaymentStatusLogDto[];
 
     const updatedPaymentStatusLogDtos: PaymentStatusLogDto[] =
-      await this.pymentStatusLogService.updateMany(payload);
+      await this.mService.updateMany(payload);
 
     return ApiResponse.success<PaymentStatusLogDto[]>(
       res,
@@ -116,25 +115,24 @@ class PaymentStatusLogController {
   async delete(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const deletedId: number = await this.pymentStatusLogService.delete(id);
+    await this.mService.delete(id);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Payment Status Log is deleted with ID: ${deletedId}`,
+      `Payment Status Log is deleted with ID: ${id}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] =
-      await this.pymentStatusLogService.deleteMany(ids);
+    await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Payment Status Logs are deleted with IDs: ${deletedIds}`,
+      `Payment Status Logs are deleted with IDs: ${ids}`,
     );
   }
 }

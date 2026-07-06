@@ -1,60 +1,43 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import Big from 'big.js';
-import type { PaymentDto } from './dtos/payment.dto.js';
-import type { CreatePaymentDto } from './dtos/createPayment.dto.js';
-import type { UpdatePaymentDto } from './dtos/updatePayment.dto.js';
-import PaymentType from '../shared/enums/paymentType.enum.js';
-import PaymentStatus from '../shared/enums/paymentStatus.enum.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type PaymentEntity from './entities/payment.entity.js';
 
-class PaymentRepository implements IRepository<
-  PaymentDto,
-  CreatePaymentDto,
-  UpdatePaymentDto,
-  number
-> {
-  async get(_id: number): Promise<PaymentDto | null> {
+class PaymentRepository extends BaseRepository<PaymentEntity, number> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+
+  async get(_id: number): Promise<PaymentEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<PaymentDto[]> {
+  async getAll(): Promise<PaymentEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreatePaymentDto): Promise<PaymentDto> {
-    return {
-      id: 1,
-      ...pMutable,
-      paymentTime: pMutable.paymentTime ?? new Date(),
-    };
+  async create(pMutable: PaymentEntity): Promise<PaymentEntity> {
+    return pMutable;
   }
 
-  async createMany(_pMutableList: CreatePaymentDto[]): Promise<PaymentDto[]> {
+  async createMany(_pMutableList: PaymentEntity[]): Promise<PaymentEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdatePaymentDto): Promise<PaymentDto> {
-    return {
-      ...pMutable,
-      customerOrderId: 1,
-      paymentTypeId: pMutable.paymentTypeId ?? PaymentType.CASH,
-      transactionId: pMutable.transactionId ?? 'onekborotransactionid',
-      amount: pMutable.amount ?? new Big(3000),
-      currentPaymentStatusId:
-        pMutable.currentPaymentStatusId ?? PaymentStatus.PENDING,
-      paymentTime: pMutable.paymentTime ?? new Date(),
-    };
+  async update(pMutable: PaymentEntity): Promise<PaymentEntity> {
+    return pMutable;
   }
 
-  async updateMany(_pMutableList: UpdatePaymentDto[]): Promise<PaymentDto[]> {
+  async updateMany(_pMutableList: PaymentEntity[]): Promise<PaymentEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

@@ -7,32 +7,52 @@ import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
 import type { EmployeeRecordDto } from './dtos/empRecord.dto.js';
 import BaseService from '../../../shared/abstractions/base.service.js';
 import type EmployeeRepository from './employee.repository.js';
+import EmployeeRoleMapper from './mappers/employeeRole.mapper.js';
+import type EmployeeEntity from './entities/employee.entity.js';
+import type EmployeeMapper from './mappers/employee.mapper.js';
 
 class EmployeeService extends BaseService<
   EmployeeDto,
   CreateEmployeeDto,
   UpdateEmployeeDto,
+  EmployeeEntity,
   number,
   EmployeeRepository
 > {
-  constructor(mLogger: ILogger, mRepository: EmployeeRepository) {
-    super(mLogger, mRepository);
+  constructor(
+    mLogger: ILogger,
+    mRepository: EmployeeRepository,
+    mMapper: EmployeeMapper,
+  ) {
+    super(mLogger, mRepository, mMapper);
   }
 
-  async getEmployeeRole(pEmployeeId: number): Promise<EmployeeRoleDto> {
-    return this.mRepository.getEmployeeRole(pEmployeeId);
+  async getEmployeeRole(pEmployeeId: number): Promise<EmployeeRoleDto | null> {
+    const entity = await this.mRepository.getEmployeeRole(pEmployeeId);
+
+    if (!entity) return null;
+
+    return EmployeeRoleMapper.toDto(entity);
   }
 
   async createEmployeeRole(
     pMutable: EmployeeRoleDto,
   ): Promise<EmployeeRoleDto> {
-    return this.mRepository.createEmployeeRole(pMutable);
+    const entity = EmployeeRoleMapper.toEntity(pMutable);
+
+    const created = await this.mRepository.createEmployeeRole(entity);
+
+    return EmployeeRoleMapper.toDto(created);
   }
 
   async updateEmployeeRole(
     pMutable: EmployeeRoleDto,
   ): Promise<EmployeeRoleDto> {
-    return this.mRepository.updateEmployeeRole(pMutable);
+    const entity = EmployeeRoleMapper.toEntity(pMutable);
+
+    const updated = await this.mRepository.updateEmployeeRole(entity);
+
+    return EmployeeRoleMapper.toDto(updated);
   }
 
   async getEmployeeAddress(pEmployeeId: number): Promise<EmployeeAddressDto> {

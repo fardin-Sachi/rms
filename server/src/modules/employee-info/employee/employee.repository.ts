@@ -1,82 +1,68 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type { EmployeeDto } from './dtos/employee.dto.js';
-import type CreateEmployeeDto from './dtos/createEmployee.dto.js';
-import type UpdateEmployeeDto from './dtos/updateEmployee.dto.js';
 import type { EmployeeAddressDto } from './dtos/empAddress.dto.js';
-import type { EmployeeRoleDto } from './dtos/empRole.dto.js';
 import type { EmployeeRecordDto } from './dtos/empRecord.dto.js';
 import Big from 'big.js';
 import BaseRepository from '../../../shared/abstractions/base.repository.js';
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import type EmployeeEntity from './entities/employee.entity.js';
+import EmployeeRoleEntity from './entities/employeeRole.entity.js';
 
-class EmployeeRepository
-  extends BaseRepository
-  implements
-    IRepository<EmployeeDto, CreateEmployeeDto, UpdateEmployeeDto, number>
-{
-  constructor(logger: ILogger) {
-    super(logger);
+/*
+ * TODO: Remove Dtos from Repository layer
+ * TODO: Separate EmployeeAddress and EmployeeRole as individual sub-module
+ */
+class EmployeeRepository extends BaseRepository<EmployeeEntity, number> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
   }
-  async get(_id: number): Promise<EmployeeDto | null> {
+
+  async get(_id: number): Promise<EmployeeEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<EmployeeDto[]> {
+  async getAll(): Promise<EmployeeEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateEmployeeDto): Promise<EmployeeDto> {
-    return {
-      id: 1,
-      ...pMutable,
-      onVacation: pMutable.onVacation ?? true,
-    };
+  async create(pMutable: EmployeeEntity): Promise<EmployeeEntity> {
+    return pMutable;
   }
 
-  async createMany(_pMutableList: CreateEmployeeDto[]): Promise<EmployeeDto[]> {
+  async createMany(_pMutableList: EmployeeEntity[]): Promise<EmployeeEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateEmployeeDto): Promise<EmployeeDto> {
-    return {
-      id: pMutable.id,
-      name: pMutable.name ?? 'Employee',
-      contact: pMutable.contact ?? '',
-      sex: true,
-      joiningDate: new Date(),
-      onVacation: false,
-      activeStatus: true,
-    };
+  async update(pMutable: EmployeeEntity): Promise<EmployeeEntity> {
+    return pMutable;
   }
 
-  async updateMany(_pMutableList: UpdateEmployeeDto[]): Promise<EmployeeDto[]> {
+  async updateMany(_pMutableList: EmployeeEntity[]): Promise<EmployeeEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 
-  async getEmployeeRole(pEmployeeId: number): Promise<EmployeeRoleDto> {
-    return {
-      employeeId: pEmployeeId,
-      employeeRoleId: 2,
-    };
+  async getEmployeeRole(
+    pEmployeeId: number,
+  ): Promise<EmployeeRoleEntity | null> {
+    return new EmployeeRoleEntity(pEmployeeId, 2);
   }
 
   async createEmployeeRole(
-    pMutable: EmployeeRoleDto,
-  ): Promise<EmployeeRoleDto> {
+    pMutable: EmployeeRoleEntity,
+  ): Promise<EmployeeRoleEntity> {
     return pMutable;
   }
 
   async updateEmployeeRole(
-    pMutable: EmployeeRoleDto,
-  ): Promise<EmployeeRoleDto> {
+    pMutable: EmployeeRoleEntity,
+  ): Promise<EmployeeRoleEntity> {
     return pMutable;
   }
 

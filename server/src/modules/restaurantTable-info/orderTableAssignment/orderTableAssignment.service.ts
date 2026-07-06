@@ -1,64 +1,54 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import OrderTableAssignmentRepository from './orderTableAssignment.repository.js';
+import type OrderTableAssignmentMapper from './mappers/orderTableAssignment.mapper.js';
 import type { OrderTableAssignmentDto } from './dtos/orderTableAssignment.dto.js';
-import type { UpdateOrderTableAssignmentDto } from './dtos/updateOrderTableAssignment.dto.js';
 import type { CreateOrderTableAssignmentDto } from './dtos/createOrderTableAssignment.dto.js';
+import type { UpdateOrderTableAssignmentDto } from './dtos/updateOrderTableAssignment.dto.js';
 
 class OrderTableAssignmentService {
-  private readonly orderTableAssignmentRepository: OrderTableAssignmentRepository;
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mRepository: OrderTableAssignmentRepository,
+    private readonly mMapper: OrderTableAssignmentMapper,
+  ) {}
 
-  constructor(private readonly logger: ILogger) {
-    this.orderTableAssignmentRepository = new OrderTableAssignmentRepository();
+  async assign(dto: CreateOrderTableAssignmentDto): Promise<void> {
+    const entity = this.mMapper.fromCreateDto(dto);
+    await this.mRepository.create(entity);
   }
 
-  async get(id: number): Promise<OrderTableAssignmentDto | null> {
-    return this.orderTableAssignmentRepository.get(id);
+  async getByOrderId(orderId: number): Promise<OrderTableAssignmentDto[]> {
+    const entities = await this.mRepository.getByOrderId(orderId);
+
+    return entities.map((e) => this.mMapper.toDto(e));
   }
 
-  async getByCustomerId(id: number): Promise<OrderTableAssignmentDto | null> {
-    return this.orderTableAssignmentRepository.getByCustomerId(id);
+  async remove(dto: OrderTableAssignmentDto): Promise<void> {
+    await this.mRepository.delete({
+      customerOrderId: dto.customerOrderId,
+      restaurantTableId: dto.restaurantTableId,
+    });
   }
 
-  async getByRestaurantTable(
-    id: number,
-  ): Promise<OrderTableAssignmentDto | null> {
-    return this.orderTableAssignmentRepository.getByRestaurantTable(id);
+  async update(dto: UpdateOrderTableAssignmentDto): Promise<void> {
+    const entity = await this.mRepository.get({
+      customerOrderId: dto.customerOrderId!,
+      restaurantTableId: dto.restaurantTableId!,
+    });
+
+    if (!entity) throw new Error('Assignment not found');
+
+    this.mMapper.updateEntity(entity, dto);
+
+    await this.mRepository.create(entity); // upsert-style behavior
   }
 
-  async getAll(): Promise<OrderTableAssignmentDto[]> {
-    return this.orderTableAssignmentRepository.getAll();
-  }
+  async replace(dto: CreateOrderTableAssignmentDto): Promise<void> {
+    await this.mRepository.deleteByOrderId(dto.customerOrderId);
 
-  async create(
-    pMutable: CreateOrderTableAssignmentDto,
-  ): Promise<OrderTableAssignmentDto> {
-    return this.orderTableAssignmentRepository.create(pMutable);
-  }
+    const entity = this.mMapper.fromCreateDto(dto);
 
-  async createMany(
-    pMutableList: CreateOrderTableAssignmentDto[],
-  ): Promise<OrderTableAssignmentDto[]> {
-    return this.orderTableAssignmentRepository.createMany(pMutableList);
-  }
-
-  async update(
-    pMutable: UpdateOrderTableAssignmentDto,
-  ): Promise<OrderTableAssignmentDto> {
-    return this.orderTableAssignmentRepository.update(pMutable);
-  }
-
-  async updateMany(
-    pMutableList: UpdateOrderTableAssignmentDto[],
-  ): Promise<OrderTableAssignmentDto[]> {
-    return this.orderTableAssignmentRepository.updateMany(pMutableList);
-  }
-
-  async delete(id: number): Promise<number> {
-    return this.orderTableAssignmentRepository.delete(id);
-  }
-
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return this.orderTableAssignmentRepository.deleteMany(ids);
+    await this.mRepository.create(entity);
   }
 }
 

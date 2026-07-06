@@ -7,45 +7,48 @@ import { createCustomerValidator } from './validators/createCustomer.validator.j
 import { updateCustomerValidator } from './validators/updateCustomer.validator.js';
 import { createCustomerArrayValidator } from './validators/createCustomerArray.validator.js';
 import { updateCustomerArrayValidator } from './validators/updateCustomerArray.validator.js';
+import { db } from '../../../infrastructures/database/index.database.js';
+import CustomerRepository from './customer.repository.js';
+import CustomerService from './customer.service.js';
+import CustomerMapper from './mappers/customer.mapper.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
-const customerController = new CustomerController(logger);
+const mMapper = new CustomerMapper();
+const mRepository = new CustomerRepository(db, logger);
+const mService = new CustomerService(logger, mRepository, mMapper);
+const mController = new CustomerController(logger, mService);
 
 // Batch Customer routes
 router
-  .get('', customerController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
     validate(createCustomerArrayValidator, 'body'),
-    customerController.createMany,
+    mController.createMany,
   )
   .patch(
     '/batch',
     validate(updateCustomerArrayValidator, 'body'),
-    customerController.update,
+    mController.update,
   )
-  .delete('/batch', customerController.delete);
+  .delete('/batch', mController.delete);
 
 // Single Customer routes
 router
-  .get(
-    '/:id',
-    validate(customerIdParamValidator, 'params'),
-    customerController.get,
-  )
-  .post('', validate(createCustomerValidator), customerController.create)
+  .get('/:id', validate(customerIdParamValidator, 'params'), mController.get)
+  .post('', validate(createCustomerValidator), mController.create)
   .patch(
     '/:id',
     validate(customerIdParamValidator, 'params'),
     validate(updateCustomerValidator, 'body'),
-    customerController.update,
+    mController.update,
   )
   .delete(
     '/:id',
     validate(customerIdParamValidator, 'params'),
-    customerController.delete,
+    mController.delete,
   );
 
 export default router;

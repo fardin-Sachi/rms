@@ -1,59 +1,54 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type { RestaurantTableDto } from './dtos/restaurantTable.dto.js';
-import type { CreateRestaurantTableDto } from './dtos/createRestaurantTable.dto.js';
-import type { UpdateRestaurantTableDto } from './dtos/updateRestaurantTable.dto.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type RestaurantTableEntity from './entities/restaurantTable.entities.js';
 
-class RestaurantTableRepository implements IRepository<
-  RestaurantTableDto,
-  CreateRestaurantTableDto,
-  UpdateRestaurantTableDto,
+class RestaurantTableRepository extends BaseRepository<
+  RestaurantTableEntity,
   number
 > {
-  async get(_id: number): Promise<RestaurantTableDto | null> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+
+  async get(_id: number): Promise<RestaurantTableEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<RestaurantTableDto[]> {
+  async getAll(): Promise<RestaurantTableEntity[]> {
     return [];
   }
 
   async create(
-    pMutable: CreateRestaurantTableDto,
-  ): Promise<RestaurantTableDto> {
-    return {
-      id: 1,
-      ...pMutable,
-    };
+    pMutable: RestaurantTableEntity,
+  ): Promise<RestaurantTableEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreateRestaurantTableDto[],
-  ): Promise<RestaurantTableDto[]> {
+    _pMutableList: RestaurantTableEntity[],
+  ): Promise<RestaurantTableEntity[]> {
     return [];
   }
 
   async update(
-    pMutable: UpdateRestaurantTableDto,
-  ): Promise<RestaurantTableDto> {
-    return {
-      id: pMutable.id,
-      capacity: pMutable.capacity ?? 5,
-      tableNo: pMutable.tableNo ?? 'A-1',
-    };
+    pMutable: RestaurantTableEntity,
+  ): Promise<RestaurantTableEntity> {
+    return pMutable;
   }
 
   async updateMany(
-    _pMutableList: UpdateRestaurantTableDto[],
-  ): Promise<RestaurantTableDto[]> {
+    _pMutableList: RestaurantTableEntity[],
+  ): Promise<RestaurantTableEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

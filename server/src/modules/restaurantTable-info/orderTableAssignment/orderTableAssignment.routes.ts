@@ -1,65 +1,45 @@
-import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import OrderTableAssignmentController from './orderTableAssignment.controller.js';
 import { createOrderTableAssignmentValidator } from './validators/createOrderTableAssignment.validator.js';
 import { updateOrderTableAssignmentValidator } from './validators/updateOrderTableAssignment.validator.js';
-import { orderTableAssignmentRestaurantTableIdParamValidator } from './validators/orderTableAssignmentRestaurantTableIdParam.validator.js';
-import { orderTableAssignmentCustomerOrderIdParamValidator } from './validators/orderTableAssignmentCustomerIdParam.validator.js';
+import { db } from '../../../infrastructures/database/index.database.js';
+import OrderTableAssignmentMapper from './mappers/orderTableAssignment.mapper.js';
+import OrderTableAssignmentRepository from './orderTableAssignment.repository.js';
+import OrderTableAssignmentService from './orderTableAssignment.service.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
+import { customerOrderIdParamValidator } from '../../order/customer-order/validators/customerOrderIdParam.validator.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
-const orderTableAssignmentController = new OrderTableAssignmentController(
-  logger,
-);
+const mMapper = new OrderTableAssignmentMapper();
+const mRepository = new OrderTableAssignmentRepository(db, logger);
+const mService = new OrderTableAssignmentService(logger, mRepository, mMapper);
+const mController = new OrderTableAssignmentController(logger, mService);
 
-/// Order Table Assignment Batch Routes
-router.get('', orderTableAssignmentController.getAll);
-//   .post(
-//     '/batch',
-//     validate(createEmployeeArrayValidator, 'body'),
-//     orderTableAssignmentController.createMany,
-//   )
-//   .patch(
-//     '/batch',
-//     validate(updateEmployeeArrayValidator, 'body'),
-//     orderTableAssignmentController.updateMany,
-//   )
-//   .delete(
-//     '/batch',
-//     validate(deleteEmployeeArrayValidator, 'body'),
-//     orderTableAssignmentController.deleteMany,
-//   );
-
-/// Order Table Assignment Single Routes
 router
   .get(
-    '/:customerId',
-    validate(orderTableAssignmentCustomerOrderIdParamValidator, 'params'),
-    orderTableAssignmentController.getByCustomerId,
-  )
-  .get(
-    '/:restaurantTableId',
-    validate(orderTableAssignmentRestaurantTableIdParamValidator, 'params'),
-    orderTableAssignmentController.getByRestaurantTable,
+    '/:orderId',
+    validate(customerOrderIdParamValidator, 'params'),
+    mController.getByOrderId,
   )
   .post(
-    '',
+    '/assign',
     validate(createOrderTableAssignmentValidator),
-    orderTableAssignmentController.create,
+    mController.assign,
   )
   .patch(
-    '/:customerId',
-    validate(orderTableAssignmentCustomerOrderIdParamValidator, 'params'),
-    validate(updateOrderTableAssignmentValidator, 'body'),
-    orderTableAssignmentController.update,
+    '/update',
+    validate(updateOrderTableAssignmentValidator),
+    mController.update,
   )
-  .delete(
-    '/:customerId',
-    validate(orderTableAssignmentCustomerOrderIdParamValidator, 'params'),
-    orderTableAssignmentController.delete,
+  .delete('/remove', mController.remove)
+  .put(
+    '/replace',
+    validate(createOrderTableAssignmentValidator),
+    mController.replace,
   );
 
 export default router;

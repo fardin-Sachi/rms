@@ -7,6 +7,8 @@ import EmployeeSalaryRepository from './empSalary.repository.js';
 import EmployeeSalaryService from './empSalary.service.js';
 import { createEmpSalaryValidator } from './validators/createEmpSalary.validator.js';
 import { updateEmpSalaryValidator } from './validators/updateEmpSalary.validator.js';
+import EmployeeSalaryMapper from './mappers/employeeSalary.mapper.js';
+import { db } from '../../../infrastructures/database/index.database.js';
 
 const router: Router = express.Router();
 
@@ -15,10 +17,9 @@ const router: Router = express.Router();
  */
 
 /// Object declarations
-const mRepository = new EmployeeSalaryRepository(logger);
-
-const mService = new EmployeeSalaryService(logger, mRepository);
-
+const mMapper = new EmployeeSalaryMapper();
+const mRepository = new EmployeeSalaryRepository(db, logger);
+const mService = new EmployeeSalaryService(logger, mRepository, mMapper);
 const mController = new EmployeeSalaryController(logger, mService);
 
 router
@@ -26,6 +27,20 @@ router
     '/salary/:id',
     validate(employeeIdParamValidator, 'params'),
     mController.get,
+    validate(employeeIdParamValidator, 'params'),
+    mController.get,
+  )
+  .post(
+    '/salary/:id',
+    validate(employeeIdParamValidator, 'params'),
+    validate(createEmpSalaryValidator, 'body'),
+    mController.create,
+  )
+  .patch(
+    '/salary/:id',
+    validate(employeeIdParamValidator, 'params'),
+    validate(updateEmpSalaryValidator, 'body'),
+    mController.update,
     validate(employeeIdParamValidator, 'params'),
     mController.get,
   )

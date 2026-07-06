@@ -1,16 +1,16 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../../shared/libs/apiResponse.js';
 import type { PaymentDto } from './dtos/payment.dto.js';
 import type { UpdatePaymentDto } from './dtos/updatePayment.dto.js';
 import type { CreatePaymentDto } from './dtos/createPayment.dto.js';
 import PaymentService from './payment.service.js';
+import { ApiResponse } from '../../../shared/utils/apiResponse.js';
 
 class PaymentController {
-  private readonly paymentService: PaymentService;
-  constructor(private readonly logger: ILogger) {
-    this.paymentService = new PaymentService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: PaymentService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -24,7 +24,7 @@ class PaymentController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const paymentDto: PaymentDto | null = await this.paymentService.get(id);
+    const paymentDto: PaymentDto | null = await this.mService.get(id);
 
     if (!paymentDto) {
       return ApiResponse.error(
@@ -43,7 +43,7 @@ class PaymentController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const paymentDtos: PaymentDto[] = await this.paymentService.getAll();
+    const paymentDtos: PaymentDto[] = await this.mService.getAll();
 
     return ApiResponse.success<PaymentDto[]>(
       res,
@@ -56,8 +56,7 @@ class PaymentController {
   async create(req: Request, res: Response): Promise<Response> {
     const payload = req.body as CreatePaymentDto;
 
-    const createdPaymentDto: PaymentDto =
-      await this.paymentService.create(payload);
+    const createdPaymentDto: PaymentDto = await this.mService.create(payload);
 
     return ApiResponse.success<PaymentDto>(
       res,
@@ -71,7 +70,7 @@ class PaymentController {
     const payload = req.body as CreatePaymentDto[];
 
     const createdPaymentDtos: PaymentDto[] =
-      await this.paymentService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<PaymentDto[]>(
       res,
@@ -86,7 +85,7 @@ class PaymentController {
     const payload: UpdatePaymentDto = req.body;
     payload.id = id;
 
-    const updatedPaymentDto = await this.paymentService.update(payload);
+    const updatedPaymentDto = await this.mService.update(payload);
 
     return ApiResponse.success<PaymentDto>(
       res,
@@ -100,7 +99,7 @@ class PaymentController {
     const payload = req.body as UpdatePaymentDto[];
 
     const updatedPaymentDtos: PaymentDto[] =
-      await this.paymentService.updateMany(payload);
+      await this.mService.updateMany(payload);
 
     return ApiResponse.success<PaymentDto[]>(
       res,
@@ -113,24 +112,24 @@ class PaymentController {
   async delete(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const deletedId: number = await this.paymentService.delete(id);
+    await this.mService.delete(id);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Payment is deleted with ID: ${deletedId}`,
+      `Payment is deleted with ID: ${id}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.paymentService.deleteMany(ids);
+    await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Payments are deleted with IDs: ${deletedIds}`,
+      `Payments are deleted with IDs: ${ids}`,
     );
   }
 }

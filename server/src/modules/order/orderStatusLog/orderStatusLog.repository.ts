@@ -1,56 +1,49 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type { OrderStatusLogDto } from './dtos/orderStatusLog.dto.js';
-import type { CreateOrderStatusLogDto } from './dtos/createOrderStatusLog.dto.js';
-import type { UpdateOrderStatusLogDto } from './dtos/updateOrderStatusLog.dto.js';
-import OrderStatus from '../shared/enums/orderStatus.enum.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type OrderStatusLogEntity from './entities/orderStatusLog.entity.js';
 
-class OrderStatusLogRepository implements IRepository<
-  OrderStatusLogDto,
-  CreateOrderStatusLogDto,
-  UpdateOrderStatusLogDto,
+class OrderStatusLogRepository extends BaseRepository<
+  OrderStatusLogEntity,
   number
 > {
-  async get(_id: number): Promise<OrderStatusLogDto | null> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+  async get(_id: number): Promise<OrderStatusLogEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<OrderStatusLogDto[]> {
+  async getAll(): Promise<OrderStatusLogEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateOrderStatusLogDto): Promise<OrderStatusLogDto> {
-    return {
-      id: 1,
-      ...pMutable,
-    };
+  async create(pMutable: OrderStatusLogEntity): Promise<OrderStatusLogEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreateOrderStatusLogDto[],
-  ): Promise<OrderStatusLogDto[]> {
+    _pMutableList: OrderStatusLogEntity[],
+  ): Promise<OrderStatusLogEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateOrderStatusLogDto): Promise<OrderStatusLogDto> {
-    return {
-      id: pMutable.id,
-      customerOrderId: 1,
-      orderStatusId: OrderStatus.PENDING,
-    };
+  async update(pMutable: OrderStatusLogEntity): Promise<OrderStatusLogEntity> {
+    return pMutable;
   }
 
   async updateMany(
-    _pMutableList: UpdateOrderStatusLogDto[],
-  ): Promise<OrderStatusLogDto[]> {
+    _pMutableList: OrderStatusLogEntity[],
+  ): Promise<OrderStatusLogEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

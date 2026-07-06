@@ -7,10 +7,10 @@ import type { UpdateBuyXGetYRuleDto } from './dtos/updateBuyXGetYRule.dto.js';
 import type { CreateBuyXGetYRuleDto } from './dtos/createBuyXGetYRule.dto.js';
 
 class BuyXGetYRuleController {
-  private readonly buyXGetYRuleService: BuyXGetYRuleService;
-  constructor(private readonly logger: ILogger) {
-    this.buyXGetYRuleService = new BuyXGetYRuleService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: BuyXGetYRuleService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -22,16 +22,16 @@ class BuyXGetYRuleController {
   }
 
   async get(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.promotionId);
+    const promotionId: number = Number(req.params.promotionId);
 
     const buyXGetYRuleDto: BuyXGetYRuleDto | null =
-      await this.buyXGetYRuleService.get(id);
+      await this.mService.get(promotionId);
 
     if (!buyXGetYRuleDto) {
       return ApiResponse.error(
         res,
         404,
-        `No Buy X Get Y Rule found with this ID: ${id}`,
+        `No Buy X Get Y Rule found with this ID: ${promotionId}`,
       );
     }
 
@@ -44,8 +44,7 @@ class BuyXGetYRuleController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const buyXGetYRuleDtos: BuyXGetYRuleDto[] =
-      await this.buyXGetYRuleService.getAll();
+    const buyXGetYRuleDtos: BuyXGetYRuleDto[] = await this.mService.getAll();
 
     return ApiResponse.success<BuyXGetYRuleDto[]>(
       res,
@@ -59,7 +58,7 @@ class BuyXGetYRuleController {
     const payload = req.body as CreateBuyXGetYRuleDto;
 
     const createdbuyXGetYRuleDto: BuyXGetYRuleDto =
-      await this.buyXGetYRuleService.create(payload);
+      await this.mService.create(payload);
 
     return ApiResponse.success<BuyXGetYRuleDto>(
       res,
@@ -73,7 +72,7 @@ class BuyXGetYRuleController {
     const payload = req.body as CreateBuyXGetYRuleDto[];
 
     const createdbuyXGetYRuleDtos: BuyXGetYRuleDto[] =
-      await this.buyXGetYRuleService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<BuyXGetYRuleDto[]>(
       res,
@@ -88,7 +87,7 @@ class BuyXGetYRuleController {
     const payload: UpdateBuyXGetYRuleDto = req.body;
     payload.promotionId = id;
 
-    const updatedPromotionDto = await this.buyXGetYRuleService.update(payload);
+    const updatedPromotionDto = await this.mService.update(payload);
 
     return ApiResponse.success<BuyXGetYRuleDto>(
       res,
@@ -102,7 +101,7 @@ class BuyXGetYRuleController {
     const payload = req.body as UpdateBuyXGetYRuleDto[];
 
     const updatedPromotionDtos: BuyXGetYRuleDto[] =
-      await this.buyXGetYRuleService.updateMany(payload);
+      await this.mService.updateMany(payload);
 
     return ApiResponse.success<BuyXGetYRuleDto[]>(
       res,
@@ -115,24 +114,24 @@ class BuyXGetYRuleController {
   async delete(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.promotionId);
 
-    const deletedId: number = await this.buyXGetYRuleService.delete(id);
+    await this.mService.delete(id);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Buy X Get Y Rule is deleted with ID: ${deletedId}`,
+      `Buy X Get Y Rule is deleted with ID: ${id}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.buyXGetYRuleService.deleteMany(ids);
+    await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Buy X Get Y Rules are deleted with IDs: ${deletedIds}`,
+      `Buy X Get Y Rules are deleted with IDs: ${ids}`,
     );
   }
 }

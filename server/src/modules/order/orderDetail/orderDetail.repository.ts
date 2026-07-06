@@ -1,63 +1,46 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import Big from 'big.js';
-import type { OrderDetailDto } from './dtos/orderDetail.dto.js';
-import type { CreateOrderDetailDto } from './dtos/createOrderDetail.dto.js';
-import type { UpdateOrderDetailDto } from './dtos/updateOrderDetail.dto.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type OrderDetailEntity from './entities/orderDetail.entity.js';
 
-class OrderDetailRepository implements IRepository<
-  OrderDetailDto,
-  CreateOrderDetailDto,
-  UpdateOrderDetailDto,
-  number
-> {
-  async get(_id: number): Promise<OrderDetailDto | null> {
+class OrderDetailRepository extends BaseRepository<OrderDetailEntity, number> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+  async get(_id: number): Promise<OrderDetailEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<OrderDetailDto[]> {
+  async getAll(): Promise<OrderDetailEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateOrderDetailDto): Promise<OrderDetailDto> {
-    return {
-      id: 1,
-      ...pMutable,
-      activeStatus: pMutable.activeStatus ?? true,
-    };
+  async create(pMutable: OrderDetailEntity): Promise<OrderDetailEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreateOrderDetailDto[],
-  ): Promise<OrderDetailDto[]> {
+    _pMutableList: OrderDetailEntity[],
+  ): Promise<OrderDetailEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateOrderDetailDto): Promise<OrderDetailDto> {
-    return {
-      id: pMutable.id,
-      customerOrderId: 2,
-      foodMenuId: 3,
-      orderTypeId: 3,
-      unitPrice: Big(200),
-      quantity: 4,
-      lineTotal: Big(800),
-      finalAmount: Big(800),
-      activeStatus: true,
-    };
+  async update(pMutable: OrderDetailEntity): Promise<OrderDetailEntity> {
+    return pMutable;
   }
 
   async updateMany(
-    _pMutableList: UpdateOrderDetailDto[],
-  ): Promise<OrderDetailDto[]> {
+    _pMutableList: OrderDetailEntity[],
+  ): Promise<OrderDetailEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

@@ -1,10 +1,14 @@
-import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import { paymentStatusLogIdParamValidator } from './validators/paymentStatusLogIdParam.validator.js';
 import { createPaymentStatusLogValidator } from './validators/createPaymentStatusLog.validator.js';
 import PaymentStatusLogController from './paymentStatusLog.controller.js';
+import { db } from '../../../infrastructures/database/index.database.js';
+import PaymentStatusLogMapper from './mappers/paymentStatusLog.mapper.js';
+import PaymentStatusLogRepository from './paymentStatusLog.repository.js';
+import PaymentStatusLogService from './paymentStatusLog.service.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
 
 const router: Router = express.Router();
 
@@ -13,30 +17,29 @@ const router: Router = express.Router();
  */
 
 /// Object declarations
-const paymentStatusLogController = new PaymentStatusLogController(logger);
+const mMapper = new PaymentStatusLogMapper();
+const mRepository = new PaymentStatusLogRepository(db, logger);
+const mService = new PaymentStatusLogService(logger, mRepository, mMapper);
+const mController = new PaymentStatusLogController(logger, mService);
 
 /// Payment Status Log Single Routes
 router
   .get(
     '/:id',
     validate(paymentStatusLogIdParamValidator, 'params'),
-    paymentStatusLogController.get,
+    mController.get,
   )
-  .post(
-    '',
-    validate(createPaymentStatusLogValidator),
-    paymentStatusLogController.create,
-  );
+  .post('', validate(createPaymentStatusLogValidator), mController.create);
 // .patch(
 //   '/:id',
 //   validate(paymentStatusLogIdParamValidator, 'params'),
 //   validate(updatePaymentStatusLogValidator, 'body'),
-//   paymentStatusLogController.update,
+//   mController.update,
 // )
 // .delete(
 //   '/:id',
 //   validate(paymentStatusLogIdParamValidator, 'params'),
-//   paymentStatusLogController.delete,
+//   mController.delete,
 // )
 
 export default router;

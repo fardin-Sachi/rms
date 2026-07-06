@@ -1,59 +1,43 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type MemberDto from './dtos/member.dto.js';
-import type CreateMemberDto from './dtos/createMember.dto.js';
-import type UpdateMemberDto from './dtos/updateMember.dto.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { MemberAddressDto } from './dtos/memberAddress.dto.js';
+import type MemberEntity from './entities/member.entity.js';
 
-class MemberRepository implements IRepository<
-  MemberDto,
-  CreateMemberDto,
-  UpdateMemberDto,
-  number
-> {
-  async get(_id: number): Promise<MemberDto | null> {
+class MemberRepository extends BaseRepository<MemberEntity, number> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+  async get(_id: number): Promise<MemberEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<MemberDto[]> {
+  async getAll(): Promise<MemberEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateMemberDto): Promise<MemberDto> {
-    return {
-      id: 1,
-      ...pMutable,
-      discount: 0,
-      discountTypeId: 0,
-    };
+  async create(pMutable: MemberEntity): Promise<MemberEntity> {
+    return pMutable;
   }
 
-  async createMany(_pMutableList: CreateMemberDto[]): Promise<MemberDto[]> {
+  async createMany(_pMutableList: MemberEntity[]): Promise<MemberEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateMemberDto): Promise<MemberDto> {
-    return {
-      id: pMutable.id,
-      customerId: pMutable.customerId,
-      membershipNumber: 'Ong-Bhong-Chong',
-      cardIssueDate: pMutable.cardIssueDate ?? new Date(),
-      membershipExpiryDate: pMutable.membershipExpiryDate ?? new Date(),
-      activeStatus: pMutable.activeStatus ?? true,
-      discount: 0,
-      discountTypeId: pMutable.discountTypeId ?? 0,
-    };
+  async update(pMutable: MemberEntity): Promise<MemberEntity> {
+    return pMutable;
   }
 
-  async updateMany(_pMutableList: UpdateMemberDto[]): Promise<MemberDto[]> {
+  async updateMany(_pMutableList: MemberEntity[]): Promise<MemberEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 
   async getMemberAddress(pMemberId: number): Promise<MemberAddressDto> {

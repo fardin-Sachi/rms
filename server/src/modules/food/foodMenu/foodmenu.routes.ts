@@ -8,7 +8,11 @@ import { createFoodMenuArrayValidator } from './validators/createFoodMenuArray.v
 import { deleteFoodMenuArrayValidator } from './validators/deleleFoodMenuArray.validator.js';
 import { updateFoodMenuArrayValidator } from './validators/updateFoodMenuArray.validator.js';
 import { foodMenuIdParamValidator } from './validators/foodMenuIdParam.validator.js';
-import FoodMenuController from './foodmenu.controller.js';
+import { db } from '../../../infrastructures/database/index.database.js';
+import FoodMenuService from './foodMenu.service.js';
+import FoodMenuMapper from './mappers/foodMenu.mapper.js';
+import FoodMenuRepository from './foodMenu.repository.js';
+import FoodMenuController from './foodMenu.controller.js';
 
 const router: Router = express.Router();
 
@@ -17,45 +21,44 @@ const router: Router = express.Router();
  */
 
 /// Object declarations
-const foodMenuController = new FoodMenuController(logger);
+const mMapper = new FoodMenuMapper();
+const mRepository = new FoodMenuRepository(db, logger);
+const mService = new FoodMenuService(logger, mRepository, mMapper);
+const mController = new FoodMenuController(logger, mService);
 
 /// Food Menu Batch Routes
 router
-  .get('', foodMenuController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
     validate(createFoodMenuArrayValidator, 'body'),
-    foodMenuController.createMany,
+    mController.createMany,
   )
   .patch(
     '/batch',
     validate(updateFoodMenuArrayValidator, 'body'),
-    foodMenuController.updateMany,
+    mController.updateMany,
   )
   .delete(
     '/batch',
     validate(deleteFoodMenuArrayValidator, 'body'),
-    foodMenuController.deleteMany,
+    mController.deleteMany,
   );
 
 /// Food Menu Single Routes
 router
-  .get(
-    '/:id',
-    validate(foodMenuIdParamValidator, 'params'),
-    foodMenuController.get,
-  )
-  .post('', validate(createFoodMenuValidator), foodMenuController.create)
+  .get('/:id', validate(foodMenuIdParamValidator, 'params'), mController.get)
+  .post('', validate(createFoodMenuValidator), mController.create)
   .patch(
     '/:id',
     validate(foodMenuIdParamValidator, 'params'),
     validate(updateFoodMenuValidator, 'body'),
-    foodMenuController.update,
+    mController.update,
   )
   .delete(
     '/:id',
     validate(foodMenuIdParamValidator, 'params'),
-    foodMenuController.delete,
+    mController.delete,
   );
 
 export default router;

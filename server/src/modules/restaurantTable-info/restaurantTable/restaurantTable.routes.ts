@@ -1,4 +1,3 @@
-import { logger } from '../../../shared/libs/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
@@ -9,53 +8,57 @@ import { restaurantTableIdParamValidator } from './validators/restaurantTableIdP
 import { createRestaurantTableValidator } from './validators/createRestaurantTable.validator.js';
 import { updateRestaurantTableValidator } from './validators/updateRestaurantTable.validator.js';
 import RestaurantTableController from './restaurantTable.controller.js';
+import { db } from '../../../infrastructures/database/index.database.js';
+import RestaurantTableMapper from './mappers/restaurantTable.mapper.js';
+import RestaurantTableRepository from './restaurantTable.repository.js';
+import RestaurantTableService from './restaurantTable.service.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
-const restaurantTableController = new RestaurantTableController(logger);
+const mMapper = new RestaurantTableMapper();
+const mRepository = new RestaurantTableRepository(db, logger);
+const mService = new RestaurantTableService(logger, mRepository, mMapper);
+const mController = new RestaurantTableController(logger, mService);
 
-/// Employee Batch Routes
+/// RestaurantTable Batch Routes
 router
-  .get('', restaurantTableController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
     validate(createRestaurantTableArrayValidator, 'body'),
-    restaurantTableController.createMany,
+    mController.createMany,
   )
   .patch(
     '/batch',
     validate(updateRestaurantTableArrayValidator, 'body'),
-    restaurantTableController.updateMany,
+    mController.updateMany,
   )
   .delete(
     '/batch',
     validate(deleteRestaurantTableArrayValidator, 'body'),
-    restaurantTableController.deleteMany,
+    mController.deleteMany,
   );
 
-/// Employee Single Routes
+/// RestaurantTable Single Routes
 router
   .get(
     '/:id',
     validate(restaurantTableIdParamValidator, 'params'),
-    restaurantTableController.get,
+    mController.get,
   )
-  .post(
-    '',
-    validate(createRestaurantTableValidator),
-    restaurantTableController.create,
-  )
+  .post('', validate(createRestaurantTableValidator), mController.create)
   .patch(
     '/:id',
     validate(restaurantTableIdParamValidator, 'params'),
     validate(updateRestaurantTableValidator, 'body'),
-    restaurantTableController.update,
+    mController.update,
   )
   .delete(
     '/:id',
     validate(restaurantTableIdParamValidator, 'params'),
-    restaurantTableController.delete,
+    mController.delete,
   );
 
 export default router;

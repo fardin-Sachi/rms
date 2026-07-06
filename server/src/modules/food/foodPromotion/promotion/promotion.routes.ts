@@ -9,6 +9,10 @@ import { updatePromotionValidator } from './validators/updatePromotion.validator
 import { createPromotionArrayValidator } from './validators/createPromotionArray.validator.js';
 import { updatePromotionArrayValidator } from './validators/updatePromotionArray.validator.js';
 import { deletePromotionArraySchema } from './validators/deletePromotionArray.validator.js';
+import { db } from '../../../../infrastructures/database/index.database.js';
+import PromotionMapper from './mappers/promotion.mapper.js';
+import PromotionRepository from './promotion.repository.js';
+import PromotionService from './promotion.service.js';
 
 const router: Router = express.Router();
 
@@ -17,45 +21,44 @@ const router: Router = express.Router();
  */
 
 /// Object declarations
-const promotionController = new PromotionController(logger);
+const mMapper = new PromotionMapper();
+const mRepository = new PromotionRepository(db, logger);
+const mService = new PromotionService(logger, mRepository, mMapper);
+const mController = new PromotionController(logger, mService);
 
 // Food Promotion Batch Routes
 router
-  .get('', promotionController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
     validate(createPromotionArrayValidator, 'body'),
-    promotionController.createMany,
+    mController.createMany,
   )
   .patch(
     '/batch',
     validate(updatePromotionArrayValidator, 'body'),
-    promotionController.updateMany,
+    mController.updateMany,
   )
   .delete(
     '/batch',
     validate(deletePromotionArraySchema, 'body'),
-    promotionController.deleteMany,
+    mController.deleteMany,
   );
 
 /// Food Promotion Single Routes
 router
-  .get(
-    '/:id',
-    validate(promotionIdParamValidator, 'params'),
-    promotionController.get,
-  )
-  .post('', validate(createPromotionValidator), promotionController.create)
+  .get('/:id', validate(promotionIdParamValidator, 'params'), mController.get)
+  .post('', validate(createPromotionValidator), mController.create)
   .patch(
     '/:id',
     validate(promotionIdParamValidator, 'params'),
     validate(updatePromotionValidator, 'body'),
-    promotionController.update,
+    mController.update,
   )
   .delete(
     '/:id',
     validate(promotionIdParamValidator, 'params'),
-    promotionController.delete,
+    mController.delete,
   );
 
 export default router;

@@ -1,22 +1,17 @@
-export default interface IRepository<
-  Entity,
-  CreateDto,
-  UpdateDto,
-  ID = number,
-> {
-  get(id: ID): Promise<Entity | null>;
+export default interface IRepository<TEntity, TId = number> {
+  get(id: TId): Promise<TEntity | null>;
 
-  getAll(): Promise<Entity[]>;
+  getAll(): Promise<TEntity[]>;
 
-  create(pMutable: CreateDto): Promise<Entity>;
+  create(pMutable: TEntity): Promise<TEntity>;
 
-  createMany(pMutableList: CreateDto[]): Promise<Entity[]>; //returns IDs of the created data
+  createMany(pMutableList: TEntity[]): Promise<TEntity[]>; //returns IDs of the created data
 
-  update(pMutable: UpdateDto): Promise<Entity>;
+  update(pMutable: TEntity): Promise<TEntity>;
 
-  updateMany(pMutableList: UpdateDto[]): Promise<Entity[]>;
+  updateMany(pMutableList: TEntity[]): Promise<TEntity[]>;
 
-  delete(id: ID): Promise<ID>;
+  delete(id: TId): Promise<void>;
 
-  deleteMany(ids: ID[]): Promise<ID[]>; //returns IDs of the deleted data
+  deleteMany(ids: TId[]): Promise<void>; //returns IDs of the deleted data
 }

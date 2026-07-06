@@ -1,59 +1,46 @@
-import type IRepository from '../../../../shared/interfaces/repository.interface.js';
-import type { CreatePromotionDto } from './dtos/createPromotion.dto.js';
-import type { PromotionDto } from './dtos/promotion.dto.js';
-import type { UpdatePromotionDto } from './dtos/updatePromotion.dto.js';
+import type { Database } from '../../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
+import type PromotionEntity from './entities/promotion.entity.js';
 
-class PromotionRepository implements IRepository<
-  PromotionDto,
-  CreatePromotionDto,
-  UpdatePromotionDto,
-  number
-> {
-  async get(_id: number): Promise<PromotionDto | null> {
+class PromotionRepository extends BaseRepository<PromotionEntity, number> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+  async get(_id: number): Promise<PromotionEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<PromotionDto[]> {
+  async getAll(): Promise<PromotionEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreatePromotionDto): Promise<PromotionDto> {
-    return {
-      id: 1,
-      ...pMutable,
-      activeStatus: pMutable.activeStatus ?? true,
-      isPermanent: pMutable.isPermanent ?? true,
-    };
+  async create(pMutable: PromotionEntity): Promise<PromotionEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreatePromotionDto[],
-  ): Promise<PromotionDto[]> {
+    _pMutableList: PromotionEntity[],
+  ): Promise<PromotionEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdatePromotionDto): Promise<PromotionDto> {
-    return {
-      id: pMutable.id,
-      name: pMutable.name ?? 'Food Promotion',
-      activeStatus: true,
-      promotionTypeId: pMutable.promotionTypeId ?? 1,
-      isPermanent: pMutable.isPermanent ?? false,
-    };
+  async update(pMutable: PromotionEntity): Promise<PromotionEntity> {
+    return pMutable;
   }
 
   async updateMany(
-    _pMutableList: UpdatePromotionDto[],
-  ): Promise<PromotionDto[]> {
+    _pMutableList: PromotionEntity[],
+  ): Promise<PromotionEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

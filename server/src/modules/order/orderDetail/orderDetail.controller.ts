@@ -1,16 +1,16 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
-import { ApiResponse } from '../../../shared/libs/apiResponse.js';
 import OrderDetailService from './orderDetail.service.js';
 import type { OrderDetailDto } from './dtos/orderDetail.dto.js';
 import type { CreateOrderDetailDto } from './dtos/createOrderDetail.dto.js';
 import type { UpdateOrderDetailDto } from './dtos/updateOrderDetail.dto.js';
+import { ApiResponse } from '../../../shared/utils/apiResponse.js';
 
 class OrderDetailController {
-  private readonly orderDetailService: OrderDetailService;
-  constructor(private readonly logger: ILogger) {
-    this.orderDetailService = new OrderDetailService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: OrderDetailService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -24,8 +24,7 @@ class OrderDetailController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const orderDetailDto: OrderDetailDto | null =
-      await this.orderDetailService.get(id);
+    const orderDetailDto: OrderDetailDto | null = await this.mService.get(id);
 
     if (!orderDetailDto) {
       return ApiResponse.error(
@@ -44,8 +43,7 @@ class OrderDetailController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const employeeDtos: OrderDetailDto[] =
-      await this.orderDetailService.getAll();
+    const employeeDtos: OrderDetailDto[] = await this.mService.getAll();
 
     return ApiResponse.success<OrderDetailDto[]>(
       res,
@@ -59,7 +57,7 @@ class OrderDetailController {
     const payload = req.body as CreateOrderDetailDto;
 
     const createdOrderDetailDto: OrderDetailDto =
-      await this.orderDetailService.create(payload);
+      await this.mService.create(payload);
 
     return ApiResponse.success<OrderDetailDto>(
       res,
@@ -73,7 +71,7 @@ class OrderDetailController {
     const payload = req.body as CreateOrderDetailDto[];
 
     const createdOrderDetailDtos: OrderDetailDto[] =
-      await this.orderDetailService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<OrderDetailDto[]>(
       res,
@@ -88,7 +86,7 @@ class OrderDetailController {
     const payload: UpdateOrderDetailDto = req.body;
     payload.id = id;
 
-    const updatedOrderDetailDto = await this.orderDetailService.update(payload);
+    const updatedOrderDetailDto = await this.mService.update(payload);
 
     return ApiResponse.success<OrderDetailDto>(
       res,
@@ -102,7 +100,7 @@ class OrderDetailController {
     const payload = req.body as UpdateOrderDetailDto[];
 
     const updatedOrderDetailDtos: OrderDetailDto[] =
-      await this.orderDetailService.updateMany(payload);
+      await this.mService.updateMany(payload);
 
     return ApiResponse.success<OrderDetailDto[]>(
       res,
@@ -115,24 +113,24 @@ class OrderDetailController {
   async delete(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const deletedId: number = await this.orderDetailService.delete(id);
+    await this.mService.delete(id);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Order Detail is deleted with ID: ${deletedId}`,
+      `Order Detail is deleted with ID: ${id}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.orderDetailService.deleteMany(ids);
+    await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Order Details are deleted with IDs: ${deletedIds}`,
+      `Order Details are deleted with IDs: ${ids}`,
     );
   }
 }

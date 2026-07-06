@@ -1,190 +1,66 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import type { OrderTableAssignmentDto } from './dtos/orderTableAssignment.dto.js';
-import { ApiResponse } from '../../../shared/libs/apiResponse.js';
 import OrderTableAssignmentService from './orderTableAssignment.service.js';
 import type { CreateOrderTableAssignmentDto } from './dtos/createOrderTableAssignment.dto.js';
 import type { UpdateOrderTableAssignmentDto } from './dtos/updateOrderTableAssignment.dto.js';
+import { ApiResponse } from '../../../shared/utils/apiResponse.js';
 
 class OrderTableAssignmentController {
-  private readonly orderTableAssignmentService: OrderTableAssignmentService;
-  constructor(private readonly logger: ILogger) {
-    this.orderTableAssignmentService = new OrderTableAssignmentService(logger);
-
-    this.get = this.get.bind(this);
-    this.getByCustomerId = this.getByCustomerId.bind(this);
-    this.getByRestaurantTable = this.getByRestaurantTable.bind(this);
-    this.getAll = this.getAll.bind(this);
-    this.create = this.create.bind(this);
-    this.createMany = this.createMany.bind(this);
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: OrderTableAssignmentService,
+  ) {
+    this.assign = this.assign.bind(this);
+    this.getByOrderId = this.getByOrderId.bind(this);
+    this.remove = this.remove.bind(this);
     this.update = this.update.bind(this);
-    this.updateMany = this.updateMany.bind(this);
-    this.delete = this.delete.bind(this);
-    this.deleteMany = this.deleteMany.bind(this);
+    this.replace = this.replace.bind(this);
   }
 
-  async get(req: Request, res: Response): Promise<Response> {
-    const id: number = Number(req.params.id);
-
-    const orderTableAssignmentDto: OrderTableAssignmentDto | null =
-      await this.orderTableAssignmentService.get(id);
-
-    if (!orderTableAssignmentDto) {
-      return ApiResponse.error(
-        res,
-        404,
-        `No order table assignments found with this ID: ${id}`,
-      );
-    }
-
-    return ApiResponse.success<OrderTableAssignmentDto>(
-      res,
-      200,
-      `Order Table Assignment found with this ID: ${orderTableAssignmentDto.customerOrderId}`,
-      orderTableAssignmentDto,
-    );
-  }
-
-  async getByCustomerId(req: Request, res: Response): Promise<Response> {
-    const customerOrderId: number = Number(req.params.customerOrderId);
-
-    const orderTableAssignmentDto: OrderTableAssignmentDto | null =
-      await this.orderTableAssignmentService.getByCustomerId(customerOrderId);
-
-    if (!orderTableAssignmentDto) {
-      return ApiResponse.error(
-        res,
-        404,
-        `No order table assignments found with this Customer ID: ${customerOrderId}`,
-      );
-    }
-
-    return ApiResponse.success<OrderTableAssignmentDto>(
-      res,
-      200,
-      `Order Table Assignment found with this Customer ID: ${orderTableAssignmentDto.customerOrderId}`,
-      orderTableAssignmentDto,
-    );
-  }
-
-  async getByRestaurantTable(req: Request, res: Response): Promise<Response> {
-    const restaurantTableId: number = Number(req.params.restaurantTableId);
-
-    const orderTableAssignmentDto: OrderTableAssignmentDto | null =
-      await this.orderTableAssignmentService.getByRestaurantTable(
-        restaurantTableId,
-      );
-
-    if (!orderTableAssignmentDto) {
-      return ApiResponse.error(
-        res,
-        404,
-        `No order table assignments found with this Restaurant Table ID: ${restaurantTableId}`,
-      );
-    }
-
-    return ApiResponse.success<OrderTableAssignmentDto>(
-      res,
-      200,
-      `Order Table Assignment found with this Restaurant Table ID: ${orderTableAssignmentDto.customerOrderId}`,
-      orderTableAssignmentDto,
-    );
-  }
-
-  async getAll(_req: Request, res: Response): Promise<Response> {
-    const orderTableAssignmentDtos: OrderTableAssignmentDto[] =
-      await this.orderTableAssignmentService.getAll();
-
-    return ApiResponse.success<OrderTableAssignmentDto[]>(
-      res,
-      200,
-      `Order Table Assignments found`,
-      orderTableAssignmentDtos,
-    );
-  }
-
-  async create(req: Request, res: Response): Promise<Response> {
+  async assign(req: Request, res: Response): Promise<Response> {
     const payload = req.body as CreateOrderTableAssignmentDto;
 
-    const craetedOrderTableAssignmentDto: OrderTableAssignmentDto =
-      await this.orderTableAssignmentService.create(payload);
+    await this.mService.assign(payload);
 
-    return ApiResponse.success<OrderTableAssignmentDto>(
-      res,
-      201,
-      `Order Table Assignment created with Customer ID: ${craetedOrderTableAssignmentDto.customerOrderId}`,
-      craetedOrderTableAssignmentDto,
-    );
+    return ApiResponse.success<void>(res, 201, 'Table assigned to order');
   }
 
-  async createMany(req: Request, res: Response): Promise<Response> {
-    const payload = req.body as CreateOrderTableAssignmentDto[];
+  async getByOrderId(req: Request, res: Response): Promise<Response> {
+    const orderId = Number(req.params.orderId);
 
-    const craetedOrderTableAssignmentDtos: OrderTableAssignmentDto[] =
-      await this.orderTableAssignmentService.createMany(payload);
+    const data = await this.mService.getByOrderId(orderId);
 
     return ApiResponse.success<OrderTableAssignmentDto[]>(
       res,
-      201,
-      `Order Table Assignments are created`,
-      craetedOrderTableAssignmentDtos,
+      200,
+      'Assignments fetched successfully',
+      data,
     );
   }
 
   async update(req: Request, res: Response): Promise<Response> {
-    const customerOrderId: number = Number(req.params.customerOrderId);
-    const payload: UpdateOrderTableAssignmentDto = req.body;
-    payload.customerOrderId = customerOrderId;
+    const payload = req.body as UpdateOrderTableAssignmentDto;
 
-    const updatedOrderTableAssignmentDto =
-      await this.orderTableAssignmentService.update(payload);
+    await this.mService.update(payload);
 
-    return ApiResponse.success<OrderTableAssignmentDto>(
-      res,
-      200,
-      `Order Table Assignment updated with Customer ID: ${updatedOrderTableAssignmentDto.customerOrderId}`,
-      updatedOrderTableAssignmentDto,
-    );
+    return ApiResponse.success<void>(res, 200, 'Assignment updated');
   }
 
-  async updateMany(req: Request, res: Response): Promise<Response> {
-    const payload = req.body as UpdateOrderTableAssignmentDto[];
+  async remove(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as OrderTableAssignmentDto;
 
-    const updatedOrderTableAssignmentDtos: OrderTableAssignmentDto[] =
-      await this.orderTableAssignmentService.updateMany(payload);
+    await this.mService.remove(payload);
 
-    return ApiResponse.success<OrderTableAssignmentDto[]>(
-      res,
-      200,
-      `Order Table Assignments are updated`,
-      updatedOrderTableAssignmentDtos,
-    );
+    return ApiResponse.success<void>(res, 200, 'Assignment removed');
   }
 
-  async delete(req: Request, res: Response): Promise<Response> {
-    const customerOrderId: number = Number(req.params.customerOrderId);
+  async replace(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as CreateOrderTableAssignmentDto;
 
-    const deletedId: number =
-      await this.orderTableAssignmentService.delete(customerOrderId);
+    await this.mService.replace(payload);
 
-    return ApiResponse.success<void>(
-      res,
-      200,
-      `Order Table Assignment is deleted with Customer ID: ${deletedId}`,
-    );
-  }
-
-  async deleteMany(req: Request, res: Response): Promise<Response> {
-    const ids = req.body as number[];
-
-    const deletedIds: number[] =
-      await this.orderTableAssignmentService.deleteMany(ids);
-
-    return ApiResponse.success<void>(
-      res,
-      200,
-      `Order Table Assignments are deleted with Customer IDs: ${deletedIds}`,
-    );
+    return ApiResponse.success<void>(res, 200, 'Assignment replaced');
   }
 }
 

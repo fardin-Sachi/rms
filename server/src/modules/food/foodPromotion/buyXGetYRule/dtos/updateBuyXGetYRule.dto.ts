@@ -1,5 +1,5 @@
 export interface UpdateBuyXGetYRuleDto {
-  promotionId?: number;
+  promotionId: number;
   buyFoodId?: number;
   buyQuantity?: number;
   freeFoodId?: number;

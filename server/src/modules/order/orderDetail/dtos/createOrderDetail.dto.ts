@@ -1,10 +1,9 @@
 import Big from 'big.js';
-import type OrderType from '../../shared/enums/orderType.enum.js';
 
 export interface CreateOrderDetailDto {
   customerOrderId: number;
   foodMenuId: number;
-  orderTypeId: OrderType;
+  orderTypeId: number;
   unitPrice: Big;
   quantity: number;
   promotionId?: number;

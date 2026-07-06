@@ -1,4 +1,4 @@
-import { logger } from '../../../shared/libs/logger.js';
+import { logger } from '../../../infrastructures/logger/logger.js';
 import express from 'express';
 import type { Router } from 'express';
 import EmployeeController from './employee.controller.js';
@@ -11,6 +11,10 @@ import { updateEmployeeArrayValidator } from './validators/updateEmployeeArray.v
 import { deleteEmployeeArrayValidator } from './validators/deleteEmployeeArray.validator.js';
 import { empAddressValidator } from './validators/empAddress.validator.js';
 import { empRoleValidator } from './validators/empRole.validator.js';
+import EmployeeService from './employee.service.js';
+import EmployeeMapper from './mappers/employee.mapper.js';
+import EmployeeRepository from './employee.repository.js';
+import { db } from '../../../infrastructures/database/index.database.js';
 
 const router: Router = express.Router();
 
@@ -19,25 +23,28 @@ const router: Router = express.Router();
  */
 
 /// Object declarations
-const employeeController = new EmployeeController(logger);
+const mMapper = new EmployeeMapper();
+const mRepository = new EmployeeRepository(db, logger);
+const mService = new EmployeeService(logger, mRepository, mMapper);
+const mController = new EmployeeController(logger, mService);
 
 /// Employee Address Routes
 router
   .get(
     '/address/:id',
     validate(employeeIdParamValidator, 'params'),
-    employeeController.getEmployeeAddress,
+    mController.getEmployeeAddress,
   )
   .post(
     '/address/:id',
     validate(employeeIdParamValidator, 'params'),
     validate(empAddressValidator, 'body'),
-    employeeController.createEmployeeAddress,
+    mController.createEmployeeAddress,
   )
   .patch(
     '/address/:id',
     validate(empAddressValidator, 'body'),
-    employeeController.updateEmployeeAddress,
+    mController.updateEmployeeAddress,
   );
 
 /// Employee Role Routes
@@ -45,61 +52,57 @@ router
   .get(
     '/role/:id',
     validate(employeeIdParamValidator, 'params'),
-    employeeController.getEmployeeRole,
+    mController.getEmployeeRole,
   )
   .post(
     '/role/:id',
     validate(employeeIdParamValidator, 'params'),
     validate(empRoleValidator, 'body'),
-    employeeController.createEmployeeRole,
+    mController.createEmployeeRole,
   )
   .patch(
     '/role/:id',
     validate(employeeIdParamValidator, 'params'),
     validate(empRoleValidator, 'body'),
-    employeeController.updateEmployeeRole,
+    mController.updateEmployeeRole,
   );
 
 /// Employee Batch Routes
 router
-  .get('', employeeController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
     validate(createEmployeeArrayValidator, 'body'),
-    employeeController.createMany,
+    mController.createMany,
   )
   .patch(
     '/batch',
     validate(updateEmployeeArrayValidator, 'body'),
-    employeeController.updateMany,
+    mController.updateMany,
   )
   .delete(
     '/batch',
     validate(deleteEmployeeArrayValidator, 'body'),
-    employeeController.deleteMany,
+    mController.deleteMany,
   );
 
 /// Employee Single Routes
 router
-  .get(
-    '/:id',
-    validate(employeeIdParamValidator, 'params'),
-    employeeController.get,
-  )
-  .post('', validate(createEmployeeValidator), employeeController.create)
+  .get('/:id', validate(employeeIdParamValidator, 'params'), mController.get)
+  .post('', validate(createEmployeeValidator), mController.create)
   .patch(
     '/:id',
     validate(employeeIdParamValidator, 'params'),
     validate(updateEmployeeValidator, 'body'),
-    employeeController.update,
+    mController.update,
   )
   .delete(
     '/:id',
     validate(employeeIdParamValidator, 'params'),
-    employeeController.delete,
+    mController.delete,
   );
 
 // To get the whole history of a Single Employee
-router.get('/record/:id', employeeController.getSingleEmployeeData);
+router.get('/record/:id', mController.getSingleEmployeeData);
 
 export default router;

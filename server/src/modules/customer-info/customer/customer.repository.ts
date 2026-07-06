@@ -1,52 +1,43 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type { CustomerDto } from './dtos/customer.dto.js';
-import type CreateCustomerDto from './dtos/createCustomer.dto.js';
-import type UpdateCustomerDto from './dtos/updateCustomer.dto.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import type CustomerEntity from './entities/customer.entity.js';
 
-class CustomerRepository implements IRepository<
-  CustomerDto,
-  CreateCustomerDto,
-  UpdateCustomerDto,
-  number
-> {
-  async get(_id: number): Promise<CustomerDto | null> {
+class CustomerRepository extends BaseRepository<CustomerEntity, number> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+
+  async get(_id: number): Promise<CustomerEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<CustomerDto[]> {
+  async getAll(): Promise<CustomerEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateCustomerDto): Promise<CustomerDto> {
-    return {
-      id: 1,
-      ...pMutable,
-    };
+  async create(pMutable: CustomerEntity): Promise<CustomerEntity> {
+    return pMutable;
   }
 
-  async createMany(_pMutableList: CreateCustomerDto[]): Promise<CustomerDto[]> {
+  async createMany(_pMutableList: CustomerEntity[]): Promise<CustomerEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateCustomerDto): Promise<CustomerDto> {
-    return {
-      id: pMutable.id,
-      name: pMutable.name ?? 'Customer',
-      contact: pMutable.contact ?? '',
-      email: pMutable.email ?? '',
-    };
+  async update(pMutable: CustomerEntity): Promise<CustomerEntity> {
+    return pMutable;
   }
 
-  async updateMany(_pMutableList: UpdateCustomerDto[]): Promise<CustomerDto[]> {
+  async updateMany(_pMutableList: CustomerEntity[]): Promise<CustomerEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

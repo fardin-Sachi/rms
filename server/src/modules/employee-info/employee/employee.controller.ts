@@ -146,9 +146,16 @@ class EmployeeController {
   async getEmployeeRole(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const employeeRoleDto: EmployeeRoleDto =
+    const employeeRoleDto: EmployeeRoleDto | null =
       await this.mService.getEmployeeRole(id);
 
+    if (!employeeRoleDto)
+      return ApiResponse.error(
+        res,
+        404,
+        `No employee role found for Employee ID: ${id}`,
+        employeeRoleDto,
+      );
     return ApiResponse.success<EmployeeRoleDto>(
       res,
       200,

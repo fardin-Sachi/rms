@@ -1,60 +1,49 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type { CreateCustomerOrderDto } from './dtos/createCustomerOrder.dto.js';
-import type { UpdateCustomerOrderDto } from './dtos/updateCustomerOrder.dto.js';
-import type { CustomerOrderDto } from './dtos/customerOrder.dto.js';
-import Big from 'big.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type CustomerOrderEntity from './entities/customerOrder.entity.js';
 
-class CustomerOrderRepository implements IRepository<
-  CustomerOrderDto,
-  CreateCustomerOrderDto,
-  UpdateCustomerOrderDto
+class CustomerOrderRepository extends BaseRepository<
+  CustomerOrderEntity,
+  number
 > {
-  async get(_id: number): Promise<CustomerOrderDto | null> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+  async get(_id: number): Promise<CustomerOrderEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<CustomerOrderDto[]> {
+  async getAll(): Promise<CustomerOrderEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateCustomerOrderDto): Promise<CustomerOrderDto> {
-    return {
-      id: 1,
-      orderNumber: pMutable.orderNumber ?? 'Have a relax!',
-      ...pMutable,
-    };
+  async create(pMutable: CustomerOrderEntity): Promise<CustomerOrderEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreateCustomerOrderDto[],
-  ): Promise<CustomerOrderDto[]> {
+    _pMutableList: CustomerOrderEntity[],
+  ): Promise<CustomerOrderEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateCustomerOrderDto): Promise<CustomerOrderDto> {
-    return {
-      id: pMutable.id,
-      employeeId: pMutable.employeeId ?? 420,
-      orderTime: pMutable.orderTime ?? new Date(),
-      subtotal: pMutable.subtotal ?? new Big(200),
-      netTotal: pMutable.netTotal ?? new Big(500),
-      orderStatusId: pMutable.orderStatusId ?? 1,
-      orderNumber: 'Have a relax again!',
-    };
+  async update(pMutable: CustomerOrderEntity): Promise<CustomerOrderEntity> {
+    return pMutable;
   }
 
   async updateMany(
-    _pMutableList: UpdateCustomerOrderDto[],
-  ): Promise<CustomerOrderDto[]> {
+    _pMutableList: CustomerOrderEntity[],
+  ): Promise<CustomerOrderEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

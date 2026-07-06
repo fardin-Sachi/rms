@@ -1,72 +1,69 @@
 import type { Request, Response } from 'express';
-import PromotionFoodService from './promotionFood.service.js';
 import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
+import { ApiResponse } from '../../../../shared/utils/apiResponse.js';
+import type { AssignPromotionFoodDto } from './dtos/assignPromotionFood.dto.js';
+import type { RemovePromotionFoodDto } from './dtos/removePromotionFood.dto.js';
+import type PromotionFoodEntity from './entities/promotionFood.entity.js';
+import type PromotionFoodService from './promotionFood.service.js';
 
 class PromotionFoodController {
-  private readonly promotionFoodService: PromotionFoodService;
-
-  constructor(private readonly logger: ILogger) {
-    this.promotionFoodService = new PromotionFoodService(logger);
-
-    this.assign = this.assign.bind(this);
-    this.getAll = this.getAll.bind(this);
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: PromotionFoodService,
+  ) {
     this.getByPromotionId = this.getByPromotionId.bind(this);
+    this.assign = this.assign.bind(this);
+    this.replace = this.replace.bind(this);
     this.remove = this.remove.bind(this);
   }
 
-  assign = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const data = await this.promotionFoodService.assign(req.body);
-      return res.status(201).json({
-        success: true,
-        message: 'Food assigned to promotion successfully',
-        data,
-      });
-    } catch (error) {
-      return this.handleError(error, res);
-    }
-  };
+  async getByPromotionId(req: Request, res: Response): Promise<Response> {
+    const promotionId = Number(req.params.promotionId);
 
-  getAll = async (_req: Request, res: Response): Promise<Response> => {
-    const data = await this.promotionFoodService.getAll();
-    return res.status(200).json({
-      success: true,
-      message: 'Promotion foods found',
-      data,
-    });
-  };
+    const promotionFoods = await this.mService.getByPromotionId(promotionId);
 
-  getByPromotionId = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const data = await this.promotionFoodService.getByPromotionId(
-        Number(req.params.promotionId),
-      );
-      return res.status(200).json({
-        success: true,
-        message: 'Promotion foods fetched successfully',
-        data,
-      });
-    } catch (error) {
-      return this.handleError(error, res);
-    }
-  };
+    return ApiResponse.success<PromotionFoodEntity[]>(
+      res,
+      200,
+      `Promotion foods found for promotion ID: ${promotionId}`,
+      promotionFoods,
+    );
+  }
 
-  remove = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      await this.promotionFoodService.remove(req.body);
-      return res.status(200).json({
-        success: true,
-        message: 'Food removed from promotion successfully',
-      });
-    } catch (error) {
-      return this.handleError(error, res);
-    }
-  };
+  async assign(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as AssignPromotionFoodDto;
 
-  private handleError(error: unknown, res: Response): Response {
-    const message = error instanceof Error ? error.message : 'Unexpected error';
-    const status = message.toLowerCase().includes('not found') ? 404 : 400;
-    return res.status(status).json({ success: false, message });
+    await this.mService.assign(payload);
+
+    return ApiResponse.success<void>(
+      res,
+      201,
+      `Foods assigned to promotion ID: ${payload.promotionId}`,
+    );
+  }
+
+  async replace(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as AssignPromotionFoodDto;
+
+    await this.mService.replace(payload);
+
+    return ApiResponse.success<void>(
+      res,
+      200,
+      `Promotion foods updated for promotion ID: ${payload.promotionId}`,
+    );
+  }
+
+  async remove(req: Request, res: Response): Promise<Response> {
+    const payload = req.body as RemovePromotionFoodDto;
+
+    await this.mService.remove(payload);
+
+    return ApiResponse.success<void>(
+      res,
+      200,
+      `Food ${payload.foodMenuId} removed from promotion ${payload.promotionId}`,
+    );
   }
 }
 
