@@ -1,10 +1,10 @@
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../../../shared/utils/apiResponse.js';
-import FoodMenuService from './foodMenu.service.js';
 import type FoodMenuDto from './dtos/foodMenu.dto.js';
 import type CreateFoodMenuDto from './dtos/createFoodMenu.dto.js';
 import type UpdateFoodMenuDto from './dtos/updateFoodMenu.dto.js';
+import type FoodMenuService from './foodMenu.service.js';
 
 class FoodMenuController {
   constructor(

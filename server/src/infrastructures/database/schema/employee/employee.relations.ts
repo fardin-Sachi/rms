@@ -36,15 +36,15 @@ export const employeeRelations = relations(employeeTable, ({ many, one }) => ({
   roleAssignments: many(employeeRoleAssignmentTable),
 
   salaries: many(salarySheetTable, {
-    relationName: "salaryEmployee",
+    relationName: 'salaryEmployee',
   }),
 
   createdSalarySheets: many(salarySheetTable, {
-    relationName: "salaryCreatedBy",
+    relationName: 'salaryCreatedBy',
   }),
 
   updatedSalarySheets: many(salarySheetTable, {
-    relationName: "salaryUpdatedBy",
+    relationName: 'salaryUpdatedBy',
   }),
   // EMPLOYEE Module Relations finished
 
