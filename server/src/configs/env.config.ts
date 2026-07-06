@@ -14,7 +14,7 @@ const serverEnvSchema = z.object({
 const serverParsed = serverEnvSchema.safeParse(process.env);
 
 if (!serverParsed.success) {
-  logger.info(
+  logger.error(
     'Invalid Server environment variables: ',
     serverParsed.error.flatten().fieldErrors,
   );

@@ -11,7 +11,7 @@ const dbEnvSchema = z.object({
 const dbParsed = dbEnvSchema.safeParse(process.env);
 
 if (!dbParsed.success) {
-  logger.info(
+  logger.error(
     'Invalid Database environment variables: ',
     dbParsed.error.flatten().fieldErrors,
   );
