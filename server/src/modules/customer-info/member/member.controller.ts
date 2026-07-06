@@ -4,14 +4,14 @@ import { ApiResponse } from '../../../shared/utils/apiResponse.js';
 import type UpdateMemberDto from './dtos/updateMember.dto.js';
 import type MemberDto from './dtos/member.dto.js';
 import type CreateMemberDto from './dtos/createMember.dto.js';
-import MemberService from './member.service.js';
+import type MemberService from './member.service.js';
 import type { MemberAddressDto } from './dtos/memberAddress.dto.js';
 
 class MemberController {
-  private readonly memberService: MemberService;
-  constructor(private readonly logger: ILogger) {
-    this.memberService = new MemberService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: MemberService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -20,17 +20,12 @@ class MemberController {
     this.updateMany = this.updateMany.bind(this);
     this.delete = this.delete.bind(this);
     this.deleteMany = this.deleteMany.bind(this);
-
-    this.getMemberAddress = this.getMemberAddress.bind(this);
-    this.createMemberAddress = this.createMemberAddress.bind(this);
-    this.updateMemberAddress = this.updateMemberAddress.bind(this);
   }
 
   async get(req: Request, res: Response): Promise<Response> {
     const customerId: number = Number(req.params.customerId);
 
-    const memberDto: MemberDto | null =
-      await this.memberService.get(customerId);
+    const memberDto: MemberDto | null = await this.mService.get(customerId);
 
     if (!memberDto) {
       return ApiResponse.error(
@@ -49,7 +44,7 @@ class MemberController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const memberDtos: MemberDto[] = await this.memberService.getAll();
+    const memberDtos: MemberDto[] = await this.mService.getAll();
 
     return ApiResponse.success<MemberDto[]>(
       res,
@@ -62,8 +57,7 @@ class MemberController {
   async create(req: Request, res: Response): Promise<Response> {
     const payload = req.body as CreateMemberDto;
 
-    const createdMemberDto: MemberDto =
-      await this.memberService.create(payload);
+    const createdMemberDto: MemberDto = await this.mService.create(payload);
 
     return ApiResponse.success<MemberDto>(
       res,
@@ -77,7 +71,7 @@ class MemberController {
     const payload = req.body as CreateMemberDto[];
 
     const createdMemberDtos: MemberDto[] =
-      await this.memberService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<MemberDto[]>(
       res,
@@ -92,8 +86,7 @@ class MemberController {
     const payload: UpdateMemberDto = req.body;
     payload.customerId = customerId;
 
-    const updatedMemberDto: MemberDto =
-      await this.memberService.update(payload);
+    const updatedMemberDto: MemberDto = await this.mService.update(payload);
 
     return ApiResponse.success<MemberDto>(
       res,
@@ -107,7 +100,7 @@ class MemberController {
     const payload = req.body as UpdateMemberDto[];
 
     const updatedMemberDtos: MemberDto[] =
-      await this.memberService.updateMany(payload);
+      await this.mService.updateMany(payload);
 
     return ApiResponse.success<MemberDto[]>(
       res,
@@ -120,24 +113,24 @@ class MemberController {
   async delete(req: Request, res: Response): Promise<Response> {
     const customerId: number = Number(req.params.customerId);
 
-    const deletedId: number = await this.memberService.delete(customerId);
+    await this.mService.delete(customerId);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Member is deleted with ID: ${deletedId}`,
+      `Member is deleted with ID: ${customerId}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds = await this.memberService.deleteMany(ids);
+    await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Members are deleted with IDs: ${deletedIds}`,
+      `Members are deleted with IDs: ${ids}`,
     );
   }
 
@@ -145,7 +138,7 @@ class MemberController {
     const pMemberId = Number(req.params.customerId);
 
     const memberAddressDto: MemberAddressDto =
-      await this.memberService.getMemberAddress(pMemberId);
+      await this.mService.getMemberAddress(pMemberId);
 
     return ApiResponse.success<MemberAddressDto>(
       res,
@@ -161,7 +154,7 @@ class MemberController {
     payload.memberId = customerId;
 
     const memberAddressDto: MemberAddressDto =
-      await this.memberService.createMemberAddress(payload);
+      await this.mService.createMemberAddress(payload);
 
     return ApiResponse.success<MemberAddressDto>(
       res,
@@ -177,7 +170,7 @@ class MemberController {
     payload.memberId = customerId;
 
     const memberAddressDto: MemberAddressDto =
-      await this.memberService.updateMemberAddress(payload);
+      await this.mService.updateMemberAddress(payload);
 
     return ApiResponse.success<MemberAddressDto>(
       res,

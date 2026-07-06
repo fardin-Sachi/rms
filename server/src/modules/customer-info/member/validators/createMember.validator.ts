@@ -2,7 +2,7 @@ import { z } from 'zod';
 import ENV from '../../../../configs/index.config.js';
 import DiscountType from '../enums/discountType.enum.js';
 
-export const createMemberSchema = z
+export const createMemberValidator = z
   .object({
     points: z.coerce
       .number({ error: 'Points must be a number' })

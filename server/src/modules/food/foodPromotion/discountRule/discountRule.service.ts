@@ -3,48 +3,24 @@ import type { CreateDiscountRuleDto } from './dtos/createDiscountRule.dto.js';
 import type { UpdateDiscountRuleDto } from './dtos/updateDiscountRule.dto.js';
 import DiscountRuleRepository from './discountRule.repository.js';
 import type { DiscountRuleDto } from './dtos/discountRule.dto.js';
+import BaseService from '../../../../shared/abstractions/base.service.js';
+import type DiscountRuleEntity from './entities/discountRule.entity.js';
+import type DiscountRuleMapper from './mappers/discountRule.mapper.js';
 
-class DiscountRuleService {
-  private readonly discountRuleRepository: DiscountRuleRepository;
-
-  constructor(private readonly logger: ILogger) {
-    this.discountRuleRepository = new DiscountRuleRepository();
-  }
-
-  async get(id: number): Promise<DiscountRuleDto | null> {
-    return this.discountRuleRepository.get(id);
-  }
-
-  async getAll(): Promise<DiscountRuleDto[]> {
-    return this.discountRuleRepository.getAll();
-  }
-
-  async create(pMutable: CreateDiscountRuleDto): Promise<DiscountRuleDto> {
-    return this.discountRuleRepository.create(pMutable);
-  }
-
-  async createMany(
-    pMutableList: CreateDiscountRuleDto[],
-  ): Promise<DiscountRuleDto[]> {
-    return this.discountRuleRepository.createMany(pMutableList);
-  }
-
-  async update(pMutable: UpdateDiscountRuleDto): Promise<DiscountRuleDto> {
-    return this.discountRuleRepository.update(pMutable);
-  }
-
-  async updateMany(
-    pMutableList: UpdateDiscountRuleDto[],
-  ): Promise<DiscountRuleDto[]> {
-    return this.discountRuleRepository.updateMany(pMutableList);
-  }
-
-  async delete(id: number): Promise<number> {
-    return this.discountRuleRepository.delete(id);
-  }
-
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return this.discountRuleRepository.deleteMany(ids);
+class DiscountRuleService extends BaseService<
+  DiscountRuleDto,
+  CreateDiscountRuleDto,
+  UpdateDiscountRuleDto,
+  DiscountRuleEntity,
+  number,
+  DiscountRuleRepository
+> {
+  constructor(
+    mLogger: ILogger,
+    mRepository: DiscountRuleRepository,
+    mMapper: DiscountRuleMapper,
+  ) {
+    super(mLogger, mRepository, mMapper);
   }
 }
 

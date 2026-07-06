@@ -7,10 +7,10 @@ import type { CreateDiscountRuleDto } from './dtos/createDiscountRule.dto.js';
 import type { UpdateDiscountRuleDto } from './dtos/updateDiscountRule.dto.js';
 
 class DiscountRuleController {
-  private readonly discountRuleService: DiscountRuleService;
-  constructor(private readonly logger: ILogger) {
-    this.discountRuleService = new DiscountRuleService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: DiscountRuleService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -24,8 +24,7 @@ class DiscountRuleController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const discountRuleDto: DiscountRuleDto | null =
-      await this.discountRuleService.get(id);
+    const discountRuleDto: DiscountRuleDto | null = await this.mService.get(id);
 
     if (!discountRuleDto) {
       return ApiResponse.error(
@@ -44,8 +43,7 @@ class DiscountRuleController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const discountRuleDtos: DiscountRuleDto[] =
-      await this.discountRuleService.getAll();
+    const discountRuleDtos: DiscountRuleDto[] = await this.mService.getAll();
 
     return ApiResponse.success<DiscountRuleDto[]>(
       res,
@@ -59,7 +57,7 @@ class DiscountRuleController {
     const payload = req.body as CreateDiscountRuleDto;
 
     const createdPromotionDto: DiscountRuleDto =
-      await this.discountRuleService.create(payload);
+      await this.mService.create(payload);
 
     return ApiResponse.success<CreateDiscountRuleDto>(
       res,
@@ -73,7 +71,7 @@ class DiscountRuleController {
     const payload = req.body as CreateDiscountRuleDto[];
 
     const createdPromotionDtos: DiscountRuleDto[] =
-      await this.discountRuleService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<DiscountRuleDto[]>(
       res,
@@ -89,7 +87,7 @@ class DiscountRuleController {
     payload.id = id;
 
     const updatedPromotionDto: DiscountRuleDto =
-      await this.discountRuleService.update(payload);
+      await this.mService.update(payload);
 
     return ApiResponse.success<DiscountRuleDto>(
       res,
@@ -103,7 +101,7 @@ class DiscountRuleController {
     const payload = req.body as UpdateDiscountRuleDto[];
 
     const updatedPromotionDtos: DiscountRuleDto[] =
-      await this.discountRuleService.updateMany(payload);
+      await this.mService.updateMany(payload);
 
     return ApiResponse.success<DiscountRuleDto[]>(
       res,
@@ -116,24 +114,24 @@ class DiscountRuleController {
   async delete(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const deletedId: number = await this.discountRuleService.delete(id);
+    await this.mService.delete(id);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Discount rule is deleted with ID: ${deletedId}`,
+      `Discount rule is deleted with ID: ${id}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.discountRuleService.deleteMany(ids);
+    await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Discount rules are deleted with IDs: ${deletedIds}`,
+      `Discount rules are deleted with IDs: ${ids}`,
     );
   }
 }

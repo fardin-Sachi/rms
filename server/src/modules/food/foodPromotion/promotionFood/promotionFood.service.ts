@@ -1,36 +1,44 @@
 import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
 import type { AssignPromotionFoodDto } from './dtos/assignPromotionFood.dto.js';
-import PromotionFoodEntity from '../shared/enums/promotionType.enum.js';
 import type { RemovePromotionFoodDto } from './dtos/removePromotionFood.dto.js';
-import PromotionRepository from '../promotion/promotion.repository.js';
-import PromotionFoodRepository from './promotionFood.repository.js';
+import type PromotionFoodEntity from './entities/promotionFood.entity.js';
+import type PromotionFoodMapper from './mappers/promotionFood.mapper.js';
+import type PromotionFoodRepository from './promotionFood.repository.js';
 
 class PromotionFoodService {
-  private readonly promotionRepository: PromotionRepository;
-  private readonly promotionFoodRepository: PromotionFoodRepository;
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mRepository: PromotionFoodRepository,
+    private readonly mMapper: PromotionFoodMapper,
+  ) {}
 
-  constructor(private readonly logger: ILogger) {
-    this.promotionFoodRepository = new PromotionFoodRepository();
-    this.promotionRepository = new PromotionRepository();
+  async assign(dto: AssignPromotionFoodDto): Promise<void> {
+    const entities = this.mMapper.fromAssignDto(dto);
+
+    await this.mRepository.createMany(entities);
   }
 
-  async assign(pMutable: AssignPromotionFoodDto): Promise<PromotionFoodEntity> {
-    return this.promotionFoodRepository.create(pMutable);
-  }
+  async remove(dto: RemovePromotionFoodDto): Promise<void> {
+    const entity = this.mMapper.fromRemoveDto(dto);
 
-  async getAll(): Promise<PromotionFoodEntity[]> {
-    return this.promotionFoodRepository.getAll();
+    await this.mRepository.delete({
+      promotionId: entity.promotionId,
+      foodMenuId: entity.foodMenuId,
+    });
   }
 
   async getByPromotionId(promotionId: number): Promise<PromotionFoodEntity[]> {
-    return this.promotionFoodRepository.getByPromotionId(promotionId);
+    return this.mRepository.getByPromotionId(promotionId);
   }
 
-  async remove(pMutable: RemovePromotionFoodDto): Promise<void> {
-    this.promotionFoodRepository.delete(
-      pMutable.promotionId,
-      pMutable.foodMenuId,
-    );
+  async replace(dto: AssignPromotionFoodDto): Promise<void> {
+    await this.mRepository.deleteByPromotionId(dto.promotionId);
+
+    const entities = this.mMapper.fromAssignDto(dto);
+
+    if (entities.length > 0) {
+      await this.mRepository.createMany(entities);
+    }
   }
 }
 

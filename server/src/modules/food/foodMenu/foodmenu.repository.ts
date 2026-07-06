@@ -1,51 +1,42 @@
-import type IRepository from '../../../shared/interfaces/repository.interface.js';
-import type FoodMenuDto from './dtos/foodMenu.dto.js';
-import type CreateFoodMenuDto from './dtos/createFoodMenu.dto.js';
-import type UpdateFoodMenuDto from './dtos/updateFoodMenu.dto.js';
+import type { Database } from '../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
+import type FoodMenuEntity from './entities/foodMenu.entity.js';
 
-class FoodMenuRepository implements IRepository<
-  FoodMenuDto,
-  CreateFoodMenuDto,
-  UpdateFoodMenuDto,
-  number
-> {
-  async get(_id: number): Promise<FoodMenuDto | null> {
+class FoodMenuRepository extends BaseRepository<FoodMenuEntity, number> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+  async get(_id: number): Promise<FoodMenuEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<FoodMenuDto[]> {
+  async getAll(): Promise<FoodMenuEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateFoodMenuDto): Promise<FoodMenuDto> {
-    return {
-      id: 1,
-      ...pMutable,
-    };
+  async create(pMutable: FoodMenuEntity): Promise<FoodMenuEntity> {
+    return pMutable;
   }
 
-  async createMany(_pMutableList: CreateFoodMenuDto[]): Promise<FoodMenuDto[]> {
+  async createMany(_pMutableList: FoodMenuEntity[]): Promise<FoodMenuEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateFoodMenuDto): Promise<FoodMenuDto> {
-    return {
-      ...pMutable,
-      name: pMutable.name ?? 'Pasta Basta',
-      activeStatus: pMutable.activeStatus ?? true,
-    };
+  async update(pMutable: FoodMenuEntity): Promise<FoodMenuEntity> {
+    return pMutable;
   }
 
-  async updateMany(_pMutableList: UpdateFoodMenuDto[]): Promise<FoodMenuDto[]> {
+  async updateMany(_pMutableList: FoodMenuEntity[]): Promise<FoodMenuEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

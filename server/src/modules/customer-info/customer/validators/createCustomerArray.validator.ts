@@ -1,4 +1,4 @@
 import { z } from 'zod';
-import { createCustomerSchema } from './createCustomer.validator.js';
+import { createCustomerValidator } from './createCustomer.validator.js';
 
-export const createCustomerArraySchema = z.array(createCustomerSchema);
+export const createCustomerArrayValidator = z.array(createCustomerValidator);

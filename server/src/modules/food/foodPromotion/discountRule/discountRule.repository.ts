@@ -1,56 +1,49 @@
-import type IRepository from '../../../../shared/interfaces/repository.interface.js';
-import type { CreateDiscountRuleDto } from './dtos/createDiscountRule.dto.js';
-import type { DiscountRuleDto } from './dtos/discountRule.dto.js';
-import type { UpdateDiscountRuleDto } from './dtos/updateDiscountRule.dto.js';
+import type { Database } from '../../../../infrastructures/database/index.database.js';
+import BaseRepository from '../../../../shared/abstractions/base.repository.js';
+import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
+import type DiscountRuleEntity from './entities/discountRule.entity.js';
 
-class DiscountRuleRepository implements IRepository<
-  DiscountRuleDto,
-  CreateDiscountRuleDto,
-  UpdateDiscountRuleDto,
+class DiscountRuleRepository extends BaseRepository<
+  DiscountRuleEntity,
   number
 > {
-  async get(_id: number): Promise<DiscountRuleDto | null> {
+  constructor(db: Database, logger: ILogger) {
+    super(db, logger);
+  }
+  async get(_id: number): Promise<DiscountRuleEntity | null> {
     return null;
   }
 
-  async getAll(): Promise<DiscountRuleDto[]> {
+  async getAll(): Promise<DiscountRuleEntity[]> {
     return [];
   }
 
-  async create(pMutable: CreateDiscountRuleDto): Promise<DiscountRuleDto> {
-    return {
-      id: 1,
-      ...pMutable,
-    };
+  async create(pMutable: DiscountRuleEntity): Promise<DiscountRuleEntity> {
+    return pMutable;
   }
 
   async createMany(
-    _pMutableList: CreateDiscountRuleDto[],
-  ): Promise<DiscountRuleDto[]> {
+    _pMutableList: DiscountRuleEntity[],
+  ): Promise<DiscountRuleEntity[]> {
     return [];
   }
 
-  async update(pMutable: UpdateDiscountRuleDto): Promise<DiscountRuleDto> {
-    return {
-      id: pMutable.id,
-      promotionId: pMutable.id,
-      discountTypeId: pMutable.discountTypeId ?? 1,
-      discountValue: pMutable.discountValue ?? 1,
-    };
+  async update(pMutable: DiscountRuleEntity): Promise<DiscountRuleEntity> {
+    return pMutable;
   }
 
   async updateMany(
-    _pMutableList: UpdateDiscountRuleDto[],
-  ): Promise<DiscountRuleDto[]> {
+    _pMutableList: DiscountRuleEntity[],
+  ): Promise<DiscountRuleEntity[]> {
     return [];
   }
 
-  async delete(id: number): Promise<number> {
-    return id;
+  async delete(_id: number): Promise<void> {
+    return;
   }
 
-  async deleteMany(ids: number[]): Promise<number[]> {
-    return ids;
+  async deleteMany(_ids: number[]): Promise<void> {
+    return;
   }
 }
 

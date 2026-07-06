@@ -7,8 +7,12 @@ import { dicountRuleIdParamValidator } from './validators/discountRuleIdParam.va
 import { createDiscountRuleValidator } from './validators/createDiscountRule.validator.js';
 import { updateDiscountRuleValidator } from './validators/updateDiscountRule.validator.js';
 import { createDiscountRuleArrayValidator } from './validators/createDiscountRuleArray.validator.js';
-import { updateDiscountRuleArraySchema } from './validators/updatePromotionArray.validator.js';
-import { deleteDiscountRuleArraySchema } from './validators/deleteDiscountRuleArray.validator.js';
+import { updateDiscountRuleArrayValidator } from './validators/updatePromotionArray.validator.js';
+import { deleteDiscountRuleArrayValidator } from './validators/deleteDiscountRuleArray.validator.js';
+import { db } from '../../../../infrastructures/database/index.database.js';
+import DiscountRuleRepository from './discountRule.repository.js';
+import DiscountRuleService from './discountRule.service.js';
+import DiscountRuleMapper from './mappers/discountRule.mapper.js';
 
 const router: Router = express.Router();
 
@@ -17,48 +21,43 @@ const router: Router = express.Router();
  */
 
 /// Object declarations
-const discountRuleController = new DiscountRuleController(logger);
+const mMapper = new DiscountRuleMapper();
+const mRepository = new DiscountRuleRepository(db, logger);
+const mService = new DiscountRuleService(logger, mRepository, mMapper);
+const mController = new DiscountRuleController(logger, mService);
 
 /// Discount Rule Batch Routes
 router
-  .get('', discountRuleController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
     validate(createDiscountRuleArrayValidator, 'body'),
-    discountRuleController.createMany,
+    mController.createMany,
   )
   .patch(
     '/batch',
-    validate(updateDiscountRuleArraySchema, 'body'),
-    discountRuleController.updateMany,
+    validate(updateDiscountRuleArrayValidator, 'body'),
+    mController.updateMany,
   )
   .delete(
     '/batch',
-    validate(deleteDiscountRuleArraySchema, 'body'),
-    discountRuleController.deleteMany,
+    validate(deleteDiscountRuleArrayValidator, 'body'),
+    mController.deleteMany,
   );
 
 /// Food Promotion Single Routes
 router
-  .get(
-    '/:id',
-    validate(dicountRuleIdParamValidator, 'params'),
-    discountRuleController.get,
-  )
-  .post(
-    '',
-    validate(createDiscountRuleValidator),
-    discountRuleController.create,
-  )
+  .get('/:id', validate(dicountRuleIdParamValidator, 'params'), mController.get)
+  .post('', validate(createDiscountRuleValidator), mController.create)
   .patch(
     '/:id',
     validate(updateDiscountRuleValidator, 'body'),
-    discountRuleController.update,
+    mController.update,
   )
   .delete(
     '/:id',
     validate(dicountRuleIdParamValidator, 'params'),
-    discountRuleController.delete,
+    mController.delete,
   );
 
 export default router;

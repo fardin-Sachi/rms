@@ -1,33 +1,45 @@
-import { logger } from '../../../../infrastructures/logger/logger.js';
 import express from 'express';
 import type { Router } from 'express';
-import { validate } from '../../../../shared/middlewares/validate.middleware.js';
 import PromotionFoodController from './promotionFood.controller.js';
-import { promotionIdParamValidator } from './validators/promotionIdParam.validator.js';
-import { removePromotionFoodValidator } from './validators/removePromotionFood.validator.js';
+import PromotionFoodMapper from './mappers/promotionFood.mapper.js';
+import PromotionFoodRepository from './promotionFood.repository.js';
+import PromotionFoodService from './promotionFood.service.js';
 import { assignPromotionFoodValidator } from './validators/assignPromotionFood.validator.js';
+import { removePromotionFoodValidator } from './validators/removePromotionFood.validator.js';
+import { promotionIdParamValidator } from './validators/promotionIdParam.validator.js';
+import { db } from '../../../../infrastructures/database/index.database.js';
+import { logger } from '../../../../infrastructures/logger/logger.js';
+import { validate } from '../../../../shared/middlewares/validate.middleware.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
-const promotionFoodController = new PromotionFoodController(logger);
+const mMapper = new PromotionFoodMapper();
+const mRepository = new PromotionFoodRepository(db, logger);
+const mService = new PromotionFoodService(logger, mRepository, mMapper);
+const mController = new PromotionFoodController(logger, mService);
+
+/// Promotion Food Routes (NOT CRUD based)
 
 router
-  .get('/', promotionFoodController.getAll)
+  // Get all foods under a promotion
   .get(
-    '/promotion/:promotionId',
+    '/:promotionId',
     validate(promotionIdParamValidator, 'params'),
-    promotionFoodController.getByPromotionId,
+    mController.getByPromotionId,
   )
-  .post(
-    '/',
-    validate(assignPromotionFoodValidator),
-    promotionFoodController.assign,
-  )
+
+  // Assign multiple foods to a promotion
+  .post('/assign', validate(assignPromotionFoodValidator), mController.assign)
+
+  // Replace full food list for a promotion
+  .put('/replace', validate(assignPromotionFoodValidator), mController.replace)
+
+  // Remove a single food from a promotion
   .delete(
-    '/',
+    '/remove',
     validate(removePromotionFoodValidator),
-    promotionFoodController.remove,
+    mController.remove,
   );
 
 export default router;

@@ -2,53 +2,60 @@ import express, { type Router } from 'express';
 import { logger } from '../../../infrastructures/logger/logger.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import MemberController from './member.controller.js';
-import { createMemberSchema } from './validators/createMember.validator.js';
-import { updateMemberSchema } from './validators/updateMember.validator.js';
-import { memberIdParamSchema } from './validators/memberIdParam.validator.js';
-import { memberAddressSchema } from './validators/memberAddress.validator.js';
+import { createMemberValidator } from './validators/createMember.validator.js';
+import { updateMemberValidator } from './validators/updateMember.validator.js';
+import { memberIdParamValidator } from './validators/memberIdParam.validator.js';
+import { memberAddressValidator } from './validators/memberAddress.validator.js';
+import { db } from '../../../infrastructures/database/index.database.js';
+import MemberMapper from './mappers/member.mapper.js';
+import MemberRepository from './member.repository.js';
+import MemberService from './member.service.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
-const memberController = new MemberController(logger);
+const mMapper = new MemberMapper();
+const mRepository = new MemberRepository(db, logger);
+const mService = new MemberService(logger, mRepository, mMapper);
+const mController = new MemberController(logger, mService);
 
 /// Member Address Routes
 router
   .get(
     '/address/:customerId',
-    validate(memberIdParamSchema, 'params'),
-    memberController.getMemberAddress,
+    validate(memberIdParamValidator, 'params'),
+    mController.getMemberAddress,
   )
   .post(
     '/address/:customerId',
-    validate(memberIdParamSchema, 'params'),
-    validate(memberAddressSchema, 'body'),
-    memberController.createMemberAddress,
+    validate(memberIdParamValidator, 'params'),
+    validate(memberAddressValidator, 'body'),
+    mController.createMemberAddress,
   )
   .patch(
     '/address/:customerId',
-    validate(memberAddressSchema, 'body'),
-    memberController.updateMemberAddress,
+    validate(memberAddressValidator, 'body'),
+    mController.updateMemberAddress,
   );
 
 // Single Member routes
 router
   .get(
     '/:customerId',
-    validate(memberIdParamSchema, 'params'),
-    memberController.get,
+    validate(memberIdParamValidator, 'params'),
+    mController.get,
   )
-  .post('', validate(createMemberSchema), memberController.create)
+  .post('', validate(createMemberValidator), mController.create)
   .patch(
     '/:customerId',
-    validate(memberIdParamSchema, 'params'),
-    validate(updateMemberSchema, 'body'),
-    memberController.update,
+    validate(memberIdParamValidator, 'params'),
+    validate(updateMemberValidator, 'body'),
+    mController.update,
   )
   .delete(
     '/:customerId',
-    validate(memberIdParamSchema, 'params'),
-    memberController.delete,
+    validate(memberIdParamValidator, 'params'),
+    mController.delete,
   );
 
 export default router;

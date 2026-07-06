@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const updateBuyXGetYRuleArraySchema = z.array(
+export const updateBuyXGetYRuleArrayValidator = z.array(
   z
     .object({
       id: z.coerce

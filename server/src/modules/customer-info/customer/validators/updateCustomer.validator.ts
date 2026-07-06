@@ -7,7 +7,7 @@ import {
   MINIMUM_CUSTOMER_CONTACT_LENGTH,
 } from '../customer.constants.js';
 
-export const updateCustomerSchema = z
+export const updateCustomerValidator = z
   .object({
     name: z
       .string({ error: 'Name must be a string' })

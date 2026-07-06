@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const updateDiscountRuleArraySchema = z.array(
+export const updateDiscountRuleArrayValidator = z.array(
   z.object({
     id: z.coerce
       .number({ error: 'Discount Rule ID must be a number' })

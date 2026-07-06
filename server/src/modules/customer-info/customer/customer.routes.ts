@@ -2,50 +2,53 @@ import express, { type Router } from 'express';
 import { logger } from '../../../infrastructures/logger/logger.js';
 import CustomerController from './customer.controller.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import { customerIdParamSchema } from './validators/customerIdParam.validator.js';
-import { createCustomerSchema } from './validators/createCustomer.validator.js';
-import { updateCustomerSchema } from './validators/updateCustomer.validator.js';
-import { createCustomerArraySchema } from './validators/createCustomerArray.validator.js';
-import { updateCustomerArraySchema } from './validators/updateCustomerArray.validator.js';
+import { customerIdParamValidator } from './validators/customerIdParam.validator.js';
+import { createCustomerValidator } from './validators/createCustomer.validator.js';
+import { updateCustomerValidator } from './validators/updateCustomer.validator.js';
+import { createCustomerArrayValidator } from './validators/createCustomerArray.validator.js';
+import { updateCustomerArrayValidator } from './validators/updateCustomerArray.validator.js';
+import { db } from '../../../infrastructures/database/index.database.js';
+import CustomerRepository from './customer.repository.js';
+import CustomerService from './customer.service.js';
+import CustomerMapper from './mappers/customer.mapper.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
-const customerController = new CustomerController(logger);
+const mMapper = new CustomerMapper();
+const mRepository = new CustomerRepository(db, logger);
+const mService = new CustomerService(logger, mRepository, mMapper);
+const mController = new CustomerController(logger, mService);
 
 // Batch Customer routes
 router
-  .get('', customerController.getAll)
+  .get('', mController.getAll)
   .post(
     '/batch',
-    validate(createCustomerArraySchema, 'body'),
-    customerController.createMany,
+    validate(createCustomerArrayValidator, 'body'),
+    mController.createMany,
   )
   .patch(
     '/batch',
-    validate(updateCustomerArraySchema, 'body'),
-    customerController.update,
+    validate(updateCustomerArrayValidator, 'body'),
+    mController.update,
   )
-  .delete('/batch', customerController.delete);
+  .delete('/batch', mController.delete);
 
 // Single Customer routes
 router
-  .get(
-    '/:id',
-    validate(customerIdParamSchema, 'params'),
-    customerController.get,
-  )
-  .post('', validate(createCustomerSchema), customerController.create)
+  .get('/:id', validate(customerIdParamValidator, 'params'), mController.get)
+  .post('', validate(createCustomerValidator), mController.create)
   .patch(
     '/:id',
-    validate(customerIdParamSchema, 'params'),
-    validate(updateCustomerSchema, 'body'),
-    customerController.update,
+    validate(customerIdParamValidator, 'params'),
+    validate(updateCustomerValidator, 'body'),
+    mController.update,
   )
   .delete(
     '/:id',
-    validate(customerIdParamSchema, 'params'),
-    customerController.delete,
+    validate(customerIdParamValidator, 'params'),
+    mController.delete,
   );
 
 export default router;

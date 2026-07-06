@@ -7,10 +7,10 @@ import type { UpdatePromotionDto } from './dtos/updatePromotion.dto.js';
 import PromotionService from './promotion.service.js';
 
 class PromotionController {
-  private readonly promotionService: PromotionService;
-  constructor(private readonly logger: ILogger) {
-    this.promotionService = new PromotionService(logger);
-
+  constructor(
+    private readonly mLogger: ILogger,
+    private readonly mService: PromotionService,
+  ) {
     this.get = this.get.bind(this);
     this.getAll = this.getAll.bind(this);
     this.create = this.create.bind(this);
@@ -24,8 +24,7 @@ class PromotionController {
   async get(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const promotionDto: PromotionDto | null =
-      await this.promotionService.get(id);
+    const promotionDto: PromotionDto | null = await this.mService.get(id);
 
     if (!promotionDto) {
       return ApiResponse.error(
@@ -44,7 +43,7 @@ class PromotionController {
   }
 
   async getAll(_req: Request, res: Response): Promise<Response> {
-    const promotionDtos: PromotionDto[] = await this.promotionService.getAll();
+    const promotionDtos: PromotionDto[] = await this.mService.getAll();
 
     return ApiResponse.success<PromotionDto[]>(
       res,
@@ -58,7 +57,7 @@ class PromotionController {
     const payload = req.body as CreatePromotionDto;
 
     const createdPromotionDto: PromotionDto =
-      await this.promotionService.create(payload);
+      await this.mService.create(payload);
 
     return ApiResponse.success<PromotionDto>(
       res,
@@ -72,7 +71,7 @@ class PromotionController {
     const payload = req.body as CreatePromotionDto[];
 
     const createdPromotionDtos: PromotionDto[] =
-      await this.promotionService.createMany(payload);
+      await this.mService.createMany(payload);
 
     return ApiResponse.success<PromotionDto[]>(
       res,
@@ -87,7 +86,7 @@ class PromotionController {
     const payload: UpdatePromotionDto = req.body;
     payload.id = id;
 
-    const updatedPromotionDto = await this.promotionService.update(payload);
+    const updatedPromotionDto = await this.mService.update(payload);
 
     return ApiResponse.success<PromotionDto>(
       res,
@@ -101,7 +100,7 @@ class PromotionController {
     const payload = req.body as UpdatePromotionDto[];
 
     const updatedPromotionDtos: PromotionDto[] =
-      await this.promotionService.updateMany(payload);
+      await this.mService.updateMany(payload);
 
     return ApiResponse.success<PromotionDto[]>(
       res,
@@ -114,24 +113,24 @@ class PromotionController {
   async delete(req: Request, res: Response): Promise<Response> {
     const id: number = Number(req.params.id);
 
-    const deletedId: number = await this.promotionService.delete(id);
+    await this.mService.delete(id);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Food Promotion is deleted with ID: ${deletedId}`,
+      `Food Promotion is deleted with ID: ${id}`,
     );
   }
 
   async deleteMany(req: Request, res: Response): Promise<Response> {
     const ids = req.body as number[];
 
-    const deletedIds: number[] = await this.promotionService.deleteMany(ids);
+    await this.mService.deleteMany(ids);
 
     return ApiResponse.success<void>(
       res,
       200,
-      `Food Promotions are deleted with IDs: ${deletedIds}`,
+      `Food Promotions are deleted with IDs: ${ids}`,
     );
   }
 }
