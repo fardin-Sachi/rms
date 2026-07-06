@@ -4,17 +4,14 @@ import { MemoryProvider } from './memory/memory.provider.js';
 import { RedisProvider } from './redis/redis.provider.js';
 
 export function createCacheProvider(): CacheProvider {
+  switch (ENV.inMemoryDbEnv.CACHE_DRIVER_URL) {
+    case 'redis':
+      return new RedisProvider();
 
-    switch(ENV.inMemoryDbEnv.CACHE_DRIVER_URL){
+    // case "memcached":
+    //     return new MemcachedProvider();
 
-        case "redis":
-            return new RedisProvider();
-
-        // case "memcached":
-        //     return new MemcachedProvider();
-
-        default:
-            return new MemoryProvider();
-    }
-
+    default:
+      return new MemoryProvider();
+  }
 }

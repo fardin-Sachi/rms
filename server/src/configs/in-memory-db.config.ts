@@ -6,6 +6,7 @@ dotenv.config();
 
 const inMemoryDbEnvSchema = z.object({
   CACHE_DRIVER_URL: z.string(),
+  CACHE_DEFAULT_TTL: z.number(),
 });
 
 const inMemoryDbParsed = inMemoryDbEnvSchema.safeParse(process.env);

@@ -5,7 +5,7 @@ import { inMemoryDbEnv } from './in-memory-db.config.js';
 const ENV = {
   serverEnv,
   dbEnv,
-  inMemoryDbEnv
+  inMemoryDbEnv,
 };
 
 export default ENV;
