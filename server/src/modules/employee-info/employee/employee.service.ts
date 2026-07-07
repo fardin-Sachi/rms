@@ -10,6 +10,7 @@ import type EmployeeRepository from './employee.repository.js';
 import EmployeeRoleMapper from './mappers/employeeRole.mapper.js';
 import type EmployeeEntity from './entities/employee.entity.js';
 import type EmployeeMapper from './mappers/employee.mapper.js';
+import type { ICache } from '../../../infrastructures/cache/index.cache.js';
 
 class EmployeeService extends BaseService<
   EmployeeDto,
@@ -21,10 +22,11 @@ class EmployeeService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: EmployeeRepository,
     mMapper: EmployeeMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 
   async getEmployeeRole(pEmployeeId: number): Promise<EmployeeRoleDto | null> {

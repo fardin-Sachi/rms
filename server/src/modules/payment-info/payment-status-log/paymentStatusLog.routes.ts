@@ -9,6 +9,7 @@ import PaymentStatusLogMapper from './mappers/paymentStatusLog.mapper.js';
 import PaymentStatusLogRepository from './paymentStatusLog.repository.js';
 import PaymentStatusLogService from './paymentStatusLog.service.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -19,7 +20,12 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new PaymentStatusLogMapper();
 const mRepository = new PaymentStatusLogRepository(db, logger);
-const mService = new PaymentStatusLogService(logger, mRepository, mMapper);
+const mService = new PaymentStatusLogService(
+  logger,
+  cache,
+  mRepository,
+  mMapper,
+);
 const mController = new PaymentStatusLogController(logger, mService);
 
 /// Payment Status Log Single Routes

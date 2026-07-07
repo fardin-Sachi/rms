@@ -1,3 +1,4 @@
+import type { ICache } from '../../../../infrastructures/cache/cache.interface.js';
 import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
 import type { IEntityMapper } from '../../../../shared/interfaces/mapper.interface.js';
 import BuyXGetYRuleRepository from './BuyXGetYRule.repository.js';
@@ -9,6 +10,7 @@ import type BuyXGetYRuleEntity from './entities/buyXGetYRule.entity.js';
 class BuyXGetYRuleService {
   constructor(
     protected readonly mLogger: ILogger,
+    mCache: ICache,
     protected readonly mRepository: BuyXGetYRuleRepository,
     protected readonly mMapper: IEntityMapper<
       BuyXGetYRuleEntity,

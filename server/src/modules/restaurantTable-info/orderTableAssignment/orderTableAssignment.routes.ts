@@ -10,13 +10,19 @@ import OrderTableAssignmentRepository from './orderTableAssignment.repository.js
 import OrderTableAssignmentService from './orderTableAssignment.service.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
 import { customerOrderIdParamValidator } from '../../order/customer-order/validators/customerOrderIdParam.validator.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
 const mMapper = new OrderTableAssignmentMapper();
 const mRepository = new OrderTableAssignmentRepository(db, logger);
-const mService = new OrderTableAssignmentService(logger, mRepository, mMapper);
+const mService = new OrderTableAssignmentService(
+  logger,
+  cache,
+  mRepository,
+  mMapper,
+);
 const mController = new OrderTableAssignmentController(logger, mService);
 
 router

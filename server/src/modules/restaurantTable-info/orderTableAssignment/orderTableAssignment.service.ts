@@ -4,10 +4,12 @@ import type OrderTableAssignmentMapper from './mappers/orderTableAssignment.mapp
 import type { OrderTableAssignmentDto } from './dtos/orderTableAssignment.dto.js';
 import type { CreateOrderTableAssignmentDto } from './dtos/createOrderTableAssignment.dto.js';
 import type { UpdateOrderTableAssignmentDto } from './dtos/updateOrderTableAssignment.dto.js';
+import type { ICache } from '../../../infrastructures/cache/cache.interface.js';
 
 class OrderTableAssignmentService {
   constructor(
     private readonly mLogger: ILogger,
+    private readonly mCache: ICache,
     private readonly mRepository: OrderTableAssignmentRepository,
     private readonly mMapper: OrderTableAssignmentMapper,
   ) {}

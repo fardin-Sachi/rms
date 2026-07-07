@@ -1,3 +1,4 @@
+import type { ICache } from '../../../../infrastructures/cache/cache.interface.js';
 import BaseService from '../../../../shared/abstractions/base.service.js';
 import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
 import type { CreatePromotionDto } from './dtos/createPromotion.dto.js';
@@ -17,10 +18,11 @@ class PromotionService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: PromotionRepository,
     mMapper: PromotionMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

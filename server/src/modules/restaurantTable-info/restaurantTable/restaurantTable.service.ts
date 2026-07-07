@@ -6,6 +6,7 @@ import type { UpdateRestaurantTableDto } from './dtos/updateRestaurantTable.dto.
 import type RestaurantTableEntity from './entities/restaurantTable.entities.js';
 import type RestaurantTableMapper from './mappers/restaurantTable.mapper.js';
 import BaseService from '../../../shared/abstractions/base.service.js';
+import type { ICache } from '../../../infrastructures/cache/cache.interface.js';
 
 class RestaurantTableService extends BaseService<
   RestaurantTableDto,
@@ -17,10 +18,11 @@ class RestaurantTableService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: RestaurantTableRepository,
     mMapper: RestaurantTableMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

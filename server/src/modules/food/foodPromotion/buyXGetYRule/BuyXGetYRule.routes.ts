@@ -13,6 +13,7 @@ import BuyXGetYRuleController from './BuyXGetYRule.controller.js';
 import BuyXGetYRuleRepository from './BuyXGetYRule.repository.js';
 import BuyXGetYRuleService from './BuyXGetYRule.service.js';
 import BuyXGetYRuleMapper from './mappers/buyXGetYRule.mapper.js';
+import cache from '../../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -23,7 +24,7 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new BuyXGetYRuleMapper();
 const mRepository = new BuyXGetYRuleRepository(db, logger);
-const mService = new BuyXGetYRuleService(logger, mRepository, mMapper);
+const mService = new BuyXGetYRuleService(logger, cache, mRepository, mMapper);
 const mController = new BuyXGetYRuleController(logger, mService);
 
 /// Buy X Get Y Rule Batch Routes

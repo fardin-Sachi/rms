@@ -6,6 +6,7 @@ import type { UpdatePaymentDto } from './dtos/updatePayment.dto.js';
 import BaseService from '../../../shared/abstractions/base.service.js';
 import type PaymentEntity from './entities/payment.entity.js';
 import type PaymentMapper from './mappers/payment.mapper.js';
+import type { ICache } from '../../../infrastructures/cache/cache.interface.js';
 
 class PaymentService extends BaseService<
   PaymentDto,
@@ -17,10 +18,11 @@ class PaymentService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: PaymentRepository,
     mMapper: PaymentMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

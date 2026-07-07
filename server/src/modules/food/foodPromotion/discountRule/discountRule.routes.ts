@@ -13,6 +13,7 @@ import { db } from '../../../../infrastructures/database/index.database.js';
 import DiscountRuleRepository from './discountRule.repository.js';
 import DiscountRuleService from './discountRule.service.js';
 import DiscountRuleMapper from './mappers/discountRule.mapper.js';
+import cache from '../../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -23,7 +24,7 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new DiscountRuleMapper();
 const mRepository = new DiscountRuleRepository(db, logger);
-const mService = new DiscountRuleService(logger, mRepository, mMapper);
+const mService = new DiscountRuleService(logger, cache, mRepository, mMapper);
 const mController = new DiscountRuleController(logger, mService);
 
 /// Discount Rule Batch Routes

@@ -6,6 +6,7 @@ import type { UpdateOrderDetailDto } from './dtos/updateOrderDetail.dto.js';
 import BaseService from '../../../shared/abstractions/base.service.js';
 import type OrderDetailEntity from './entities/orderDetail.entity.js';
 import type OrderDetailMapper from './mappers/orderDetail.mapper.js';
+import type { ICache } from '../../../infrastructures/cache/cache.interface.js';
 
 class OrderDetailService extends BaseService<
   OrderDetailDto,
@@ -17,10 +18,11 @@ class OrderDetailService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: OrderDetailRepository,
     mMapper: OrderDetailMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

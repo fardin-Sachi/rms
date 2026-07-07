@@ -1,3 +1,4 @@
+import type { ICache } from '../../../../infrastructures/cache/cache.interface.js';
 import type { ILogger } from '../../../../shared/interfaces/logger.interface.js';
 import type { AssignPromotionFoodDto } from './dtos/assignPromotionFood.dto.js';
 import type { RemovePromotionFoodDto } from './dtos/removePromotionFood.dto.js';
@@ -8,6 +9,7 @@ import type PromotionFoodRepository from './promotionFood.repository.js';
 class PromotionFoodService {
   constructor(
     private readonly mLogger: ILogger,
+    private readonly mCache: ICache,
     private readonly mRepository: PromotionFoodRepository,
     private readonly mMapper: PromotionFoodMapper,
   ) {}

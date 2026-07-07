@@ -10,6 +10,7 @@ import CustomerOrderRepository from './customerOrder.repository.js';
 import CustomerOrderService from './customerOrder.service.js';
 import CustomerOrderMapper from './mappers/customerOrder.mapper.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -20,7 +21,7 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new CustomerOrderMapper();
 const mRepository = new CustomerOrderRepository(db, logger);
-const mService = new CustomerOrderService(logger, mRepository, mMapper);
+const mService = new CustomerOrderService(logger, cache, mRepository, mMapper);
 const mController = new CustomerOrderController(logger, mService);
 
 /// Customer Order Batch Routes

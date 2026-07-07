@@ -10,13 +10,14 @@ import { promotionIdParamValidator } from './validators/promotionIdParam.validat
 import { db } from '../../../../infrastructures/database/index.database.js';
 import { logger } from '../../../../infrastructures/logger/logger.js';
 import { validate } from '../../../../shared/middlewares/validate.middleware.js';
+import cache from '../../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
 const mMapper = new PromotionFoodMapper();
 const mRepository = new PromotionFoodRepository(db, logger);
-const mService = new PromotionFoodService(logger, mRepository, mMapper);
+const mService = new PromotionFoodService(logger, cache, mRepository, mMapper);
 const mController = new PromotionFoodController(logger, mService);
 
 /// Promotion Food Routes (NOT CRUD based)

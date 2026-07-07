@@ -1,3 +1,4 @@
+import type { ICache } from '../../infrastructures/cache/cache.interface.js';
 import type IDto from '../interfaces/dto.interface.js';
 import type { ILogger } from '../interfaces/logger.interface.js';
 import type { IEntityMapper } from '../interfaces/mapper.interface.js';
@@ -13,6 +14,7 @@ abstract class BaseService<
 > {
   protected constructor(
     protected readonly mLogger: ILogger,
+    protected readonly mCache: ICache,
     protected readonly mRepository: TRepository,
     protected readonly mMapper: IEntityMapper<
       TEntity,
@@ -85,6 +87,14 @@ abstract class BaseService<
 
   async deleteMany(ids: TId[]): Promise<void> {
     await this.mRepository.deleteMany(ids);
+  }
+
+  protected getCacheKey(id: TId): string {
+    return `${this.constructor.name}:${String(id)}`;
+  }
+
+  protected getAllCacheKey(): string {
+    return `${this.constructor.name}:all`;
   }
 }
 

@@ -13,6 +13,7 @@ import FoodMenuService from './foodMenu.service.js';
 import FoodMenuMapper from './mappers/foodMenu.mapper.js';
 import FoodMenuRepository from './foodMenu.repository.js';
 import FoodMenuController from './foodMenu.controller.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -23,7 +24,7 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new FoodMenuMapper();
 const mRepository = new FoodMenuRepository(db, logger);
-const mService = new FoodMenuService(logger, mRepository, mMapper);
+const mService = new FoodMenuService(logger, cache, mRepository, mMapper);
 const mController = new FoodMenuController(logger, mService);
 
 /// Food Menu Batch Routes

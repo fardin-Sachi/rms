@@ -15,6 +15,7 @@ import EmployeeService from './employee.service.js';
 import EmployeeMapper from './mappers/employee.mapper.js';
 import EmployeeRepository from './employee.repository.js';
 import { db } from '../../../infrastructures/database/index.database.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -25,7 +26,7 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new EmployeeMapper();
 const mRepository = new EmployeeRepository(db, logger);
-const mService = new EmployeeService(logger, mRepository, mMapper);
+const mService = new EmployeeService(logger, cache, mRepository, mMapper);
 const mController = new EmployeeController(logger, mService);
 
 /// Employee Address Routes

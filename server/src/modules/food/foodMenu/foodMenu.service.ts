@@ -6,6 +6,7 @@ import BaseService from '../../../shared/abstractions/base.service.js';
 import type FoodMenuEntity from './entities/foodMenu.entity.js';
 import type FoodMenuMapper from './mappers/foodMenu.mapper.js';
 import type FoodMenuRepository from './foodMenu.repository.js';
+import type { ICache } from '../../../infrastructures/cache/cache.interface.js';
 
 class FoodMenuService extends BaseService<
   FoodMenuDto,
@@ -17,10 +18,11 @@ class FoodMenuService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: FoodMenuRepository,
     mMapper: FoodMenuMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

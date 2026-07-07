@@ -9,6 +9,7 @@ import { createEmpSalaryValidator } from './validators/createEmpSalary.validator
 import { updateEmpSalaryValidator } from './validators/updateEmpSalary.validator.js';
 import EmployeeSalaryMapper from './mappers/employeeSalary.mapper.js';
 import { db } from '../../../infrastructures/database/index.database.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -19,7 +20,7 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new EmployeeSalaryMapper();
 const mRepository = new EmployeeSalaryRepository(db, logger);
-const mService = new EmployeeSalaryService(logger, mRepository, mMapper);
+const mService = new EmployeeSalaryService(logger, cache, mRepository, mMapper);
 const mController = new EmployeeSalaryController(logger, mService);
 
 router

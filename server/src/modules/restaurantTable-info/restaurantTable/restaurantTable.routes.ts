@@ -13,13 +13,19 @@ import RestaurantTableMapper from './mappers/restaurantTable.mapper.js';
 import RestaurantTableRepository from './restaurantTable.repository.js';
 import RestaurantTableService from './restaurantTable.service.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
 const mMapper = new RestaurantTableMapper();
 const mRepository = new RestaurantTableRepository(db, logger);
-const mService = new RestaurantTableService(logger, mRepository, mMapper);
+const mService = new RestaurantTableService(
+  logger,
+  cache,
+  mRepository,
+  mMapper,
+);
 const mController = new RestaurantTableController(logger, mService);
 
 /// RestaurantTable Batch Routes

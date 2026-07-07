@@ -10,13 +10,14 @@ import PaymentMapper from './mappers/payment.mapper.js';
 import PaymentRepository from './payment.repository.js';
 import PaymentService from './payment.service.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
 const mMapper = new PaymentMapper();
 const mRepository = new PaymentRepository(db, logger);
-const mService = new PaymentService(logger, mRepository, mMapper);
+const mService = new PaymentService(logger, cache, mRepository, mMapper);
 const mController = new PaymentController(logger, mService);
 
 /// Payment Single Routes

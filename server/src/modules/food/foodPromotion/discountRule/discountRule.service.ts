@@ -6,6 +6,7 @@ import type { DiscountRuleDto } from './dtos/discountRule.dto.js';
 import BaseService from '../../../../shared/abstractions/base.service.js';
 import type DiscountRuleEntity from './entities/discountRule.entity.js';
 import type DiscountRuleMapper from './mappers/discountRule.mapper.js';
+import type { ICache } from '../../../../infrastructures/cache/cache.interface.js';
 
 class DiscountRuleService extends BaseService<
   DiscountRuleDto,
@@ -17,10 +18,11 @@ class DiscountRuleService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: DiscountRuleRepository,
     mMapper: DiscountRuleMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

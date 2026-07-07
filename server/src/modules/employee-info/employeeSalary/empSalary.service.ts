@@ -1,3 +1,4 @@
+import type { ICache } from '../../../infrastructures/cache/index.cache.js';
 import BaseService from '../../../shared/abstractions/base.service.js';
 import type { ILogger } from '../../../shared/interfaces/logger.interface.js';
 import type CreateEmpSalaryDto from './dtos/createEmpSalary.dto.js';
@@ -17,10 +18,11 @@ class EmployeeSalaryService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: EmployeeSalaryRepository,
     mMapper: EmployeeSalaryMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

@@ -6,6 +6,7 @@ import type { UpdatePaymentStatusLogDto } from './dtos/updatePaymentStatusLog.dt
 import type PaymentStatusLogEntity from './entities/paymentStatusLog.entity.js';
 import BaseService from '../../../shared/abstractions/base.service.js';
 import type PaymentStatusLogMapper from './mappers/paymentStatusLog.mapper.js';
+import type { ICache } from '../../../infrastructures/cache/cache.interface.js';
 
 class PaymentStatusLogService extends BaseService<
   PaymentStatusLogDto,
@@ -17,10 +18,11 @@ class PaymentStatusLogService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: PaymentStatusLogRepository,
     mMapper: PaymentStatusLogMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 }
 

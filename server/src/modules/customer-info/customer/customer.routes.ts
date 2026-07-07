@@ -11,13 +11,14 @@ import { db } from '../../../infrastructures/database/index.database.js';
 import CustomerRepository from './customer.repository.js';
 import CustomerService from './customer.service.js';
 import CustomerMapper from './mappers/customer.mapper.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
 const mMapper = new CustomerMapper();
 const mRepository = new CustomerRepository(db, logger);
-const mService = new CustomerService(logger, mRepository, mMapper);
+const mService = new CustomerService(logger, cache, mRepository, mMapper);
 const mController = new CustomerController(logger, mService);
 
 // Batch Customer routes

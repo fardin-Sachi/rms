@@ -10,13 +10,14 @@ import { db } from '../../../infrastructures/database/index.database.js';
 import MemberMapper from './mappers/member.mapper.js';
 import MemberRepository from './member.repository.js';
 import MemberService from './member.service.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
 const mMapper = new MemberMapper();
 const mRepository = new MemberRepository(db, logger);
-const mService = new MemberService(logger, mRepository, mMapper);
+const mService = new MemberService(logger, cache, mRepository, mMapper);
 const mController = new MemberController(logger, mService);
 
 /// Member Address Routes

@@ -13,6 +13,7 @@ import { db } from '../../../../infrastructures/database/index.database.js';
 import PromotionMapper from './mappers/promotion.mapper.js';
 import PromotionRepository from './promotion.repository.js';
 import PromotionService from './promotion.service.js';
+import cache from '../../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
@@ -23,7 +24,7 @@ const router: Router = express.Router();
 /// Object declarations
 const mMapper = new PromotionMapper();
 const mRepository = new PromotionRepository(db, logger);
-const mService = new PromotionService(logger, mRepository, mMapper);
+const mService = new PromotionService(logger, cache, mRepository, mMapper);
 const mController = new PromotionController(logger, mService);
 
 // Food Promotion Batch Routes

@@ -7,6 +7,7 @@ import type MemberEntity from './entities/member.entity.js';
 import BaseService from '../../../shared/abstractions/base.service.js';
 import type MemberMapper from './mappers/member.mapper.js';
 import type { MemberAddressDto } from './dtos/memberAddress.dto.js';
+import type { ICache } from '../../../infrastructures/cache/cache.interface.js';
 
 class MemberService extends BaseService<
   MemberDto,
@@ -18,10 +19,11 @@ class MemberService extends BaseService<
 > {
   constructor(
     mLogger: ILogger,
+    mCache: ICache,
     mRepository: MemberRepository,
     mMapper: MemberMapper,
   ) {
-    super(mLogger, mRepository, mMapper);
+    super(mLogger, mCache, mRepository, mMapper);
   }
 
   async getMemberAddress(pMemberId: number): Promise<MemberAddressDto> {

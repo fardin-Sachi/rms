@@ -10,13 +10,14 @@ import OrderStatusLogMapper from './mappers/orderStatusLog.mapper.js';
 import OrderStatusLogRepository from './orderStatusLog.repository.js';
 import OrderStatusLogService from './orderStatusLog.service.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
+import cache from '../../../infrastructures/cache/cache.factory.js';
 
 const router: Router = express.Router();
 
 /// Object declarations
 const mMapper = new OrderStatusLogMapper();
 const mRepository = new OrderStatusLogRepository(db, logger);
-const mService = new OrderStatusLogService(logger, mRepository, mMapper);
+const mService = new OrderStatusLogService(logger, cache, mRepository, mMapper);
 const mController = new OrderStatusLogController(logger, mService);
 
 /// Order Status Single Routes
