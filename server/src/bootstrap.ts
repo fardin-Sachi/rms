@@ -1,4 +1,5 @@
-import { closeRedisClient } from './infrastructures/cache/redis/redis.client.js';
+import { initializeContainer } from './infrastructures/cache/initializeContainer.js';
+import { closeRedisClient } from './infrastructures/cache/providers/redis/redis.client.js';
 import {
   connectDatabase,
   disconnectDatabase,
@@ -9,7 +10,7 @@ let bootstrapped = false;
 export async function bootstrap(): Promise<void> {
   if (bootstrapped) return;
 
-  await Promise.all([connectDatabase()]);
+  await Promise.all([connectDatabase(), initializeContainer()]);
 
   bootstrapped = true;
 

@@ -1,6 +1,6 @@
 import { createClient, type RedisClientType } from 'redis';
-import ENV from '../../../configs/index.config.js';
-import { logger } from '../../logger/logger.js';
+import ENV from '../../../../configs/index.config.js';
+import { logger } from '../../../logger/logger.js';
 
 // export const redisClient = createClient({
 //   url: process.env.CACHE_DRIVER_URL,
@@ -68,12 +68,22 @@ export async function getRedisClient(): Promise<RedisClientType> {
 }
 
 export async function closeRedisClient(): Promise<void> {
-  if (!client?.isOpen) {
-    return;
-  }
+  if (!client) return;
 
   try {
-    await client.quit();
+    await Promise.race([
+      client.quit(),
+
+      new Promise((_, reject) =>
+        setTimeout(
+          () => reject(),
+
+          3000,
+        ),
+      ),
+    ]);
+  } catch {
+    client.destroy();
   } finally {
     client = null;
   }

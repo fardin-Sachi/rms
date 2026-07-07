@@ -5,6 +5,7 @@ import { logger } from '../infrastructures/logger/logger.js';
 dotenv.config();
 
 const inMemoryDbEnvSchema = z.object({
+  CACHE_DRIVER: z.string(),
   CACHE_DRIVER_URL: z.string(),
   CACHE_DEFAULT_TTL: z.number(),
 });

@@ -1,4 +1,4 @@
-import type { CacheProvider } from '../cache.interface.js';
+import type { CacheProvider } from '../../cache.interface.js';
 
 export class MemoryProvider implements CacheProvider {
   async get<T>(_key: string): Promise<T | null> {
