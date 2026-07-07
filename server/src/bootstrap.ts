@@ -1,18 +1,23 @@
-import { initializeContainer } from './infrastructures/cache/initializeContainer.js';
-import { closeRedisClient } from './infrastructures/cache/providers/redis/redis.client.js';
+import ENV from './configs/index.config.js';
 import {
-  connectDatabase,
-  disconnectDatabase,
-} from './infrastructures/database/dbConnection.js';
+  closeRedisClient,
+  getRedisClient,
+} from './infrastructures/cache/providers/redis/redis.client.js';
+import { disconnectDatabase } from './infrastructures/database/dbConnection.js';
 import { logger } from './infrastructures/logger/logger.js';
 
-let bootstrapped = false;
-export async function bootstrap(): Promise<void> {
-  if (bootstrapped) return;
+export async function bootstrap() {
+  if (ENV.inMemoryDbEnv.CACHE_DRIVER === 'redis') {
+    try {
+      await getRedisClient();
+    } catch (error) {
+      logger.error('Failed to connect Redis', {
+        error,
+      });
 
-  await Promise.all([connectDatabase(), initializeContainer()]);
-
-  bootstrapped = true;
+      throw error;
+    }
+  }
 
   logger.info('Infrastructure initialized');
 }

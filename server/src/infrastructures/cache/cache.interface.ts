@@ -1,21 +1,13 @@
-export interface CacheProvider {
+export interface ICache {
   get<T>(key: string): Promise<T | null>;
 
-  set<T>(key: string, value: T, ttl?: number): Promise<void>;
+  set<T>(key: string, value: T, ttlSeconds?: number): Promise<void>;
 
-  del(key: string): Promise<void>;
+  has(key: string): Promise<boolean>;
 
-  exists(key: string): Promise<boolean>;
+  delete(key: string): Promise<void>;
+
+  deleteMany(keys: string[]): Promise<void>;
 
   clear(): Promise<void>;
-
-  ttl(key: string): Promise<number>;
-
-  expire(key: string, seconds: number): Promise<boolean>;
-
-  increment(key: string, by?: number): Promise<number>;
-
-  decrement(key: string, by?: number): Promise<number>;
-
-  keys(pattern?: string): Promise<string[]>;
 }

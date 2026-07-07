@@ -7,7 +7,7 @@ dotenv.config();
 const inMemoryDbEnvSchema = z.object({
   CACHE_DRIVER: z.string(),
   CACHE_DRIVER_URL: z.string(),
-  CACHE_DEFAULT_TTL: z.number(),
+  CACHE_DEFAULT_TTL: z.coerce.number().optional(),
 });
 
 const inMemoryDbParsed = inMemoryDbEnvSchema.safeParse(process.env);
@@ -17,6 +17,7 @@ if (!inMemoryDbParsed.success) {
     'Invalid Server environment variables: ',
     inMemoryDbParsed.error.flatten().fieldErrors,
   );
+
   process.exit(1);
 }
 

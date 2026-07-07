@@ -1,6 +1,6 @@
 import { logger } from './infrastructures/logger/logger.js';
-import ENV from './configs/index.config.js';
 import { app } from './app.js';
+import ENV from './configs/index.config.js';
 import { bootstrap, shutdown } from './bootstrap.js';
 
 let server: ReturnType<typeof app.listen>;

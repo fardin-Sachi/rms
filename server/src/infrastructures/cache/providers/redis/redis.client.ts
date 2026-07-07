@@ -75,16 +75,18 @@ export async function closeRedisClient(): Promise<void> {
       client.quit(),
 
       new Promise((_, reject) =>
-        setTimeout(
-          () => reject(),
-
-          3000,
-        ),
+        setTimeout(() => {
+          reject(new Error('Redis quit timeout'));
+        }, 3000),
       ),
     ]);
-  } catch {
+  } catch (err) {
+    logger.warn('Redis quit failed. Destroying client.', {
+      err,
+    });
     client.destroy();
   } finally {
     client = null;
+    connecting = null;
   }
 }

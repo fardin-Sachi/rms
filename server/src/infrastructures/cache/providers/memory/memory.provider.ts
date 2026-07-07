@@ -1,43 +1,75 @@
-import type { CacheProvider } from '../../cache.interface.js';
+import type { ICache } from '../../cache.interface.js';
 
-export class MemoryProvider implements CacheProvider {
-  async get<T>(_key: string): Promise<T | null> {
-    return null;
+type CacheItem = {
+  value: unknown;
+  expiresAt?: number;
+};
+
+export class MemoryCache implements ICache {
+  private cache = new Map<string, CacheItem>();
+
+  private readonly cleanupTimer: NodeJS.Timeout;
+
+  constructor() {
+    this.cleanupTimer = setInterval(() => {
+      this.cleanupExpired();
+    }, 60_000);
+
+    this.cleanupTimer.unref();
   }
 
-  async set<T>(_key: string, _value: T, _ttl?: number): Promise<void> {
-    return;
+  private cleanupExpired(): void {
+    for (const [key, item] of this.cache) {
+      if (this.isExpired(item)) {
+        this.cache.delete(key);
+      }
+    }
   }
 
-  async del(_key: string): Promise<void> {
-    return;
+  async get<T>(key: string): Promise<T | null> {
+    const item = this.cache.get(key);
+
+    if (!item) return null;
+
+    if (this.isExpired(item)) {
+      this.cache.delete(key);
+      return null;
+    }
+
+    return item.value as T;
   }
 
-  async exists(_key: string): Promise<boolean> {
-    return false;
+  private isExpired(item: CacheItem): boolean {
+    return item.expiresAt !== undefined && Date.now() >= item.expiresAt;
+  }
+
+  async set<T>(key: string, value: T, ttlSeconds?: number): Promise<void> {
+    const item: CacheItem = {
+      value,
+    };
+
+    if (ttlSeconds !== undefined) {
+      item.expiresAt = Date.now() + ttlSeconds * 1000;
+    }
+
+    this.cache.set(key, item);
+  }
+
+  async delete(key: string): Promise<void> {
+    this.cache.delete(key);
   }
 
   async clear(): Promise<void> {
-    return;
+    this.cache.clear();
   }
 
-  ttl(_key: string): Promise<number> {
-    throw new Error('Method not implemented.');
+  async has(key: string): Promise<boolean> {
+    return (await this.get(key)) !== null;
   }
 
-  expire(_key: string, _seconds: number): Promise<boolean> {
-    throw new Error('Method not implemented.');
-  }
-
-  increment(_key: string, _by?: number): Promise<number> {
-    throw new Error('Method not implemented.');
-  }
-
-  decrement(_key: string, _by?: number): Promise<number> {
-    throw new Error('Method not implemented.');
-  }
-
-  keys(_pattern?: string): Promise<string[]> {
-    throw new Error('Method not implemented.');
+  async deleteMany(keys: string[]): Promise<void> {
+    for (const key of keys) {
+      this.cache.delete(key);
+    }
   }
 }

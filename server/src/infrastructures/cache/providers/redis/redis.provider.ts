@@ -1,75 +1,75 @@
 import type { RedisClientType } from 'redis';
-import type { CacheProvider } from '../../cache.interface.js';
-import type { Serializer } from '../../serializer.interface.js';
+import type { ICache } from '../../cache.interface.js';
+import { getRedisClient } from './redis.client.js';
+import { logger } from '../../../logger/logger.js';
 
-export class RedisProvider implements CacheProvider {
-  constructor(
-    private readonly client: RedisClientType,
-    private readonly serializer: Serializer,
-  ) {}
+export class RedisCache implements ICache {
+  private async getClient(): Promise<RedisClientType> {
+    return getRedisClient();
+  }
 
   async get<T>(key: string): Promise<T | null> {
-    const value = await this.client.get(key);
+    const client = await this.getClient();
 
-    if (value === null) {
+    const value = await client.get(key);
+
+    if (!value) {
       return null;
     }
 
     try {
-      return this.serializer.deserialize<T>(value);
-    } catch {
-      return value as unknown as T;
+      return JSON.parse(value) as T;
+    } catch (error) {
+      logger.error('Failed to parse cached value', {
+        key,
+        error,
+      });
+
+      return null;
     }
   }
 
-  async set<T>(key: string, value: T, ttl?: number): Promise<void> {
-    const serialized = this.serializer.serialize(value);
-    if (ttl) {
-      await this.client.set(key, serialized, { EX: ttl });
+  async set<T>(key: string, value: T, ttlSeconds?: number): Promise<void> {
+    const client = await this.getClient();
+
+    const json = JSON.stringify(value);
+
+    if (ttlSeconds !== undefined) {
+      await client.set(key, json, {
+        EX: ttlSeconds,
+      });
 
       return;
     }
 
-    await this.client.set(key, serialized);
+    await client.set(key, json);
   }
 
-  async del(key: string): Promise<void> {
-    await this.client.del(key);
-  }
+  async delete(key: string): Promise<void> {
+    const client = await this.getClient();
 
-  async exists(key: string): Promise<boolean> {
-    return (await this.client.exists(key)) === 1;
+    await client.del(key);
   }
 
   async clear(): Promise<void> {
-    await this.client.flushDb();
+    const client = await this.getClient();
+
+    await client.flushDb();
   }
 
-  async ttl(key: string): Promise<number> {
-    return this.client.ttl(key);
+  async has(key: string): Promise<boolean> {
+    const client = await this.getClient();
+
+    return (await client.exists(key)) === 1;
   }
 
-  async expire(key: string, seconds: number): Promise<boolean> {
-    return (await this.client.expire(key, seconds)) === 1;
-  }
-
-  async increment(key: string, by?: number): Promise<number> {
-    return this.client.incrBy(key, by ?? 1);
-  }
-
-  async decrement(key: string, by?: number): Promise<number> {
-    return this.client.decrBy(key, by ?? 1);
-  }
-
-  async keys(pattern = '*'): Promise<string[]> {
-    const keys: string[] = [];
-
-    for await (const batch of this.client.scanIterator({
-      MATCH: pattern,
-    })) {
-      keys.push(...batch);
+  async deleteMany(keys: string[]): Promise<void> {
+    if (keys.length === 0) {
+      return;
     }
 
-    return keys;
+    const client = await this.getClient();
+
+    await client.del(keys);
   }
 }
