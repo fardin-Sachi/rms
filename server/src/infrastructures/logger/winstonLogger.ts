@@ -20,9 +20,12 @@ const winstonInstance = winston.createLogger({
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
-        winston.format.colorize(),
+        winston.format.colorize({
+          all: false,
+          level: true,
+        }),
         winston.format.printf(({ timestamp, level, message }) => {
-          return `[${timestamp}] ${level}: ${message}`;
+          return `[${level.toUpperCase()}] [${timestamp}] ${level}: ${message}`;
         }),
       ),
     }),
