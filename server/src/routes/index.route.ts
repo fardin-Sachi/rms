@@ -3,7 +3,7 @@ import serverStatusRoutes from '../modules/serverState/serverStatus.routes.js';
 import employeeRoutes from '../modules/employee-info/employee/employee.routes.js';
 import employeeSalaryRoutes from '../modules/employee-info/employeeSalary/empSalary.routes.js';
 import customerRoutes from '../modules/customer-info/customer/customer.module.js';
-import memberRoutes from '../modules/customer-info/member/member.routes.js';
+import memberRoutes from '../modules/customer-info/member/member.module.js';
 import foodMenuRoutes from '../modules/food/foodMenu/foodMenu.routes.js';
 import foodPromotionRoutes from '../modules/food/foodPromotion/sharedIndex.route.js';
 import orderRoutes from '../modules/order/sharedIndex.route.js';

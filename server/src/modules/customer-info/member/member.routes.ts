@@ -1,62 +1,67 @@
-import express, { type Router } from 'express';
-import { logger } from '../../../infrastructures/logger/logger.js';
+import { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
-import MemberController from './member.controller.js';
 import { createMemberValidator } from './validators/createMember.validator.js';
 import { updateMemberValidator } from './validators/updateMember.validator.js';
 import { memberIdParamValidator } from './validators/memberIdParam.validator.js';
 import { memberAddressValidator } from './validators/memberAddress.validator.js';
-import { db } from '../../../infrastructures/database/index.database.js';
-import MemberMapper from './mappers/member.mapper.js';
-import MemberRepository from './member.repository.js';
-import MemberService from './member.service.js';
-import cache from '../../../infrastructures/cache/cache.factory.js';
+import type MemberController from './member.controller.js';
 
-const router: Router = express.Router();
+class MemberRouter {
+  public readonly router: Router;
 
-/// Object declarations
-const mMapper = new MemberMapper();
-const mRepository = new MemberRepository(db, logger);
-const mService = new MemberService(logger, cache, mRepository, mMapper);
-const mController = new MemberController(logger, mService);
+  constructor(private readonly mController: MemberController) {
+    this.router = Router();
+    this.registerRoutes();
+  }
 
-/// Member Address Routes
-router
-  .get(
-    '/address/:customerId',
-    validate(memberIdParamValidator, 'params'),
-    mController.getMemberAddress,
-  )
-  .post(
-    '/address/:customerId',
-    validate(memberIdParamValidator, 'params'),
-    validate(memberAddressValidator, 'body'),
-    mController.createMemberAddress,
-  )
-  .patch(
-    '/address/:customerId',
-    validate(memberAddressValidator, 'body'),
-    mController.updateMemberAddress,
-  );
+  private registerRoutes(): void {
+    this.registerMemberAddressRoutes();
+    this.registerSingleRoutes();
+  }
 
-// Single Member routes
-router
-  .get(
-    '/:customerId',
-    validate(memberIdParamValidator, 'params'),
-    mController.get,
-  )
-  .post('', validate(createMemberValidator), mController.create)
-  .patch(
-    '/:customerId',
-    validate(memberIdParamValidator, 'params'),
-    validate(updateMemberValidator, 'body'),
-    mController.update,
-  )
-  .delete(
-    '/:customerId',
-    validate(memberIdParamValidator, 'params'),
-    mController.delete,
-  );
+  // Member Address Routes
+  private registerMemberAddressRoutes(): void {
+    this.router
+      .get(
+        '/address/:customerId',
+        validate(memberIdParamValidator, 'params'),
+        this.mController.getMemberAddress,
+      )
+      .post(
+        '/address/:customerId',
+        validate(memberIdParamValidator, 'params'),
+        validate(memberAddressValidator, 'body'),
+        this.mController.createMemberAddress,
+      )
+      .patch(
+        '/address/:customerId',
+        validate(memberIdParamValidator, 'params'),
+        validate(memberAddressValidator, 'body'),
+        this.mController.updateMemberAddress,
+      );
+  }
 
-export default router;
+  // Single Member routes
+  private registerSingleRoutes(): void {
+    this.router
+      .get(
+        '/:customerId',
+        validate(memberIdParamValidator, 'params'),
+        this.mController.get,
+      )
+      .post('/', validate(createMemberValidator), this.mController.create)
+      .patch(
+        '/:customerId',
+        validate(memberIdParamValidator, 'params'),
+        validate(updateMemberValidator, 'body'),
+        this.mController.update,
+      )
+      .delete(
+        '/:customerId',
+        validate(memberIdParamValidator, 'params'),
+        this.mController.delete,
+      );
+  }
+}
+
+export default MemberRouter;
