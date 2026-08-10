@@ -1,4 +1,4 @@
-import express, { type Router } from 'express';
+import { Router } from 'express';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import { logger } from '../../../infrastructures/logger/logger.js';
 import { employeeIdParamValidator } from '../employee/validators/employeeIdParam.validator.js';
@@ -10,9 +10,6 @@ import { updateEmpSalaryValidator } from './validators/updateEmpSalary.validator
 import EmployeeSalaryMapper from './mappers/employeeSalary.mapper.js';
 import { db } from '../../../infrastructures/database/index.database.js';
 import cache from '../../../infrastructures/cache/cache.factory.js';
-
-const router: Router = express.Router();
-
 /*
  * IMPORTANT: employeeIdParamValidator should be used for 'params' only
  */
@@ -23,39 +20,39 @@ const mRepository = new EmployeeSalaryRepository(db, logger);
 const mService = new EmployeeSalaryService(logger, cache, mRepository, mMapper);
 const mController = new EmployeeSalaryController(logger, mService);
 
-router
-  .get(
-    '/salary/:id',
-    validate(employeeIdParamValidator, 'params'),
-    mController.get,
-    validate(employeeIdParamValidator, 'params'),
-    mController.get,
-  )
-  .post(
-    '/salary/:id',
-    validate(employeeIdParamValidator, 'params'),
-    validate(createEmpSalaryValidator, 'body'),
-    mController.create,
-  )
-  .patch(
-    '/salary/:id',
-    validate(employeeIdParamValidator, 'params'),
-    validate(updateEmpSalaryValidator, 'body'),
-    mController.update,
-    validate(employeeIdParamValidator, 'params'),
-    mController.get,
-  )
-  .post(
-    '/salary/:id',
-    validate(employeeIdParamValidator, 'params'),
-    validate(createEmpSalaryValidator, 'body'),
-    mController.create,
-  )
-  .patch(
-    '/salary/:id',
-    validate(employeeIdParamValidator, 'params'),
-    validate(updateEmpSalaryValidator, 'body'),
-    mController.update,
-  );
+class EmployeeSalaryRouter {
+  public readonly router: Router;
 
-export default router;
+  constructor(private readonly mController: EmployeeSalaryController) {
+    this.router = Router();
+    this.registerRoutes();
+  }
+
+  private registerRoutes(): void {
+    this.registerSingleRoutes();
+  }
+
+  // Single Employee Salary routes
+  private registerSingleRoutes(): void {
+    this.router
+      .get(
+        '/salary/:id',
+        validate(employeeIdParamValidator, 'params'),
+        mController.get,
+      )
+      .post(
+        '/salary/:id',
+        validate(employeeIdParamValidator, 'params'),
+        validate(createEmpSalaryValidator, 'body'),
+        mController.create,
+      )
+      .patch(
+        '/salary/:id',
+        validate(employeeIdParamValidator, 'params'),
+        validate(updateEmpSalaryValidator, 'body'),
+        mController.update,
+      );
+  }
+}
+
+export default EmployeeSalaryRouter;

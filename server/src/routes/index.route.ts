@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import serverStatusRoutes from '../modules/serverState/serverStatus.routes.js';
-import employeeRoutes from '../modules/employee-info/employee/employee.routes.js';
-import employeeSalaryRoutes from '../modules/employee-info/employeeSalary/empSalary.routes.js';
+import employeeRoutes from '../modules/employee-info/employee/employee.module.js';
+import employeeSalaryRoutes from '../modules/employee-info/employeeSalary/empSalary.module.js';
 import customerRoutes from '../modules/customer-info/customer/customer.module.js';
 import memberRoutes from '../modules/customer-info/member/member.module.js';
 import foodMenuRoutes from '../modules/food/foodMenu/foodMenu.routes.js';
