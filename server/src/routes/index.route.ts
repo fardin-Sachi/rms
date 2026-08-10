@@ -4,7 +4,7 @@ import employeeRoutes from '../modules/employee-info/employee/employee.module.js
 import employeeSalaryRoutes from '../modules/employee-info/employeeSalary/empSalary.module.js';
 import customerRoutes from '../modules/customer-info/customer/customer.module.js';
 import memberRoutes from '../modules/customer-info/member/member.module.js';
-import foodMenuRoutes from '../modules/food/foodMenu/foodMenu.routes.js';
+import foodMenuRoutes from '../modules/food/foodMenu/foodMenu.module.js';
 import foodPromotionRoutes from '../modules/food/foodPromotion/sharedIndex.route.js';
 import orderRoutes from '../modules/order/sharedIndex.route.js';
 import paymentRoutes from '../modules/payment-info/sharedIndex.route.js';

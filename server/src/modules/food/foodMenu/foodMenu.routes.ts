@@ -1,6 +1,4 @@
-import { logger } from '../../../infrastructures/logger/logger.js';
-import express from 'express';
-import type { Router } from 'express';
+import { Router } from 'express';
 import { updateFoodMenuValidator } from './validators/updateFoodMenu.validator.js';
 import { validate } from '../../../shared/middlewares/validate.middleware.js';
 import { createFoodMenuValidator } from './validators/createFoodMenu.validator.js';
@@ -8,58 +6,67 @@ import { createFoodMenuArrayValidator } from './validators/createFoodMenuArray.v
 import { deleteFoodMenuArrayValidator } from './validators/deleleFoodMenuArray.validator.js';
 import { updateFoodMenuArrayValidator } from './validators/updateFoodMenuArray.validator.js';
 import { foodMenuIdParamValidator } from './validators/foodMenuIdParam.validator.js';
-import { db } from '../../../infrastructures/database/index.database.js';
-import FoodMenuService from './foodMenu.service.js';
-import FoodMenuMapper from './mappers/foodMenu.mapper.js';
-import FoodMenuRepository from './foodMenu.repository.js';
-import FoodMenuController from './foodMenu.controller.js';
-import cache from '../../../infrastructures/cache/cache.factory.js';
-
-const router: Router = express.Router();
+import type FoodMenuController from './foodMenu.controller.js';
 
 /*
  * IMPORTANT: foodMenuIdParamValidator should be used for 'params' only
  */
 
-/// Object declarations
-const mMapper = new FoodMenuMapper();
-const mRepository = new FoodMenuRepository(db, logger);
-const mService = new FoodMenuService(logger, cache, mRepository, mMapper);
-const mController = new FoodMenuController(logger, mService);
+class FoodMenuRouter {
+  public readonly router: Router;
 
-/// Food Menu Batch Routes
-router
-  .get('', mController.getAll)
-  .post(
-    '/batch',
-    validate(createFoodMenuArrayValidator, 'body'),
-    mController.createMany,
-  )
-  .patch(
-    '/batch',
-    validate(updateFoodMenuArrayValidator, 'body'),
-    mController.updateMany,
-  )
-  .delete(
-    '/batch',
-    validate(deleteFoodMenuArrayValidator, 'body'),
-    mController.deleteMany,
-  );
+  constructor(private readonly mController: FoodMenuController) {
+    this.router = Router();
+    this.registerRoutes();
+  }
 
-/// Food Menu Single Routes
-router
-  .get('/:id', validate(foodMenuIdParamValidator, 'params'), mController.get)
-  .post('', validate(createFoodMenuValidator), mController.create)
-  .patch(
-    '/:id',
-    validate(foodMenuIdParamValidator, 'params'),
-    validate(updateFoodMenuValidator, 'body'),
-    mController.update,
-  )
-  .delete(
-    '/:id',
-    validate(foodMenuIdParamValidator, 'params'),
-    mController.delete,
-  );
+  private registerRoutes(): void {
+    this.registerSingleRoutes();
+    this.registerBatchRoutes();
+  }
 
-export default router;
+  // Food Menu Batch Routes
+  private registerBatchRoutes(): void {
+    this.router
+      .get('', this.mController.getAll)
+      .post(
+        '/batch',
+        validate(createFoodMenuArrayValidator, 'body'),
+        this.mController.createMany,
+      )
+      .patch(
+        '/batch',
+        validate(updateFoodMenuArrayValidator, 'body'),
+        this.mController.updateMany,
+      )
+      .delete(
+        '/batch',
+        validate(deleteFoodMenuArrayValidator, 'body'),
+        this.mController.deleteMany,
+      );
+  }
+
+  // Food Menu Single Routes
+  private registerSingleRoutes(): void {
+    this.router
+      .get(
+        '/:id',
+        validate(foodMenuIdParamValidator, 'params'),
+        this.mController.get,
+      )
+      .post('', validate(createFoodMenuValidator), this.mController.create)
+      .patch(
+        '/:id',
+        validate(foodMenuIdParamValidator, 'params'),
+        validate(updateFoodMenuValidator, 'body'),
+        this.mController.update,
+      )
+      .delete(
+        '/:id',
+        validate(foodMenuIdParamValidator, 'params'),
+        this.mController.delete,
+      );
+  }
+}
+
+export default FoodMenuRouter;
